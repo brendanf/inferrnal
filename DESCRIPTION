@@ -1,0 +1,27 @@
+Package: inferrnal
+Title: Interface to Call Programs from Infernal RNA Covariance Model Package
+Version: 0.0.1
+Authors@R: 
+    person(given = "Brendan",
+           family = "Furneaux",
+           role = c("aut", "cre"),
+           email = "brendan.furneaux@gmail.com",
+           comment = c(ORCID = "0000-0003-3522-7363"))
+Description: A thin wrapper around the Infernal package to search for matches to
+    a covariance model in RNA sequences, or to align RNA sequences to a 
+    covariance model. Infernal is not included in the package and needs to be
+    installed independently.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+SystemRequirements: Infernal
+URL: https://github.com/brendanf/inferrnal
+BugReports: https://github.com/brendanf/inferrnal/issues
+Imports: 
+    assertthat,
+    Biostrings,
+    readr,
+    stringr,
+    methods,
+    stats
+RoxygenNote: 7.0.2
