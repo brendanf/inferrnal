@@ -1,6 +1,6 @@
 Package: inferrnal
 Title: Interface to Call Programs from Infernal RNA Covariance Model Package
-Version: 0.0.1
+Version: 0.99.0
 Authors@R: 
     person(given = "Brendan",
            family = "Furneaux",
@@ -25,3 +25,17 @@ Imports:
     methods,
     stats
 RoxygenNote: 7.0.2
+biocViews:
+    SequenceMatching,
+    ThirdPartyClient,
+    Metagenomics,
+    HiddenMarkovModel,
+    DNASeq,
+    RNASeq,
+    Annotation,
+    Alignment,
+    MultipleSequenceAlignment
+Suggests: 
+    testthat (>= 2.1.0),
+    knitr
+VignetteBuilder: knitr

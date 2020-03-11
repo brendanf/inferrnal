@@ -15,17 +15,20 @@ of RNA ALignment) is a software package with various command-line tools
 related to CMs. `inferrnal` (with two “`r`”s) is a lightweight R
 interface which calls the Infernal tools and imports the results to R.
 It is developed independently from Infernal, and Infernal must be
-installed in order for it to function.
+installed in order for it to function. Note that Infernal does not work
+on Windows.
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+After installing Infernal, you can install the development version of
+`inferrnal` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("brendanf/inferrnal")
 ```
+
+Submission to Bioconductor is pending.
 
 ## Examples
 
@@ -44,7 +47,7 @@ cm5_8S <- system.file(file.path("extdata", "RF00002.cm"), package = "inferrnal")
 ```
 
 We also need some sequences to search. The sample data is from a soil
-metabarcoding study focused on fungi. The targetted region includes 5.8S
+metabarcoding study focused on fungi. The targeted region includes 5.8S
 as well as some of the surrounding rDNA regions.
 
 ``` r
@@ -56,20 +59,20 @@ Use `cmsearch()` to locate the 5.8S RNA in each sequence.
 ``` r
 library(inferrnal)
 cmsearch(cm = cm5_8S, seq = sampfasta, cpu = 1)
-#> # A tibble: 438 x 18
+#> # A tibble: 49 x 18
 #>    target_name target_accession query_name query_accession mdl   mdl_from mdl_to
 #>    <chr>       <chr>            <chr>      <chr>           <chr>    <int>  <int>
-#>  1 seq61       -                5_8S_rRNA  RF00002         cm           1    154
-#>  2 seq45       -                5_8S_rRNA  RF00002         cm           1    154
-#>  3 seq175      -                5_8S_rRNA  RF00002         cm           1    154
-#>  4 seq3        -                5_8S_rRNA  RF00002         cm           1    154
-#>  5 seq92       -                5_8S_rRNA  RF00002         cm           1    154
-#>  6 seq2        -                5_8S_rRNA  RF00002         cm           1    154
-#>  7 seq28       -                5_8S_rRNA  RF00002         cm           1    154
-#>  8 seq63       -                5_8S_rRNA  RF00002         cm           1    154
-#>  9 seq83       -                5_8S_rRNA  RF00002         cm           1    154
-#> 10 seq154      -                5_8S_rRNA  RF00002         cm           1    154
-#> # … with 428 more rows, and 11 more variables: seq_from <int>, seq_to <int>,
+#>  1 seq45       -                5_8S_rRNA  RF00002         cm           1    154
+#>  2 seq3        -                5_8S_rRNA  RF00002         cm           1    154
+#>  3 seq2        -                5_8S_rRNA  RF00002         cm           1    154
+#>  4 seq28       -                5_8S_rRNA  RF00002         cm           1    154
+#>  5 seq23       -                5_8S_rRNA  RF00002         cm           1    154
+#>  6 seq9        -                5_8S_rRNA  RF00002         cm           1    154
+#>  7 seq7        -                5_8S_rRNA  RF00002         cm           1    154
+#>  8 seq48       -                5_8S_rRNA  RF00002         cm           1    154
+#>  9 seq5        -                5_8S_rRNA  RF00002         cm           1    154
+#> 10 seq6        -                5_8S_rRNA  RF00002         cm           1    154
+#> # … with 39 more rows, and 11 more variables: seq_from <int>, seq_to <int>,
 #> #   strand <chr>, trunc <chr>, pass <int>, gc <dbl>, bias <dbl>, score <dbl>,
 #> #   E_value <dbl>, inc <chr>, description <chr>
 ```
@@ -80,20 +83,20 @@ Instead of passing a file name, you can also supply a `DNAStringSet` or
 ``` r
 sampseqs <- Biostrings::readDNAStringSet(sampfasta)
 cmsearch(cm = cm5_8S, seq = sampseqs, cpu = 1)
-#> # A tibble: 438 x 18
+#> # A tibble: 49 x 18
 #>    target_name target_accession query_name query_accession mdl   mdl_from mdl_to
 #>    <chr>       <chr>            <chr>      <chr>           <chr>    <int>  <int>
-#>  1 seq61       -                5_8S_rRNA  RF00002         cm           1    154
-#>  2 seq45       -                5_8S_rRNA  RF00002         cm           1    154
-#>  3 seq175      -                5_8S_rRNA  RF00002         cm           1    154
-#>  4 seq3        -                5_8S_rRNA  RF00002         cm           1    154
-#>  5 seq92       -                5_8S_rRNA  RF00002         cm           1    154
-#>  6 seq2        -                5_8S_rRNA  RF00002         cm           1    154
-#>  7 seq28       -                5_8S_rRNA  RF00002         cm           1    154
-#>  8 seq63       -                5_8S_rRNA  RF00002         cm           1    154
-#>  9 seq83       -                5_8S_rRNA  RF00002         cm           1    154
-#> 10 seq154      -                5_8S_rRNA  RF00002         cm           1    154
-#> # … with 428 more rows, and 11 more variables: seq_from <int>, seq_to <int>,
+#>  1 seq45       -                5_8S_rRNA  RF00002         cm           1    154
+#>  2 seq3        -                5_8S_rRNA  RF00002         cm           1    154
+#>  3 seq2        -                5_8S_rRNA  RF00002         cm           1    154
+#>  4 seq28       -                5_8S_rRNA  RF00002         cm           1    154
+#>  5 seq23       -                5_8S_rRNA  RF00002         cm           1    154
+#>  6 seq9        -                5_8S_rRNA  RF00002         cm           1    154
+#>  7 seq7        -                5_8S_rRNA  RF00002         cm           1    154
+#>  8 seq48       -                5_8S_rRNA  RF00002         cm           1    154
+#>  9 seq5        -                5_8S_rRNA  RF00002         cm           1    154
+#> 10 seq6        -                5_8S_rRNA  RF00002         cm           1    154
+#> # … with 39 more rows, and 11 more variables: seq_from <int>, seq_to <int>,
 #> #   strand <chr>, trunc <chr>, pass <int>, gc <dbl>, bias <dbl>, score <dbl>,
 #> #   E_value <dbl>, inc <chr>, description <chr>
 ```
@@ -105,20 +108,20 @@ Stockholm format.
 ``` r
 alnfile <- tempfile("alignment-", fileext = ".stk")
 cmsearch(cm = cm5_8S, seq = sampseqs, alignment = alnfile)
-#> # A tibble: 438 x 18
+#> # A tibble: 49 x 18
 #>    target_name target_accession query_name query_accession mdl   mdl_from mdl_to
 #>    <chr>       <chr>            <chr>      <chr>           <chr>    <int>  <int>
-#>  1 seq61       -                5_8S_rRNA  RF00002         cm           1    154
-#>  2 seq45       -                5_8S_rRNA  RF00002         cm           1    154
-#>  3 seq175      -                5_8S_rRNA  RF00002         cm           1    154
-#>  4 seq3        -                5_8S_rRNA  RF00002         cm           1    154
-#>  5 seq92       -                5_8S_rRNA  RF00002         cm           1    154
-#>  6 seq2        -                5_8S_rRNA  RF00002         cm           1    154
-#>  7 seq28       -                5_8S_rRNA  RF00002         cm           1    154
-#>  8 seq63       -                5_8S_rRNA  RF00002         cm           1    154
-#>  9 seq83       -                5_8S_rRNA  RF00002         cm           1    154
-#> 10 seq154      -                5_8S_rRNA  RF00002         cm           1    154
-#> # … with 428 more rows, and 11 more variables: seq_from <int>, seq_to <int>,
+#>  1 seq45       -                5_8S_rRNA  RF00002         cm           1    154
+#>  2 seq3        -                5_8S_rRNA  RF00002         cm           1    154
+#>  3 seq2        -                5_8S_rRNA  RF00002         cm           1    154
+#>  4 seq28       -                5_8S_rRNA  RF00002         cm           1    154
+#>  5 seq23       -                5_8S_rRNA  RF00002         cm           1    154
+#>  6 seq9        -                5_8S_rRNA  RF00002         cm           1    154
+#>  7 seq7        -                5_8S_rRNA  RF00002         cm           1    154
+#>  8 seq48       -                5_8S_rRNA  RF00002         cm           1    154
+#>  9 seq5        -                5_8S_rRNA  RF00002         cm           1    154
+#> 10 seq6        -                5_8S_rRNA  RF00002         cm           1    154
+#> # … with 39 more rows, and 11 more variables: seq_from <int>, seq_to <int>,
 #> #   strand <chr>, trunc <chr>, pass <int>, gc <dbl>, bias <dbl>, score <dbl>,
 #> #   E_value <dbl>, inc <chr>, description <chr>
 ```
@@ -135,27 +138,27 @@ as an `RNAMultipleSequenceAlignment` object in element `alignment`.
 
 ``` r
 msa$alignment
-#> RNAMultipleAlignment with 438 rows and 235 columns
-#>        aln                                                  names               
-#>   [1] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq61/192-345
-#>   [2] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGC.UUGA.G.UGUCA seq45/295-448
-#>   [3] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCA seq175/292-445
-#>   [4] AACUUUC.A.ACAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCA seq3/236-389
-#>   [5] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCA seq92/209-362
-#>   [6] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq2/193-346
-#>   [7] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq28/192-345
-#>   [8] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq63/192-345
-#>   [9] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq83/192-345
-#>   ... ...
-#> [430] AACACGC.A.ACGG.UGG.AC..C.....UUGC...UUG.UUGA.G.CCUGG seq43/218-373
-#> [431] AACUGUU.G.GCAA.UGG.AU..C.....CAUC...AUU.GUCA.G.UGCUG seq76/126-272
-#> [432] AACCCUU.A.ACGG.UGG.AU..G.....UACU...UGU.UUGA.G.CUCGG seq424/124-285
-#> [433] AACUGUU.G.GCAA.CGG.AU..C.....CAUC...AUU.GUCA.G.UGCUG seq211/127-273
-#> [434] AACGCAU.A.UCCG.UGG.AU..G.....UACC...UGG.CUAA.G.CUCGG seq364/100-257
-#> [435] AACUUCA.A.CACA.CGG.AU..U.....CAAC..CUGU.UCGA.G.CGCCA seq452/179-332
-#> [436] AAGGCAU.A.ACGG.UGG.AU..G.....UGUU...CUG.CUGA.G.CUGUA seq174/171-324
-#> [437] AACUCUG.U.GCAA.UGG.AG..C.....CUUG...CGU.UAGA.G.UGCUA seq325/57-201
-#> [438] UUGGCUC.A.GCGG.UGG.AU..A.....UUCU...UGU.GUCA.A.AGCUU seq276/85-237
+#> RNAMultipleAlignment with 48 rows and 164 columns
+#>       aln                                                   names               
+#>  [1] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGCAUGCCUGCUUGAGUGUCA seq45/295-448
+#>  [2] AACUUUCAACAACGGAUCUCUUGGC...GAGGAGCAUGCCUGUUUGAGUGUCA seq3/236-389
+#>  [3] AACUUUCAGCAACGGAUCUCUUGGC...GGAGGGCAUGCCUGUUUGAGUGUCG seq2/193-346
+#>  [4] AACUUUCAGCAACGGAUCUCUUGGC...GGAGGGCAUGCCUGUUUGAGUGUCG seq28/192-345
+#>  [5] AACUUUCAACAACGGAUCUCUUGGU...GAGGGGCAUGCCUGUUCGAGCGUCA seq23/194-347
+#>  [6] AACUUUCAACAACGGAUCUCUUGGU...GAGGGGCAUGCCUGUUCGAGCGUCA seq9/170-323
+#>  [7] AACUUUCAACAAUGGAUCUCUUGGU...GGGGGGCAUGCCUGUCCGAGCGUCA seq7/191-344
+#>  [8] AACUUUCAGCAACGGAUCUCUUGGC...GGAGGGCAUGCCUGUUUGAGUGUCG seq48/192-345
+#>  [9] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGUAUGCCUGUUUGAGUAUCA seq5/257-410
+#>  ... ...
+#> [40] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGUAUGCCUGUUUGAGUAUCA seq41/258-414
+#> [41] AACUUUCAGCAACGGAUCUCUUGGC...UGUGAGUACACUUGUUUGAGCGUCA seq29/319-475
+#> [42] CACUAUUAGCGAUGGAUGUCUUGGA...CAGCAGUAGGUUGGUCUCAGCAUCU seq49/188-340
+#> [43] GACUCCCGGCAACGGAUAUCUCGGC...CGAGGGCACGCCUGCCUCUUGGGCG seq20/234-388
+#> [44] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq4/95-248
+#> [45] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq32/94-246
+#> [46] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq24/95-246
+#> [47] UAGCAUCAGCGAUUAACGUCUUGGU...AUUGAGUGCACUUGCUUCAGUGUGG seq37/93-246
+#> [48] AACACGCAACGGUGGACCACUCGGC...GCCAGCUCUUGCUUGUUGAGCCUGG seq43/218-373
 ```
 
 Other useful information which Infernal outputs are the consensus
@@ -164,9 +167,9 @@ defined by the CM:
 
 ``` r
 msa$SS_cons
-#> [1] ":::::::.:.::::.:::.::..:.:.:::.:::...:::.:.::.::.::::.::.((((.<<<.<.__.____.>>.>>,.,.,.,.,,.,.<<<-..---.<<._.__._..>>.--.-----.-.-.-.>>..>.,,,,,.,)))).,,.,<<.<.___>>>.<<<<.<..<<<<.........____......>>>>>.>.>>.>:.::::...:::.::::.:.:::::"
+#> [1] ":::::::::::::::::::::::::::::::::::::::((((<<<<__.____.>>.>>,,,,.,,,.<<<-..---<<____>>---------->>>,,,,,,)))),,,<<<___>>><<<<<<<<<..____.>>>>>>>>>::::::::::::::::::"
 msa$RF
-#> [1] "AACuuUu.A.gCGA.UGG.AU..g.u.CUu.GGC...UCc.c.Gu.aU.CGAU.GA.Agaa.CGC.a.GC.aAAa.uG.CGA.U.A.c.GU.a.guGU..GAA.uu.G.CA.G..aa.Uu.ccgUg.A.A.U.Ca..c.CGAAu.cuucG.AA.CGC.a.aaUuGC.Gccc.c..cggg.........Uuuu......cccgg.g.gg.CA.Ugcc...UGu.uugA.G.UGUCa"
+#> [1] "AACuuUuAgCGAUGGAUguCUuGGCUCccGuaUCGAUGAAgaaCGCaGC.aAAa.uG.CGAUAc.GUa.guGU..GAAuuGCAGaaUuccgUgAAUCacCGAAucuucGAACGCaaaUuGCGcccccggg..Uuuu.cccgggggCAUgccUGuuugAGUGUCa"
 ```
 
 ### cmalign
@@ -181,44 +184,44 @@ previous section, after removing gaps.
 unaln <- system.file(file.path("extdata", "samp_5_8S.fasta"), package = "inferrnal")
 unaln_seq <- Biostrings::readRNAStringSet(unaln)
 unaln_seq
-#>   A RNAStringSet instance of length 438
-#>       width seq                                             names               
-#>   [1]   154 AACUUUCAGCAACGGAUCUCUU...GGGCAUGCCUGUUUGAGUGUCG seq61/192-345
-#>   [2]   154 AACUUUCAGCAACGGAUCUCUU...GAGCAUGCCUGCUUGAGUGUCA seq45/295-448
-#>   [3]   154 AACUUUCAGCAACGGAUCUCUU...GAGCAUGCCUGUUUGAGUGUCA seq175/292-445
-#>   [4]   154 AACUUUCAACAACGGAUCUCUU...GAGCAUGCCUGUUUGAGUGUCA seq3/236-389
-#>   [5]   154 AACUUUCAGCAACGGAUCUCUU...GAGCAUGCCUGUUUGAGUGUCA seq92/209-362
-#>   ...   ... ...
-#> [434]   158 AACGCAUAUCCGUGGAUGACUC...GGCCGUACCUGGCUAAGCUCGG seq364/100-257
-#> [435]   154 AACUUCAACACACGGAUUCUUG...GGCACAACCUGUUCGAGCGCCA seq452/179-332
-#> [436]   154 AAGGCAUAACGGUGGAUGAAUU...AGGUGUGUUCUGCUGAGCUGUA seq174/171-324
-#> [437]   145 AACUCUGUGCAAUGGAGCACAC...AGGUACUUGCGUUAGAGUGCUA seq325/57-201
-#> [438]   153 UUGGCUCAGCGGUGGAUAUCUA...GUGAAUUCUUGUGUCAAAGCUU seq276/85-237
+#>   A RNAStringSet instance of length 48
+#>      width seq                                              names               
+#>  [1]   154 AACUUUCAGCAACGGAUCUCUUG...GAGCAUGCCUGCUUGAGUGUCA seq45/295-448
+#>  [2]   154 AACUUUCAACAACGGAUCUCUUG...GAGCAUGCCUGUUUGAGUGUCA seq3/236-389
+#>  [3]   154 AACUUUCAGCAACGGAUCUCUUG...GGGCAUGCCUGUUUGAGUGUCG seq2/193-346
+#>  [4]   154 AACUUUCAGCAACGGAUCUCUUG...GGGCAUGCCUGUUUGAGUGUCG seq28/192-345
+#>  [5]   154 AACUUUCAACAACGGAUCUCUUG...GGGCAUGCCUGUUCGAGCGUCA seq23/194-347
+#>  ...   ... ...
+#> [44]   154 AACUCUCAGCGAUGGAUGACUCG...AAGUAUGUUUGGCUCGGUAUCA seq4/95-248
+#> [45]   153 AACUCUCAGCGAUGGAUGACUCG...AAGUAUGUUUGGCUCGGUAUCA seq32/94-246
+#> [46]   152 AACUCUCAGCGAUGGAUGACUCG...AAGUAUGUUUGGCUCGGUAUCA seq24/95-246
+#> [47]   154 UAGCAUCAGCGAUUAACGUCUUG...GAGUGCACUUGCUUCAGUGUGG seq37/93-246
+#> [48]   156 AACACGCAACGGUGGACCACUCG...AGCUCUUGCUUGUUGAGCCUGG seq43/218-373
 aln <- cmalign(cm5_8S, unaln_seq, cpu = 1)
 aln$alignment
-#> RNAMultipleAlignment with 438 rows and 235 columns
-#>        aln                                                  names               
-#>   [1] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq61/192-345
-#>   [2] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGC.UUGA.G.UGUCA seq45/295-448
-#>   [3] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCA seq175/292-445
-#>   [4] AACUUUC.A.ACAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCA seq3/236-389
-#>   [5] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCA seq92/209-362
-#>   [6] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq2/193-346
-#>   [7] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq28/192-345
-#>   [8] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq63/192-345
-#>   [9] AACUUUC.A.GCAA.CGG.AU..C.....UGCC...UGU.UUGA.G.UGUCG seq83/192-345
-#>   ... ...
-#> [430] AACACGC.A.ACGG.UGG.AC..C.....UUGC...UUG.UUGA.G.CCUGG seq43/218-373
-#> [431] AACUGUU.G.GCAA.UGG.AU..C.....CAUC...AUU.GUCA.G.UGCUG seq76/126-272
-#> [432] AACCCUU.A.ACGG.UGG.AU..G.....UACU...UGU.UUGA.G.CUCGG seq424/124-285
-#> [433] AACUGUU.G.GCAA.CGG.AU..C.....CAUC...AUU.GUCA.G.UGCUG seq211/127-273
-#> [434] AACGCAU.A.UCCG.UGG.AU..G.....UACC...UGG.CUAA.G.CUCGG seq364/100-257
-#> [435] AACUUCA.A.CACA.CGG.AU..U.....CAAC..CUGU.UCGA.G.CGCCA seq452/179-332
-#> [436] AAGGCAU.A.ACGG.UGG.AU..G.....UGUU...CUG.CUGA.G.CUGUA seq174/171-324
-#> [437] AACUCUG.U.GCAA.UGG.AG..C.....CUUG...CGU.UAGA.G.UGCUA seq325/57-201
-#> [438] UUGGCUC.A.GCGG.UGG.AU..A.....UUCU...UGU.GUCA.A.AGCUU seq276/85-237
+#> RNAMultipleAlignment with 48 rows and 164 columns
+#>       aln                                                   names               
+#>  [1] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGCAUGCCUGCUUGAGUGUCA seq45/295-448
+#>  [2] AACUUUCAACAACGGAUCUCUUGGC...GAGGAGCAUGCCUGUUUGAGUGUCA seq3/236-389
+#>  [3] AACUUUCAGCAACGGAUCUCUUGGC...GGAGGGCAUGCCUGUUUGAGUGUCG seq2/193-346
+#>  [4] AACUUUCAGCAACGGAUCUCUUGGC...GGAGGGCAUGCCUGUUUGAGUGUCG seq28/192-345
+#>  [5] AACUUUCAACAACGGAUCUCUUGGU...GAGGGGCAUGCCUGUUCGAGCGUCA seq23/194-347
+#>  [6] AACUUUCAACAACGGAUCUCUUGGU...GAGGGGCAUGCCUGUUCGAGCGUCA seq9/170-323
+#>  [7] AACUUUCAACAAUGGAUCUCUUGGU...GGGGGGCAUGCCUGUCCGAGCGUCA seq7/191-344
+#>  [8] AACUUUCAGCAACGGAUCUCUUGGC...GGAGGGCAUGCCUGUUUGAGUGUCG seq48/192-345
+#>  [9] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGUAUGCCUGUUUGAGUAUCA seq5/257-410
+#>  ... ...
+#> [40] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGUAUGCCUGUUUGAGUAUCA seq41/258-414
+#> [41] AACUUUCAGCAACGGAUCUCUUGGC...UGUGAGUACACUUGUUUGAGCGUCA seq29/319-475
+#> [42] CACUAUUAGCGAUGGAUGUCUUGGA...CAGCAGUAGGUUGGUCUCAGCAUCU seq49/188-340
+#> [43] GACUCCCGGCAACGGAUAUCUCGGC...CGAGGGCACGCCUGCCUCUUGGGCG seq20/234-388
+#> [44] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq4/95-248
+#> [45] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq32/94-246
+#> [46] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq24/95-246
+#> [47] UAGCAUCAGCGAUUAACGUCUUGGU...AUUGAGUGCACUUGCUUCAGUGUGG seq37/93-246
+#> [48] AACACGCAACGGUGGACCACUCGGC...GCCAGCUCUUGCUUGUUGAGCCUGG seq43/218-373
 aln$SS_cons
-#> [1] ":::::::.:.::::.:::.::..:.:.:::.:::...:::.:.::.::.::::.::.((((.<<<.<.__.____.>>.>>,.,.,.,.,,.,.<<<-..---.<<._.__._..>>.--.-----.-.-.-.>>..>.,,,,,.,)))).,,.,<<.<.___>>>.<<<<.<..<<<<.........____......>>>>>.>.>>.>:.::::...:::.::::.:.:::::"
+#> [1] ":::::::::::::::::::::::::::::::::::::::((((<<<<__.____.>>.>>,,,,.,,,.<<<-..---<<____>>---------->>>,,,,,,)))),,,<<<___>>><<<<<<<<<..____.>>>>>>>>>::::::::::::::::::"
 aln$RF
-#> [1] "AACuuUu.A.gCGA.UGG.AU..g.u.CUu.GGC...UCc.c.Gu.aU.CGAU.GA.Agaa.CGC.a.GC.aAAa.uG.CGA.U.A.c.GU.a.guGU..GAA.uu.G.CA.G..aa.Uu.ccgUg.A.A.U.Ca..c.CGAAu.cuucG.AA.CGC.a.aaUuGC.Gccc.c..cggg.........Uuuu......cccgg.g.gg.CA.Ugcc...UGu.uugA.G.UGUCa"
+#> [1] "AACuuUuAgCGAUGGAUguCUuGGCUCccGuaUCGAUGAAgaaCGCaGC.aAAa.uG.CGAUAc.GUa.guGU..GAAuuGCAGaaUuccgUgAAUCacCGAAucuucGAACGCaaaUuGCGcccccggg..Uuuu.cccgggggCAUgccUGuuugAGUGUCa"
 ```

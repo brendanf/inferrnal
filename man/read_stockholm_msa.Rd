@@ -10,17 +10,20 @@ read_stockholm_msa(stockholm)
 \item{stockholm}{(\code{character} scalar) Path to a file to parse}
 }
 \value{
-a \code{list}.  The sequences themselves are element "\code{alignment}",
-    and \code{#=GC} annotations are given as \code{character} strings; e.g.,
-    the "\code{#=GC SS_cons}" annotation is stored as an element named
-    "\code{SS_cons}".
+a \code{list}.  The sequences themselves are element
+    "\code{alignment}", and \code{#=GC} annotations are given as
+    \code{character} strings; e.g., the "\code{#=GC SS_cons}" annotation is
+    stored as an element named "\code{SS_cons}".
 }
 \description{
 Parses Stockholm-format multiple alignment files, including "\code{#=GC}"
 lines.  Other annotations are ignored.
 }
 \examples{
-    msafile <- system.file(file.path("extdata", "sample.stk"), package = "inferrnal")
+    msafile <- system.file(
+        file.path("extdata", "sample.stk"),
+        package = "inferrnal"
+    )
     msa <- read_stockholm_msa(msafile)
     msa$alignment
     # consensus secondary structure

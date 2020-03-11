@@ -27,7 +27,7 @@ more information.}
 }
 \value{
 the aligned sequences, as returned by
-      \code{\link{read_stockholm_msa}}.
+    \code{\link{read_stockholm_msa}}.
 }
 \description{
 This function calls \code{cmalign} from
@@ -35,14 +35,21 @@ This function calls \code{cmalign} from
 and on the path.  Not all options are included.
 }
 \details{
-One of the easiest places to obtain CMs is \href{https://rfam.xfam.org/}{Rfam}.
+One of the easiest places to obtain CMs is
+\href{https://rfam.xfam.org/}{Rfam}.
 }
 \examples{
-      # align a set of unaligned 5.8S rRNA sequences to the Rfam CM.
-      cm5_8S <- system.file(file.path("extdata", "RF00002.cm"), package = "inferrnal")
-      unaln <- system.file(file.path("extdata", "samp_5_8S.fasta"), package = "inferrnal")
-      cmalign(cm5_8S, unaln, cpu = 1)
-      # also works if the fasta file has already been loaded
-      unaln <- Biostrings::readRNAStringSet(unaln)
-      cmalign(cm5_8S, unaln, cpu = 1)
+    # align a set of unaligned 5.8S rRNA sequences to the Rfam CM.
+    cm5_8S <- system.file(
+        file.path("extdata", "RF00002.cm"),
+        package = "inferrnal"
+    )
+    unaln <- system.file(
+        file.path("extdata", "samp_5_8S.fasta"),
+        package = "inferrnal"
+    )
+    cmalign(cm5_8S, unaln, cpu = 1)
+    # also works if the fasta file has already been loaded
+    unaln <- Biostrings::readRNAStringSet(unaln)
+    cmalign(cm5_8S, unaln, cpu = 1)
 }

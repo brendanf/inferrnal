@@ -28,26 +28,30 @@ structure, posterior probablility, etc.}
 }
 \value{
 a \code{\link[tibble]{tibble}} with columns:
-  \itemize{
-    \item{target_name}{ (character) the name of the target sequence}
-    \item{taget_accession}{(character) the target's accession number}
-    \item{query_name}{(character) the name of the query CM}
-    \item{query_accession}{(character) the query CM's accession number}
-    \item{mdl}{(character) the model type ("cm" or "hmm")}
-    \item{mdl_from}{(integer) the start location of the hit in the model}
-    \item{mdl_to}{(integer) the end location of the hit in the model}
-    \item{seq_from}{(integer) the start location of the hit in the sequence}
-    \item{seq_to}{(integer) the end location of the hit in the sequence}
-    \item{strand}{(character) the strand the hit was found on ("+" or "-")}
-    \item{trunc)}{(character) whether the hit is truncated, and where ("no", "5'", "3'", "5'&3'", or "-" for hmm hits).}
-    \item{pass}{(integer) which algorithm pass the hit was found on.}
-    \item{gc}{(numeric) GC content of the hit}
-    \item{bias}{(numeric) biased composition correction.  See the Infernal documentation.}
-    \item{score}{(numeric) bit-score of the hit, including the biased
-    composition correction.}
-    \item{E_value}{(numeric) Expectation value for the hit.}}
-    \item{inc}{(character) "!" if the sequence meets the inclusion threshold,
-    "?" if it only meets the reporting threshold.}
+    \itemize{
+        \item{target_name}{ (character) the name of the target sequence}
+        \item{taget_accession}{(character) the target's accession number}
+        \item{query_name}{(character) the name of the query CM}
+        \item{query_accession}{(character) the query CM's accession number}
+        \item{mdl}{(character) the model type ("cm" or "hmm")}
+        \item{mdl_from}{(integer) the start location of the hit in the model}
+        \item{mdl_to}{(integer) the end location of the hit in the model}
+        \item{seq_from}{(integer) the start location of the hit in the
+            sequence}
+        \item{seq_to}{(integer) the end location of the hit in the sequence}
+        \item{strand}{(character) the strand the hit was found on ("+" or
+            "-")}
+        \item{trunc)}{(character) whether the hit is truncated, and where
+            ("no", "5'", "3'", "5'&3'", or "-" for hmm hits).}
+        \item{pass}{(integer) which algorithm pass the hit was found on.}
+        \item{gc}{(numeric) GC content of the hit}
+        \item{bias}{(numeric) biased composition correction.  See the
+            Infernal documentation.}
+        \item{score}{(numeric) bit-score of the hit, including the biased
+            composition correction.}
+        \item{E_value}{(numeric) Expectation value for the hit.}}
+        \item{inc}{(character) "!" if the sequence meets the inclusion
+            threshold, "?" if it only meets the reporting threshold.}
 }
 \description{
 This function calls "\code{cmsearch}" from
@@ -57,8 +61,14 @@ retrieving the hits table and, optionally, producing an alignment.
 }
 \examples{
     # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
-    cm5_8S <- system.file(file.path("extdata", "RF00002.cm"), package = "inferrnal")
-    sampfasta <- system.file(file.path("extdata", "sample.fasta"), package = "inferrnal")
+    cm5_8S <- system.file(
+        file.path("extdata", "RF00002.cm"),
+        package = "inferrnal"
+    )
+    sampfasta <- system.file(
+        file.path("extdata", "sample.fasta"),
+        package = "inferrnal"
+    )
     cmsearch(cm = cm5_8S, seq = sampfasta, cpu = 1)
     # also works if the fasta file has already been loaded
     samp <- Biostrings::readDNAStringSet(sampfasta)

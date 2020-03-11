@@ -1,8 +1,12 @@
 ---
-output: github_document
+title: inferrnal
+author: Brendan Furneaux
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{inferrnal}
+    \usepackage[utf8]{inputenc}
+    %\VignetteEngine{knitr::rmarkdown}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -13,11 +17,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# inferrnal
-
-<!-- badges: start -->
-<!-- badges: end -->
-
 R Interface to Call Programs from Infernal RNA Covariance Model Package
 
 Covariance Models (CM) are stochastic models of RNA sequence and secondary structure.
@@ -26,22 +25,11 @@ Covariance Models (CM) are stochastic models of RNA sequence and secondary struc
 It is developed independently from Infernal, and Infernal must be installed in order for it to function.
 Note that Infernal does not work on Windows.
 
-## Installation
-
-After installing Infernal, you can install the development version of `inferrnal` from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("brendanf/inferrnal")
-```
-
-Submission to Bioconductor is pending.
-
-## Examples
+# Examples
 
 So far only two of the tools are implemented.
 
-### cmsearch
+## cmsearch
 
 In order to search, we need a CM.
 [Rfam](https://rfam.xfam.org/) has a wide variety.
@@ -102,7 +90,7 @@ msa$SS_cons
 msa$RF
 ```
 
-### cmalign
+## cmalign
 
 If you have sequences which have already been trimmed to contain only the RNA defined by the CM (possibly truncated, but not extended), then you can align them to the CM using `cmalign`.
 This is much faster than `cmsearch`.
