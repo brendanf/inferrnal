@@ -5,6 +5,10 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.org/brendanf/inferrnal.svg?branch=master)](https://travis-ci.org/brendanf/inferrnal)
+[![Codecov test
+coverage](https://codecov.io/gh/brendanf/inferrnal/branch/master/graph/badge.svg)](https://codecov.io/gh/brendanf/inferrnal?branch=master)
 <!-- badges: end -->
 
 R Interface to Call Programs from Infernal RNA Covariance Model Package
