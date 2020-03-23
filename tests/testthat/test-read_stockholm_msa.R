@@ -16,5 +16,13 @@ test_that("fails on nonfile", {
 
 
 test_that("can read file", {
-    expect_known_value(read_stockholm_msa(system.file(file.path("extdata", "sample.stk"), package = "inferrnal")), file = here::here(file.path("tests", "testthat", "read_stockholm_msa_out")))
+    expect_known_value(
+        read_stockholm_msa(
+            system.file(
+                file.path("extdata", "sample.stk"),
+                package = "inferrnal"
+            )
+        ),
+        file = "read_stockholm_msa_out"
+    )
 })
