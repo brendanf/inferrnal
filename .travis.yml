@@ -2,4 +2,4 @@
 
 language: R
 cache: packages
-apt-packages: inferrnal
+apt-packages: infernal
