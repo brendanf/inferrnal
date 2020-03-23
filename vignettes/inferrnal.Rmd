@@ -10,19 +10,23 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "man/figures/README-",
+    out.width = "100%"
 )
 ```
 
 R Interface to Call Programs from Infernal RNA Covariance Model Package
 
-Covariance Models (CM) are stochastic models of RNA sequence and secondary structure.
-[Infernal](http://eddylab.org/infernal/) (INFERence of RNA ALignment) is a software package with various command-line tools related to CMs.
-`inferrnal` (with two "`r`"s) is a lightweight R interface which calls the Infernal tools and imports the results to R.
-It is developed independently from Infernal, and Infernal must be installed in order for it to function.
+Covariance Models (CM) are stochastic models of RNA sequence and secondary
+structure.
+[Infernal](http://eddylab.org/infernal/) (INFERence of RNA ALignment) is a
+software package with various command-line tools related to CMs.
+`inferrnal` (with two "`r`"s) is a lightweight R interface which calls the
+Infernal tools and imports the results to R.
+It is developed independently from Infernal, and Infernal must be installed in
+order for it to function.
 Note that Infernal does not work on Windows.
 
 # Examples
@@ -33,20 +37,29 @@ So far only two of the tools are implemented.
 
 In order to search, we need a CM.
 [Rfam](https://rfam.xfam.org/) has a wide variety.
-For this example, we will use the eukaryotic 5.8S rRNA, with the Rfam ID [`RF00002`](https://rfam.xfam.org/family/RF00002).
-The CM is [available from Rfam](https://rfam.xfam.org/family/RF00002/cm), but it is also included as example data in `inferrnal`.
+For this example, we will use the eukaryotic 5.8S rRNA, with the Rfam ID
+[`RF00002`](https://rfam.xfam.org/family/RF00002).
+The CM is [available from Rfam](https://rfam.xfam.org/family/RF00002/cm), but
+it is also included as example data in `inferrnal`.
 
 
 ```{r cm}
-cm5_8S <- system.file(file.path("extdata", "RF00002.cm"), package = "inferrnal")
+cm5_8S <- system.file(
+    file.path("extdata", "RF00002.cm"),
+    package = "inferrnal"
+)
 ```
 
 We also need some sequences to search.
 The sample data is from a soil metabarcoding study focused on fungi.
-The targeted region includes 5.8S as well as some of the surrounding rDNA regions.
+The targeted region includes 5.8S as well as some of the surrounding rDNA
+regions.
 
 ```{r reads}
-sampfasta <- system.file(file.path("extdata", "sample.fasta"), package = "inferrnal")
+sampfasta <- system.file(
+    file.path("extdata", "sample.fasta"),
+    package = "inferrnal"
+)
 ```
 
 Use `cmsearch()` to locate the 5.8S RNA in each sequence.
@@ -56,7 +69,8 @@ library(inferrnal)
 cmsearch(cm = cm5_8S, seq = sampfasta, cpu = 1)
 ```
 
-Instead of passing a file name, you can also supply a `DNAStringSet` or `RNAStringSet` object from the `Biostrings` package.
+Instead of passing a file name, you can also supply a `DNAStringSet` or
+`RNAStringSet` object from the `Biostrings` package.
 
 ```{r cmsearch-seq}
 sampseqs <- Biostrings::readDNAStringSet(sampfasta)
@@ -64,26 +78,30 @@ cmsearch(cm = cm5_8S, seq = sampseqs, cpu = 1)
 ```
 
 `cmsearch`, by default, returns a table with information about each hit.
-However, it can optionally also output an alignment of the hits in Stockholm format.
+However, it can optionally also output an alignment of the hits in Stockholm
+format.
 
 ```{r cmsearch-aln}
 alnfile <- tempfile("alignment-", fileext = ".stk")
 cmsearch(cm = cm5_8S, seq = sampseqs, alignment = alnfile)
 ```
 
-`inferrnal` includes a simple parser for Stockholm alignments, which also imports column annotations.
+`inferrnal` includes a simple parser for Stockholm alignments, which also
+imports column annotations.
 ```{r read_msa}
 msa <- read_stockholm_msa(alnfile)
 ```
 
 `read_stockholm_msa` returns a named list.
-The alignment itself is given as an `RNAMultipleSequenceAlignment` object in element `alignment`.
+The alignment itself is given as an `RNAMultipleSequenceAlignment` object in
+element `alignment`.
 
 ```{r msa_align}
 msa$alignment
 ```
 
-Other useful information which Infernal outputs are the consensus secondary structure and the reference annotation, both of which are defined by the CM:
+Other useful information which Infernal outputs are the consensus secondary
+structure and the reference annotation, both of which are defined by the CM:
 
 ```{r SS_cons}
 msa$SS_cons
@@ -92,12 +110,18 @@ msa$RF
 
 ## cmalign
 
-If you have sequences which have already been trimmed to contain only the RNA defined by the CM (possibly truncated, but not extended), then you can align them to the CM using `cmalign`.
+If you have sequences which have already been trimmed to contain only the RNA
+defined by the CM (possibly truncated, but not extended), then you can align
+them to the CM using `cmalign`.
 This is much faster than `cmsearch`.
-This example uses the results of `cmsearch` from the previous section, after removing gaps.
+This example uses the results of `cmsearch` from the previous section, after
+removing gaps.
 
 ```{r}
-unaln <- system.file(file.path("extdata", "samp_5_8S.fasta"), package = "inferrnal")
+unaln <- system.file(
+    file.path("extdata", "samp_5_8S.fasta"),
+    package = "inferrnal"
+)
 unaln_seq <- Biostrings::readRNAStringSet(unaln)
 unaln_seq
 aln <- cmalign(cm5_8S, unaln_seq, cpu = 1)
