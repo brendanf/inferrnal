@@ -73,8 +73,9 @@ read_stockholm_msa <- function(stockholm) {
 #' @param cm (character of length 1) Path to the covariance model (.cm) file.
 #'  The covariance model must include calibration data from running
 #'  "\code{cmcalibrate}".
-#' @param seq (filename, character vector, or
-#'   \code{\link[Biostrings]{XStringSet}}) Sequences to search with the CM.
+#' @param seq (filename, character vector,
+#'   \code{\link[Biostrings]{XStringSet}}, or
+#'   \code{\link[ShortRead]{ShortRead}}) Sequences to search with the CM.
 #'   If a filename, the file can be of any type supported by Infernal.
 #' @param glocal (logical of length 1) Whether to run the search in glocal mode
 #'   (global with respect to the model, local with respect to the sequence).
@@ -163,8 +164,12 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
         if (methods::is(seq, "XStringSet")) {
             Biostrings::writeXStringSet(seq, seqfile)
             on.exit(unlink(seqfile))
-        } else  {
-            stop("'seq' should be a filename, XStringSet, or character vector.")
+        } else if (methods::is(seq, "ShortRead")) {
+            ShortRead::writeFasta(seq, seqfile)
+            on.exit(unlink(seqfile))
+        } else {
+            stop("'seq' should be a filename, XStringSet, ShortRead,",
+                 " or character vector.")
         }
     }
     args <- c(args, seqfile)
@@ -189,12 +194,14 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
 #' \href{https://rfam.xfam.org/}{Rfam}.
 #'
 #' @param cmfile (\code{character} scalar) path to a covariance model file
-#' @param seq (\code{character} scalar, names \code{character} vector, or
-#'        \code{\link[Biostrings]{XStringSet}}) sequences to align to the
+#' @param seq (\code{character} scalar, names \code{character} vector,
+#'        \code{\link[Biostrings]{XStringSet}}, or
+#'        \code{\link[ShortRead]{ShortRead}}) sequences to align to the
 #'        covariance model. This may be given as a character path to a fasta
 #'        file, or the sequences as a character vector object of class
-#'        \code{\link[Biostrings]{DNAStringSet}} or
-#'        \code{\link[Biostrings]{RNAStringSet}}.  For \code{cmalign}, the
+#'        \code{\link[Biostrings]{DNAStringSet}},
+#'        \code{\link[Biostrings]{RNAStringSet}}, or
+#'        \code{\link[ShortRead]{ShortRead}}.  For \code{cmalign}, the
 #'        sequences should be known \emph{a priori} to represent the same region
 #'        as the CM; to find the region in longer sequences and align it, use
 #'        the \code{alignment} option of \code{\link{cmsearch}}.
@@ -249,8 +256,12 @@ cmalign <- function(cmfile, seq, glocal = TRUE, cpu) {
         if (methods::is(seq, "XStringSet")) {
             Biostrings::writeXStringSet(seq, seqfile)
             on.exit(unlink(seqfile))
-        } else  {
-            stop("'seq' should be a filename, XStringSet, or character vector.")
+        } else if (methods::is(seq, "ShortRead")) {
+            ShortRead::writeFasta(seq, seqfile)
+            on.exit(unlink(seqfile))
+        } else {
+            stop("'seq' should be a filename, XStringSet, ShortRead, ",
+                 "or character vector.")
         }
     }
     args <- c(args, cmfile, seqfile)

@@ -1,6 +1,6 @@
 Package: inferrnal
 Title: Interface to Call Programs from Infernal RNA Covariance Model Package
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: 
     person(given = "Brendan",
            family = "Furneaux",
@@ -40,4 +40,6 @@ Suggests:
     knitr,
     rmarkdown,
     covr
+Enhances:
+    ShortRead
 VignetteBuilder: knitr
