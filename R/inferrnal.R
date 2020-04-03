@@ -35,10 +35,7 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 #' @export
 #'
 #' @examples
-#'     msafile <- system.file(
-#'         file.path("extdata", "sample.stk"),
-#'         package = "inferrnal"
-#'     )
+#'     msafile <- sample_rRNA_stk()
 #'     msa <- read_stockholm_msa(msafile)
 #'     msa$alignment
 #'     # consensus secondary structure
@@ -115,18 +112,12 @@ read_stockholm_msa <- function(stockholm) {
 #'
 #' @examples
 #'     # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
-#'     cm5_8S <- system.file(
-#'         file.path("extdata", "RF00002.cm"),
-#'         package = "inferrnal"
-#'     )
-#'     sampfasta <- system.file(
-#'         file.path("extdata", "sample.fasta"),
-#'         package = "inferrnal"
-#'     )
-#'     cmsearch(cm = cm5_8S, seq = sampfasta, cpu = 1)
+#'     cm <- cm_5_8S()
+#'     sampfasta <- sample_rRNA_fasta()
+#'     cmsearch(cm = cm, seq = sampfasta, cpu = 1)
 #'     # also works if the fasta file has already been loaded
 #'     samp <- Biostrings::readDNAStringSet(sampfasta)
-#'     cmsearch(cm = cm5_8S, seq = samp, cpu = 1)
+#'     cmsearch(cm = cm, seq = samp, cpu = 1)
 cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
     assertthat::assert_that(assertthat::is.string(cm),
                             file.exists(cm),
@@ -216,18 +207,12 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
 #'
 #' @examples
 #'     # align a set of unaligned 5.8S rRNA sequences to the Rfam CM.
-#'     cm5_8S <- system.file(
-#'         file.path("extdata", "RF00002.cm"),
-#'         package = "inferrnal"
-#'     )
-#'     unaln <- system.file(
-#'         file.path("extdata", "samp_5_8S.fasta"),
-#'         package = "inferrnal"
-#'     )
-#'     cmalign(cm5_8S, unaln, cpu = 1)
+#'     cm <- cm_5_8S()
+#'     unaln <- sample_rRNA_5_8S()
+#'     cmalign(cm, unaln, cpu = 1)
 #'     # also works if the fasta file has already been loaded
 #'     unaln <- Biostrings::readRNAStringSet(unaln)
-#'     cmalign(cm5_8S, unaln, cpu = 1)
+#'     cmalign(cm, unaln, cpu = 1)
 cmalign <- function(cmfile, seq, glocal = TRUE, cpu) {
     assertthat::assert_that(assertthat::is.readable(cmfile),
                             assertthat::is.flag(glocal))

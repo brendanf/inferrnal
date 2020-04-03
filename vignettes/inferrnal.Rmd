@@ -44,10 +44,8 @@ it is also included as example data in `inferrnal`.
 
 
 ```{r cm}
-cm5_8S <- system.file(
-    file.path("extdata", "RF00002.cm"),
-    package = "inferrnal"
-)
+library(inferrnal)
+cm <- cm_5_8S()
 ```
 
 We also need some sequences to search.
@@ -56,17 +54,14 @@ The targeted region includes 5.8S as well as some of the surrounding rDNA
 regions.
 
 ```{r reads}
-sampfasta <- system.file(
-    file.path("extdata", "sample.fasta"),
-    package = "inferrnal"
-)
+sampfasta <- sample_rRNA_fasta()
 ```
 
 Use `cmsearch()` to locate the 5.8S RNA in each sequence.
 
 ```{r cmsearch}
 library(inferrnal)
-cmsearch(cm = cm5_8S, seq = sampfasta, cpu = 1)
+cmsearch(cm = cm, seq = sampfasta, cpu = 1)
 ```
 
 Instead of passing a file name, you can also supply a `DNAStringSet` or
@@ -74,7 +69,7 @@ Instead of passing a file name, you can also supply a `DNAStringSet` or
 
 ```{r cmsearch-seq}
 sampseqs <- Biostrings::readDNAStringSet(sampfasta)
-cmsearch(cm = cm5_8S, seq = sampseqs, cpu = 1)
+cmsearch(cm = cm, seq = sampseqs, cpu = 1)
 ```
 
 `cmsearch`, by default, returns a table with information about each hit.
@@ -83,7 +78,7 @@ format.
 
 ```{r cmsearch-aln}
 alnfile <- tempfile("alignment-", fileext = ".stk")
-cmsearch(cm = cm5_8S, seq = sampseqs, alignment = alnfile)
+cmsearch(cm = cm, seq = sampseqs, alignment = alnfile)
 ```
 
 `inferrnal` includes a simple parser for Stockholm alignments, which also
@@ -118,13 +113,10 @@ This example uses the results of `cmsearch` from the previous section, after
 removing gaps.
 
 ```{r}
-unaln <- system.file(
-    file.path("extdata", "samp_5_8S.fasta"),
-    package = "inferrnal"
-)
+unaln <- sample_rRNA_5_8S()
 unaln_seq <- Biostrings::readRNAStringSet(unaln)
 unaln_seq
-aln <- cmalign(cm5_8S, unaln_seq, cpu = 1)
+aln <- cmalign(cm, unaln_seq, cpu = 1)
 aln$alignment
 aln$SS_cons
 aln$RF

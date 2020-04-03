@@ -20,10 +20,7 @@ Parses Stockholm-format multiple alignment files, including "\code{#=GC}"
 lines.  Other annotations are ignored.
 }
 \examples{
-    msafile <- system.file(
-        file.path("extdata", "sample.stk"),
-        package = "inferrnal"
-    )
+    msafile <- sample_rRNA_stk()
     msa <- read_stockholm_msa(msafile)
     msa$alignment
     # consensus secondary structure

@@ -11,8 +11,9 @@ cmsearch(cm, seq, glocal = TRUE, alignment, cpu)
 The covariance model must include calibration data from running
 "\code{cmcalibrate}".}
 
-\item{seq}{(filename, character vector, or
-\code{\link[Biostrings]{XStringSet}}) Sequences to search with the CM.
+\item{seq}{(filename, character vector,
+\code{\link[Biostrings]{XStringSet}}, or
+\code{\link[ShortRead]{ShortRead}}) Sequences to search with the CM.
 If a filename, the file can be of any type supported by Infernal.}
 
 \item{glocal}{(logical of length 1) Whether to run the search in glocal mode
@@ -61,16 +62,10 @@ retrieving the hits table and, optionally, producing an alignment.
 }
 \examples{
     # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
-    cm5_8S <- system.file(
-        file.path("extdata", "RF00002.cm"),
-        package = "inferrnal"
-    )
-    sampfasta <- system.file(
-        file.path("extdata", "sample.fasta"),
-        package = "inferrnal"
-    )
-    cmsearch(cm = cm5_8S, seq = sampfasta, cpu = 1)
+    cm <- cm_5_8S()
+    sampfasta <- sample_rRNA_fasta()
+    cmsearch(cm = cm, seq = sampfasta, cpu = 1)
     # also works if the fasta file has already been loaded
     samp <- Biostrings::readDNAStringSet(sampfasta)
-    cmsearch(cm = cm5_8S, seq = samp, cpu = 1)
+    cmsearch(cm = cm, seq = samp, cpu = 1)
 }

@@ -9,12 +9,14 @@ cmalign(cmfile, seq, glocal = TRUE, cpu)
 \arguments{
 \item{cmfile}{(\code{character} scalar) path to a covariance model file}
 
-\item{seq}{(\code{character} scalar, names \code{character} vector, or
-\code{\link[Biostrings]{XStringSet}}) sequences to align to the
+\item{seq}{(\code{character} scalar, names \code{character} vector,
+\code{\link[Biostrings]{XStringSet}}, or
+\code{\link[ShortRead]{ShortRead}}) sequences to align to the
 covariance model. This may be given as a character path to a fasta
 file, or the sequences as a character vector object of class
-\code{\link[Biostrings]{DNAStringSet}} or
-\code{\link[Biostrings]{RNAStringSet}}.  For \code{cmalign}, the
+\code{\link[Biostrings]{DNAStringSet}},
+\code{\link[Biostrings]{RNAStringSet}}, or
+\code{\link[ShortRead]{ShortRead}}.  For \code{cmalign}, the
 sequences should be known \emph{a priori} to represent the same region
 as the CM; to find the region in longer sequences and align it, use
 the \code{alignment} option of \code{\link{cmsearch}}.}
@@ -40,16 +42,10 @@ One of the easiest places to obtain CMs is
 }
 \examples{
     # align a set of unaligned 5.8S rRNA sequences to the Rfam CM.
-    cm5_8S <- system.file(
-        file.path("extdata", "RF00002.cm"),
-        package = "inferrnal"
-    )
-    unaln <- system.file(
-        file.path("extdata", "samp_5_8S.fasta"),
-        package = "inferrnal"
-    )
-    cmalign(cm5_8S, unaln, cpu = 1)
+    cm <- cm_5_8S()
+    unaln <- sample_rRNA_5_8S()
+    cmalign(cm, unaln, cpu = 1)
     # also works if the fasta file has already been loaded
     unaln <- Biostrings::readRNAStringSet(unaln)
-    cmalign(cm5_8S, unaln, cpu = 1)
+    cmalign(cm, unaln, cpu = 1)
 }

@@ -47,7 +47,8 @@ CM is [available from Rfam](https://rfam.xfam.org/family/RF00002/cm),
 but it is also included as example data in `inferrnal`.
 
 ``` r
-cm5_8S <- system.file(file.path("extdata", "RF00002.cm"), package = "inferrnal")
+library(inferrnal)
+cm <- cm_5_8S()
 ```
 
 We also need some sequences to search. The sample data is from a soil
@@ -55,14 +56,14 @@ metabarcoding study focused on fungi. The targeted region includes 5.8S
 as well as some of the surrounding rDNA regions.
 
 ``` r
-sampfasta <- system.file(file.path("extdata", "sample.fasta"), package = "inferrnal")
+sampfasta <- sample_rRNA_fasta()
 ```
 
 Use `cmsearch()` to locate the 5.8S RNA in each sequence.
 
 ``` r
 library(inferrnal)
-cmsearch(cm = cm5_8S, seq = sampfasta, cpu = 1)
+cmsearch(cm = cm, seq = sampfasta, cpu = 1)
 #> # A tibble: 49 x 18
 #>    target_name target_accession query_name query_accession mdl   mdl_from mdl_to
 #>    <chr>       <chr>            <chr>      <chr>           <chr>    <int>  <int>
@@ -86,7 +87,7 @@ Instead of passing a file name, you can also supply a `DNAStringSet` or
 
 ``` r
 sampseqs <- Biostrings::readDNAStringSet(sampfasta)
-cmsearch(cm = cm5_8S, seq = sampseqs, cpu = 1)
+cmsearch(cm = cm, seq = sampseqs, cpu = 1)
 #> # A tibble: 49 x 18
 #>    target_name target_accession query_name query_accession mdl   mdl_from mdl_to
 #>    <chr>       <chr>            <chr>      <chr>           <chr>    <int>  <int>
@@ -111,7 +112,7 @@ Stockholm format.
 
 ``` r
 alnfile <- tempfile("alignment-", fileext = ".stk")
-cmsearch(cm = cm5_8S, seq = sampseqs, alignment = alnfile)
+cmsearch(cm = cm, seq = sampseqs, alignment = alnfile)
 #> # A tibble: 49 x 18
 #>    target_name target_accession query_name query_accession mdl   mdl_from mdl_to
 #>    <chr>       <chr>            <chr>      <chr>           <chr>    <int>  <int>
@@ -185,7 +186,7 @@ you can align them to the CM using `cmalign`. This is much faster than
 previous section, after removing gaps.
 
 ``` r
-unaln <- system.file(file.path("extdata", "samp_5_8S.fasta"), package = "inferrnal")
+unaln <- sample_rRNA_5_8S()
 unaln_seq <- Biostrings::readRNAStringSet(unaln)
 unaln_seq
 #>   A RNAStringSet instance of length 48
@@ -201,7 +202,7 @@ unaln_seq
 #> [46]   152 AACUCUCAGCGAUGGAUGACUCG...AAGUAUGUUUGGCUCGGUAUCA seq24/95-246
 #> [47]   154 UAGCAUCAGCGAUUAACGUCUUG...GAGUGCACUUGCUUCAGUGUGG seq37/93-246
 #> [48]   156 AACACGCAACGGUGGACCACUCG...AGCUCUUGCUUGUUGAGCCUGG seq43/218-373
-aln <- cmalign(cm5_8S, unaln_seq, cpu = 1)
+aln <- cmalign(cm, unaln_seq, cpu = 1)
 aln$alignment
 #> RNAMultipleAlignment with 48 rows and 164 columns
 #>       aln                                                   names               
