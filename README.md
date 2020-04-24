@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.org/brendanf/inferrnal.svg?branch=master)](https://travis-ci.org/brendanf/inferrnal)
+status](https://travis-ci.com/brendanf/inferrnal.svg?branch=master)](https://travis-ci.com/brendanf/inferrnal)
 [![Codecov test
 coverage](https://codecov.io/gh/brendanf/inferrnal/branch/master/graph/badge.svg)](https://codecov.io/gh/brendanf/inferrnal?branch=master)
 <!-- badges: end -->
