@@ -200,6 +200,11 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
 #'        See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 #'        more information.
 #' @param cpu (\code{integer} scalar) The number of cpus to use.
+#' @param mxsize (\code{double} scalar) The maximum DP matrix size, in Mb.
+#'        Maximum potential memory usage is approximately cpu*mxsize, although
+#'        this is usually not realized.
+#'        See \href{http://eddylab.org/infernal/}{Infernal} documentation for
+#'        more information.
 #'
 #' @return the aligned sequences, as returned by
 #'     \code{\link{read_stockholm_msa}}.
@@ -213,7 +218,7 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
 #'     # also works if the fasta file has already been loaded
 #'     unaln <- Biostrings::readRNAStringSet(unaln)
 #'     cmalign(cm, unaln, cpu = 1)
-cmalign <- function(cmfile, seq, glocal = TRUE, cpu) {
+cmalign <- function(cmfile, seq, glocal = TRUE, cpu = NULL, mxsize = NULL) {
     assertthat::assert_that(assertthat::is.readable(cmfile),
                             assertthat::is.flag(glocal))
     args <- "cmalign"
@@ -221,6 +226,12 @@ cmalign <- function(cmfile, seq, glocal = TRUE, cpu) {
     if (!missing(cpu)) {
         assertthat::assert_that(assertthat::is.count(cpu))
         args <- c(args, "--cpu", cpu)
+    }
+    if (!missing(mxsize)) {
+        assertthat::assert_that(
+            assertthat::is.number(mxsize),
+            mxsize > 0)
+        args <- c(args, "--mxsize", mxsize)
     }
 
     seqfile <- NULL

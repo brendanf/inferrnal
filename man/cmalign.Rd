@@ -4,7 +4,7 @@
 \alias{cmalign}
 \title{Align sequences to a covariance model}
 \usage{
-cmalign(cmfile, seq, glocal = TRUE, cpu)
+cmalign(cmfile, seq, glocal = TRUE, cpu = NULL, mxsize = NULL)
 }
 \arguments{
 \item{cmfile}{(\code{character} scalar) path to a covariance model file}
@@ -26,6 +26,12 @@ See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 more information.}
 
 \item{cpu}{(\code{integer} scalar) The number of cpus to use.}
+
+\item{mxsize}{(\code{double} scalar) The maximum DP matrix size, in Mb.
+Maximum potential memory usage is approximately cpu*mxsize, although
+this is usually not realized.
+See \href{http://eddylab.org/infernal/}{Infernal} documentation for
+more information.}
 }
 \value{
 the aligned sequences, as returned by

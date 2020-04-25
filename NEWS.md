@@ -1,3 +1,7 @@
+# inferrnal 0.99.3
+
+* Added `mxsize` argument to `cmalign` to change the maximum matrix size.
+
 # inferrnal 0.99.2
 
 * Added convenience functions `cm_5_8S()`, `sample_rRNA_fasta()`,
