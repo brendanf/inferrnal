@@ -4,7 +4,7 @@
 \alias{cmsearch}
 \title{Search for Covariance Models (CM) in a set of sequences.}
 \usage{
-cmsearch(cm, seq, glocal = TRUE, alignment, cpu)
+cmsearch(cm, seq, glocal = TRUE, alignment = NULL, cpu = NULL)
 }
 \arguments{
 \item{cm}{(character of length 1) Path to the covariance model (.cm) file.

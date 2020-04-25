@@ -118,7 +118,7 @@ read_stockholm_msa <- function(stockholm) {
 #'     # also works if the fasta file has already been loaded
 #'     samp <- Biostrings::readDNAStringSet(sampfasta)
 #'     cmsearch(cm = cm, seq = samp, cpu = 1)
-cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
+cmsearch <- function(cm, seq, glocal = TRUE, alignment = NULL, cpu = NULL) {
     assertthat::assert_that(assertthat::is.string(cm),
                             file.exists(cm),
                             assertthat::is.flag(glocal))
@@ -126,11 +126,11 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment, cpu) {
     on.exit(unlink(tablefile))
     args <- c("--tblout", tablefile, "--toponly", "--noali")
     if (isTRUE(glocal)) args <- c(args, "-g")
-    if (!missing(cpu)) {
+    if (!is.null(cpu)) {
         assertthat::assert_that(assertthat::is.count(cpu))
         args <- c(args, "--cpu", cpu)
     }
-    if (!missing(alignment)) {
+    if (!is.null(alignment)) {
         assertthat::assert_that(assertthat::is.string(alignment))
         d <- dirname(alignment)
         if (nchar(d) > 0 && !dir.exists(d)) dir.create(d, recursive = TRUE)
@@ -223,11 +223,11 @@ cmalign <- function(cmfile, seq, glocal = TRUE, cpu = NULL, mxsize = NULL) {
                             assertthat::is.flag(glocal))
     args <- "cmalign"
     if (isTRUE(glocal)) args <- c(args, "-g")
-    if (!missing(cpu)) {
+    if (!is.null(cpu)) {
         assertthat::assert_that(assertthat::is.count(cpu))
         args <- c(args, "--cpu", cpu)
     }
-    if (!missing(mxsize)) {
+    if (!is.null(mxsize)) {
         assertthat::assert_that(
             assertthat::is.number(mxsize),
             mxsize > 0)

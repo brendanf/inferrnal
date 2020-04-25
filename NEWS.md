@@ -1,3 +1,7 @@
+# inferrnal 0.99.4
+
+* Properly handle explicit `NULL` values for `cpu` and `mxsize`.
+
 # inferrnal 0.99.3
 
 * Added `mxsize` argument to `cmalign` to change the maximum matrix size.
