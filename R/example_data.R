@@ -10,6 +10,20 @@ cm_5_8S <- function() {
     system.file(file.path("extdata", "RF00002.cm"), package = "inferrnal")
 }
 
+#' Annotated Seed Alignment for 5.8S rRNA
+#'
+#' This is a convenience function to return the path the seed alignment for the
+#' RFAM 5.8S rRNA covariance model,
+#' for use in \code{\link{cmbuild}}.
+#' The original file is from
+#' \url{https://rfam.xfam.org/family/RF00002/stockholm}.
+#'
+#' @return (\code{character} string) the path to the stk file
+#' @export
+stk_5_8S <- function() {
+    system.file(file.path("extdata", "RF00002.stk"), package = "inferrnal")
+}
+
 #' Sample rRNA sequences
 #'
 #' These are example files based on amplicon sequences from a soil metabarcoding
