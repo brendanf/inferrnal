@@ -4,7 +4,7 @@
 \alias{cmalign}
 \title{Align sequences to a covariance model}
 \usage{
-cmalign(cmfile, seq, glocal = TRUE, cpu = NULL, mxsize = NULL)
+cmalign(cmfile, seq, global = TRUE, cpu = NULL, mxsize = NULL, glocal = global)
 }
 \arguments{
 \item{cmfile}{(\code{character} scalar) path to a covariance model file}
@@ -21,7 +21,7 @@ sequences should be known \emph{a priori} to represent the same region
 as the CM; to find the region in longer sequences and align it, use
 the \code{alignment} option of \code{\link{cmsearch}}.}
 
-\item{glocal}{(\code{logical} scalar) If \code{TRUE}, align in glocal mode.
+\item{global}{(\code{logical} scalar) If \code{TRUE}, align in global mode.
 See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 more information.}
 
@@ -32,6 +32,8 @@ Maximum potential memory usage is approximately cpu*mxsize, although
 this is usually not realized.
 See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 more information.}
+
+\item{glocal}{(\code{logical} scalar) (Deprecated) see "global".}
 }
 \value{
 the aligned sequences, as returned by

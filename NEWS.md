@@ -1,3 +1,7 @@
+# inferrnal 0.99.5
+
+* Correct argument `"glocal"` of `cmalign` to `"global"`.  Deprecate `"glocal"`.
+
 # inferrnal 0.99.4
 
 * Properly handle explicit `NULL` values for `cpu` and `mxsize`.

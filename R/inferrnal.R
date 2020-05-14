@@ -196,7 +196,7 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment = NULL, cpu = NULL) {
 #'        sequences should be known \emph{a priori} to represent the same region
 #'        as the CM; to find the region in longer sequences and align it, use
 #'        the \code{alignment} option of \code{\link{cmsearch}}.
-#' @param glocal (\code{logical} scalar) If \code{TRUE}, align in glocal mode.
+#' @param global (\code{logical} scalar) If \code{TRUE}, align in global mode.
 #'        See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 #'        more information.
 #' @param cpu (\code{integer} scalar) The number of cpus to use.
@@ -205,6 +205,7 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment = NULL, cpu = NULL) {
 #'        this is usually not realized.
 #'        See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 #'        more information.
+#' @param glocal (\code{logical} scalar) (Deprecated) see "global".
 #'
 #' @return the aligned sequences, as returned by
 #'     \code{\link{read_stockholm_msa}}.
@@ -218,11 +219,21 @@ cmsearch <- function(cm, seq, glocal = TRUE, alignment = NULL, cpu = NULL) {
 #'     # also works if the fasta file has already been loaded
 #'     unaln <- Biostrings::readRNAStringSet(unaln)
 #'     cmalign(cm, unaln, cpu = 1)
-cmalign <- function(cmfile, seq, glocal = TRUE, cpu = NULL, mxsize = NULL) {
+cmalign <- function(cmfile, seq, global = TRUE, cpu = NULL, mxsize = NULL,
+                    glocal = global) {
     assertthat::assert_that(assertthat::is.readable(cmfile),
                             assertthat::is.flag(glocal))
     args <- "cmalign"
-    if (isTRUE(glocal)) args <- c(args, "-g")
+    if (!missing(glocal))  {
+        warning("Use of 'glocal' in cmalign is deprecated. ",
+                "Please use 'global' instead.")
+        if (!missing(global)) {
+            stop("'global' and 'glocal' should not both be specified in",
+                 " cmalign.")
+        }
+        global <- glocal
+    }
+    if (isTRUE(global)) args <- c(args, "-g")
     if (!is.null(cpu)) {
         assertthat::assert_that(assertthat::is.count(cpu))
         args <- c(args, "--cpu", cpu)
