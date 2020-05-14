@@ -121,3 +121,30 @@ aln$SS_cons
 aln$RF
 ```
 
+## cmbuild
+
+`cmbuild`, included in `inferrnal` since version 0.99.5, is used to create new
+CMs from annotated multiple sequence alignments.
+To illustrate the process, we use the seed alignment for the 5.8S rRNA CM from
+RFAM.
+It is included as a sample file in `inferrnal`.
+
+```{r}
+new_cm <- file.path(tempdir(), "5_8S.cm")
+cmbuild(new_cm, msafile = stk_5_8S(), force = TRUE, verbose = TRUE)
+```
+
+This CM is not calibrated, so it cannot be used for `cmsearch`,
+but it can be used in `cmalign`.
+
+```{r}
+aln2 <- cmalign(new_cm, unaln_seq, cpu = 1)
+```
+
+The resulting alignment is the same as the one created using the CM from RFAM,
+because they are based on the same seed alignment, and used the same (default)
+options for `cmbuild`.
+
+```{r}
+all.equal(aln, aln2)
+```
