@@ -276,3 +276,285 @@ cmalign <- function(cmfile, seq, global = TRUE, cpu = NULL, mxsize = NULL,
     alnpipe <- pipe(args)
     read_stockholm_msa(alnpipe)
 }
+
+#' Construct covariance model(s) from structually annotated alignment(s)
+#'
+#' Calls the standalone program \code{cmbuild} from the
+#' \href{http://eddylab.org/infernal/}{Infernal} package, which must be
+#' installed.  For more information about options, see the
+#' \href{http://eddylab.org/infernal/Userguide.pdf}{Infernal documentation}.
+#'
+#' @param msafile (\code{character} filename) filename of MSA file to read.
+#' @param cmfile_out (\code{character} filename) filename to write CM to.
+#' @param name (\code{character} string) name of the CM (option \code{-N} to cmbuild). The default uses the
+#'     name(s) given in the alignment file, or the name of the alignment file.
+#' @param force (\code{logical} scalar) overwrite \code{cmfile_out} if it
+#'     exists
+#' @param summary_file (\code{character} filename) filename to write summary
+#'     output to.
+#' @param reannotated_msa (\code{character} filename) filename to write a
+#'     reannotated alignment(s) to (option \code{-O} to cmbuild)
+#' @param consensus_method (one of \code{"fast"}, \code{"hand"}, or
+#'     \code{"noss"}) method to define consensus columns in alignment. (options
+#'     \code{--fast}, \code{--hand}, and \code{--noss} to cmbuild)
+#' @param symfrac (\code{integer} scalar) residue fraction threshold necessary
+#'     to define a consensus column.
+#' @param rsearch (\code{character} filename) RIBOSUM matrix to use in
+#'     parameterizing emission scores.
+#' @param null (\code{character} filename) null model file.
+#' @param prior (\code{character} filename) Dirichlet prior file.
+#' @param weights (\code{character}; one of \code{"pb"}, \code{"gsc"},
+#'     \code{"none"}, \code{"given"}, or \code{"blosum"}) sequence weighting
+#'     method (options \code{--wpb}, \code{--wgsc},
+#'     \code{--wnone}, \code{--wgiven}, and \code{wblosum} to cmbuild).
+#' @param wid (\code{numeric} scalar) percent identity for clustering when
+#'     \code{weights = "blosum"}.
+#' @param eff_num (\code{character}; one of \code{"ent"} or \code{"none"})
+#'     entropy weighting strategy (options \code{--eent} or \code{--enone} to
+#'     cmbuild).
+#' @param ere (\code{numeric} scalar) target mean match state relative entropy.
+#' @param eminseq (\code{numeric} scalar) minimum allowed effective sequence
+#'     number.
+#' @param emaxseq (\code{numeric} scalar) maximum allowed effective sequence
+#'     number.
+#' @param ehmmre (\code{numeric} scalar) target HMM mean match state relative
+#'     entropy.
+#' @param eset (\code{numeric} scalar) effective sequence number for entropy
+#'     weighting.
+#' @param p7ere (\code{numeric} scalar) target mean match state relative entropy
+#'     for the filter p7 HMM.
+#' @param p7ml (\code{logical} scalar) use a maximum liklihood p7 HMM built from
+#'     the CM.
+#' @param refine (\code{character} filename) if given, the alignment is
+#'     iteratively refined, and the final alignment is written to this file.
+#' @param local (\code{logical} scalar) use local alignment with \code{refine}
+#'     (option \code{-l} to cmbuild).
+#' @param gibbs (\code{logical} scalar) use Gibbs sampling instead of
+#'     maximum likelihood with \code{refine}.
+#' @param seed (\code{integer} scalar) pseudorandom number seed for Gibbs
+#'    sampling.
+#' @param cyk (\code{logical} scalar) use the CYK alignment algorithm with
+#'    \code{refine}.
+#' @param notrunc (\code{logical} scalar) turn off the truncated alignment
+#'    algorithm with \code{refine}.
+#' @param extra (\code{character}) additional arguments to pass to cmbuild.
+#' @param verbose (\code{logical} scalar) print cmbuild output to the console.
+#'
+#' @return \code{NULL}, invisibly
+#' @export
+#'
+#' @examples
+#'
+#' # requires that LSUx is installed
+#'
+#'
+#'
+cmbuild <- function(
+    msafile,
+    cmfile_out,
+    name = NULL,
+    force = FALSE,
+    summary_file = NULL,
+    reannotated_msa = NULL,
+    consensus_method = c("fast", "hand", "noss"),
+    symfrac = NULL,
+    rsearch = NULL,
+    null = NULL,
+    prior = NULL,
+    weights = c("pb", "gsc", "given", "blosum"),
+    wid = NULL,
+    eff_num = c("ent", "none"),
+    ere = NULL,
+    eminseq = NULL,
+    emaxseq = NULL,
+    ehmmre = NULL,
+    eset = NULL,
+    p7ere = NULL,
+    p7ml = FALSE,
+    refine = NULL,
+    local = FALSE,
+    gibbs = FALSE,
+    seed = NULL,
+    cyk = FALSE,
+    notrunc = FALSE,
+    extra = NULL,
+    verbose = FALSE
+) {
+    args <- character()
+
+    if (!is.null(name)) {
+        assertthat::assert_that(assertthat::is.string(name))
+        args <- c(args, "-n", name)
+    }
+
+    assertthat::assert_that(assertthat::is.flag(force))
+    if (isTRUE(force)) {
+        args <- c(args, "-F")
+    }
+
+    if (!is.null(summary_file)) {
+        assertthat::assert_that(assertthat::is.string(summary_file))
+        args <- c(args, "-O", summary_file)
+    }
+
+    if (!missing(consensus_method)) {
+        consensus_method = match.arg(consensus_method)
+        args <- c(args, paste0("--", consensus_method))
+    }
+
+    if (!is.null(symfrac)) {
+        assertthat::assert_that(
+            assertthat::is.number(symfrac),
+            symfrac >= 0,
+            symfrac <= 1
+        )
+        args <- c(args, "--symfrac", symfrac)
+    }
+
+    if (!is.null(rsearch)) {
+        assertthat::assert_that(
+            assertthat::is.string(rsearch),
+            assertthat::is.readable(rsearch)
+        )
+        args <- c(args, "--rsearch", rsearch)
+    }
+
+    if (!is.null(null)) {
+        assertthat::assert_that(
+            assertthat::is.string(null),
+            assertthat::is.readable(null)
+        )
+        args <- c(args, "--null", null)
+    }
+
+    if (!is.null(prior)) {
+        assertthat::assert_that(
+            assertthat::is.string(prior),
+            assertthat::is.readable(prior)
+        )
+        args <- c(args, "--prior", prior)
+    }
+
+    if (!missing(weights)) {
+        weights = match.arg(weights)
+        args <- c(args, paste0("--w", weights))
+    }
+
+    if (!is.null(wid)) {
+        assertthat::assert_that(
+            assertthat::is.number(wid),
+            wid >= 0,
+            wid <= 100
+        )
+        args <- c(args, "--wid", wid)
+    }
+
+    if (!missing(eff_num)) {
+        eff_num = match.arg(eff_num)
+        args <- c(args, paste0("--e", eff_num))
+    }
+
+    if (!is.null(ere)) {
+        assertthat::assert_that(
+            assertthat::is.number(ere),
+            ere >= 0
+        )
+        args <- c(args, "--ere", ere)
+    }
+
+    if (!is.null(eminseq)) {
+        assertthat::assert_that(
+            assertthat::is.number(eminseq),
+            eminseq >= 0
+        )
+        args <- c(args, "--eminseq", eminseq)
+    }
+
+    if (!is.null(emaxseq)) {
+        assertthat::assert_that(
+            assertthat::is.number(emaxseq),
+            emaxseq >= 0
+        )
+        args <- c(args, "--emaxseq", emaxseq)
+    }
+
+    if (!is.null(ehmmre)) {
+        assertthat::assert_that(
+            assertthat::is.number(ehmmre),
+            ehmmre >= 0
+        )
+        args <- c(args, "--ehmmre", ehmmre)
+    }
+
+    if (!is.null(eset)) {
+        assertthat::assert_that(
+            assertthat::is.number(eset),
+            eset >= 0
+        )
+        args <- c(args, "--eset", eset)
+    }
+
+    if (!is.null(p7ere)) {
+        assertthat::assert_that(
+            assertthat::is.number(p7ere),
+            p7ere >= 0
+        )
+        args <- c(args, "--p7ere", p7ere)
+    }
+
+    assertthat::assert_that(assertthat::is.flag(p7ml))
+    if (isTRUE(p7ml)) {
+        args <- c(args, "--p7ml")
+    }
+
+    if (!is.null(refine)) {
+        assertthat::assert_that(assertthat::is.string(refine))
+        args <- c(args, "--refine", refine)
+    }
+
+    assertthat::assert_that(assertthat::is.flag(local))
+    if (isTRUE(local)) {
+        args <- c(args, "-l")
+    }
+
+    assertthat::assert_that(assertthat::is.flag(gibbs))
+    if (isTRUE(gibbs)) {
+        args <- c(args, "--gibbs")
+    }
+
+    if (!is.null(seed)) {
+        assertthat::assert_that(
+            assertthat::is.count(seed)
+        )
+        args <- c(args, "--seed", seed)
+    }
+
+    assertthat::assert_that(assertthat::is.flag(cyk))
+    if (isTRUE(cyk)) {
+        args <- c(args, "--cyk")
+    }
+
+    assertthat::assert_that(assertthat::is.flag(notrunc))
+    if (isTRUE(notrunc)) {
+        args <- c(args, "--notrunc")
+    }
+
+    if (!is.null(extra)) {
+        assertthat::assert_that(is.character(extra))
+        args <- c(args, extra)
+    }
+
+    args <- c(args, cmfile_out, msafile)
+
+    assertthat::assert_that(assertthat::is.flag(verbose))
+
+    return <- system2(
+        command = "cmbuild",
+        args = args,
+        stdout = if (verbose) "" else FALSE,
+        stderr = if (verbose) "" else FALSE
+    )
+
+    if (return != 0) stop("cmbuild failed with exit code ", return)
+    invisible(NULL)
+}

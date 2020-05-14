@@ -2,6 +2,7 @@
 
 export(cm_5_8S)
 export(cmalign)
+export(cmbuild)
 export(cmsearch)
 export(read_stockholm_msa)
 export(sample_rRNA_5_8S)

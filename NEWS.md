@@ -1,6 +1,7 @@
 # inferrnal 0.99.5
 
 * Correct argument `"glocal"` of `cmalign` to `"global"`.  Deprecate `"glocal"`.
+* Implement `cmbuild()`.
 
 # inferrnal 0.99.4
 
