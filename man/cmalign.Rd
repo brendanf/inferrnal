@@ -4,12 +4,43 @@
 \alias{cmalign}
 \title{Align sequences to a covariance model}
 \usage{
-cmalign(cmfile, seq, global = TRUE, cpu = NULL, mxsize = NULL, glocal = global)
+cmalign(
+  cmfile,
+  seq,
+  global = TRUE,
+  algorithm = NULL,
+  sample = FALSE,
+  seed = NULL,
+  notrunc = FALSE,
+  sub = FALSE,
+  hbanded = TRUE,
+  tau = NULL,
+  mxsize = NULL,
+  fixedtau = FALSE,
+  maxtau = NULL,
+  small = FALSE,
+  sfile = NULL,
+  tfile = NULL,
+  ifile = NULL,
+  elfile = NULL,
+  mapali = NULL,
+  mapstr = FALSE,
+  dnaout = FALSE,
+  noprob = FALSE,
+  matchonly = FALSE,
+  ileaved = FALSE,
+  regress = NULL,
+  verbose = FALSE,
+  cpu = NULL,
+  mpi = FALSE,
+  extra = NULL,
+  glocal = global
+)
 }
 \arguments{
-\item{cmfile}{(\code{character} scalar) path to a covariance model file}
+\item{cmfile}{(\code{character} filename) path to a covariance model file}
 
-\item{seq}{(\code{character} scalar, names \code{character} vector,
+\item{seq}{(\code{character} filename, \code{character} vector,
 \code{\link[Biostrings]{XStringSet}}, or
 \code{\link[ShortRead]{ShortRead}}) sequences to align to the
 covariance model. This may be given as a character path to a fasta
@@ -25,13 +56,87 @@ the \code{alignment} option of \code{\link{cmsearch}}.}
 See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 more information.}
 
-\item{cpu}{(\code{integer} scalar) The number of cpus to use.}
+\item{algorithm}{(\code{character} string) Alignment algorithm. Options are
+"optacc" and "cyk". Default: "optacc"}
 
-\item{mxsize}{(\code{double} scalar) The maximum DP matrix size, in Mb.
+\item{sample}{(\code{logical} scalar) Sample an alignment from the posterior
+distribution of alignments.}
+
+\item{seed}{(\code{integer} scalar) Random seed for sampling an alignment.}
+
+\item{notrunc}{(\code{logical} scalar) Turn off truncated alignment
+algorithms.}
+
+\item{sub}{(\code{logical} scalar) urn on the sub model construction and
+alignment procedure}
+
+\item{hbanded}{(\code{logical} scalar) Accelerate alignment by pruning away
+regions of the CMDP matrix that are deemed negligible by an HMM.
+Default: TRUE}
+
+\item{tau}{(\code{numeric} scalar) Tail loss probability used during HMM band
+calculation. Default: 1E-7}
+
+\item{mxsize}{(\code{numeric} scalar) The maximum DP matrix size, in Mb.
 Maximum potential memory usage is approximately cpu*mxsize, although
 this is usually not realized.
 See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 more information.}
+
+\item{fixedtau}{(\code{logical} scalar) Turn off HMM band tightening.}
+
+\item{maxtau}{(\code{numeric} scalar) Maximum allowed value for tau
+during band tightening. Default: 0.05}
+
+\item{small}{(\code{logical} scalar) Use the divide and conquer CYK alignment
+algorithm, greatly reducing memory consumption.}
+
+\item{sfile}{(\code{character} filename) Dump per-sequence alignment score
+and timing information to file.}
+
+\item{tfile}{(\code{character} filename) Dump tabular sequence tracebacks for
+each individual sequence to a file.}
+
+\item{ifile}{(\code{character} filename) Dump per-sequence insert information
+to file.}
+
+\item{elfile}{(\code{character} filename) Dump per-sequence EL state (local
+end) insert information to file.}
+
+\item{mapali}{(\code{character} filename) Read the alignment from the file used
+to build the model aligns it as a single object to the CM, along with
+sequences in \code{"seq"}.}
+
+\item{mapstr}{(\code{logical} scalar) Must be used in combination with
+\code{mapali}. Propogate structural information for any pseudoknots
+that exist in \code{mapali} to the output alignment.}
+
+\item{dnaout}{(\code{logical} scalar) Output the alignments as DNA sequence
+alignments, instead of RNA ones.}
+
+\item{noprob}{(\code{logical} scalar) Do not annotate the output alignment
+with posterior probabilities.}
+
+\item{matchonly}{(\code{logical} scalar) Only include match columns in the
+output alignment, do not include any insertions relativeto the
+consensus model.}
+
+\item{ileaved}{(\code{logical} scalar) Output the alignment in interleaved
+Stockholm format of a fixed width that may be more convenient for
+examination.}
+
+\item{regress}{(\code{character} filename) Save an additional copy of the
+output alignment with no author information to file.}
+
+\item{verbose}{(\code{logical} scalar) Output additional information in the
+tabular scores output.}
+
+\item{cpu}{(\code{integer} scalar) The number of cpus to use.}
+
+\item{mpi}{(\code{logical} scalar) Run as an MPI parallel program.}
+
+\item{extra}{(\code{character} vector) Additional advanced options to pass
+to `cmalign`.}
 
 \item{glocal}{(\code{logical} scalar) (Deprecated) see "global".}
 }

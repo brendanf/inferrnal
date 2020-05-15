@@ -4,7 +4,44 @@
 \alias{cmsearch}
 \title{Search for Covariance Models (CM) in a set of sequences.}
 \usage{
-cmsearch(cm, seq, glocal = TRUE, alignment = NULL, cpu = NULL)
+cmsearch(
+  cm,
+  seq,
+  glocal = TRUE,
+  Z = NULL,
+  output = NULL,
+  alignment = NULL,
+  acc = FALSE,
+  noali = TRUE,
+  notextw = FALSE,
+  textw = NULL,
+  verbose = FALSE,
+  E = NULL,
+  T = NULL,
+  incE = NULL,
+  incT = NULL,
+  cut_ga = FALSE,
+  cut_nc = FALSE,
+  cut_tc = FALSE,
+  filter_strategy = NULL,
+  FZ = NULL,
+  Fmid = NULL,
+  notrunc = FALSE,
+  anytrunc = FALSE,
+  nonull3 = FALSE,
+  mxsize = NULL,
+  smxsize = NULL,
+  cyk = FALSE,
+  acyk = FALSE,
+  wcx = NULL,
+  toponly = TRUE,
+  bottomonly = FALSE,
+  tformat = NULL,
+  cpu = NULL,
+  stall = FALSE,
+  mpi = FALSE,
+  quiet = TRUE
+)
 }
 \arguments{
 \item{cm}{(character of length 1) Path to the covariance model (.cm) file.
@@ -21,11 +58,105 @@ If a filename, the file can be of any type supported by Infernal.}
 When \code{TRUE}, the search is faster, but will fail to find matches with
 only partially homologous structure.}
 
+\item{Z}{(\code{numeric} scalar) Effective search space size in Mb for the
+purposes of calculating E-values.}
+
+\item{output}{(\code{character} filename) File to send the human-readable
+output to.}
+
 \item{alignment}{(filename) A file to save the aligned hits to.  If given,
 the alignment is saved in Stockholm format with annotations for secondary
 structure, posterior probablility, etc.}
 
-\item{cpu}{(integer of length 1) The number of threads to use in the search.}
+\item{acc}{(\code{logical} scalar) Use accessions instead of names in the
+main output.}
+
+\item{noali}{(\code{logical} scalar) Omit the alignment section from the main
+output.}
+
+\item{notextw}{(\code{logical} scalar) Unlimit the length of each line in the
+main output.}
+
+\item{textw}{(\code{numeric} scalar) Set the main output’s line length limit
+in characters per line. The default is 120.}
+
+\item{verbose}{(\code{logical} scalar)}
+
+\item{E}{(\code{numeric} scalar) Maximum E-value for reporting in per-target
+output. Default: 10.0}
+
+\item{T}{(\code{numeric} scalar) Maximum bit score for reporting in
+per-target reporting. Default: NULL}
+
+\item{incE}{(\code{numeric} scalar) Maximum E-value for hit inclusion.
+Default: 0.01}
+
+\item{incT}{(\code{numeric} scalar) Maximum bit score for hit inclusion.
+Default: NULL}
+
+\item{cut_ga}{(\code{logical} scalar) Use the GA (gathering) bit scores
+defined in the CM to set hit reporting and inclusion thresholds.}
+
+\item{cut_nc}{(\code{logical} scalar) Use the NC (noise cutoff) bit score
+thresholds defined in the CM to set hit reporting and inclusionthresholds.}
+
+\item{cut_tc}{(\code{logical} scalar) Use the TC (trusted cutoff) bit score
+thresholds defined in the CM to set hit reporting and inclusionthresholds.}
+
+\item{filter_strategy}{(\code{character} string) Filtering strategy for the
+acceleration pipeline. Options, from slowest (most sensitive) to fastest
+(least sensitive) are "max", "nohmm", "mid", "default", "rfam", "hmmonly".}
+
+\item{FZ}{(\code{numeric} scalar) Effective database size in Mb for
+determining filter thresholds.}
+
+\item{Fmid}{(\code{numeric} scalar) HMM filter thresholds for the "mid"
+filtering strategy.  Default 0.02}
+
+\item{notrunc}{(\code{logical} scalar) Turn off truncated hit detection.}
+
+\item{anytrunc}{(\code{logical} scalar) Allow truncated hits to begin and end
+at any position in a target sequence.}
+
+\item{nonull3}{(\code{logical} scalar) Turn off the null3 CM score
+corrections for biased composition.}
+
+\item{mxsize}{(\code{numeric} scalar) Maximum allowable CM DP matrix size in
+megabytes. Default: 128}
+
+\item{smxsize}{(\code{numeric} scalar) Maximum allowable CM search DP matrix
+size in megabytes. Default: 128}
+
+\item{cyk}{(\code{logical} scalar) Use the CYK algorithm, not Inside, to
+determine the final score of all hits.}
+
+\item{acyk}{(\code{logical} scalar) Use the CYK algorithm to align hits.}
+
+\item{wcx}{(\code{numeric} scalar) Expected maximum length of a hit, as a
+multiplier of consensus length of the model.}
+
+\item{toponly}{(\code{logical} scalar) Only search the top (Watson) strand of
+target sequences.}
+
+\item{bottomonly}{(\code{logical} scalar) Only search the bottom (Crick)
+strand of target sequences.}
+
+\item{tformat}{(\code{logical} scalar) Format of the sequences in "seq".
+Options are "fasta", "embl", "genbank", "ddbj", "stockholm", "pfam", "a2m",
+"afa", "clustal", and "phylip". Default: autodetect}
+
+\item{cpu}{(\code{integer} scalar) The number of threads to use in the
+search.}
+
+\item{stall}{(\code{logical} scalar) For debugging the MPI master/worker
+version: pause after start, to enable the developer toattach debuggers to
+the running master and worker(s) processes}
+
+\item{mpi}{(\code{logical} scalar) Run  in  MPI  master/worker  mode, using
+mpirun.}
+
+\item{quiet}{(\code{logical} scalar) Suppress standard output of `cmsearch`,
+which can be long.}
 }
 \value{
 a \code{\link[tibble]{tibble}} with columns:

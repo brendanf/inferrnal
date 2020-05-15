@@ -4,10 +4,12 @@
 \alias{read_stockholm_msa}
 \title{Parse a Multiple Alignment in Stockholm Format}
 \usage{
-read_stockholm_msa(stockholm)
+read_stockholm_msa(stockholm, dna = FALSE)
 }
 \arguments{
 \item{stockholm}{(\code{character} scalar) Path to a file to parse}
+
+\item{dna}{(\code{logical} scalar) Parse the input as DNA instead of RNA.}
 }
 \value{
 a \code{list}.  The sequences themselves are element

@@ -1,7 +1,12 @@
 # inferrnal 0.99.5
 
 * Correct argument `"glocal"` of `cmalign` to `"global"`.  Deprecate `"glocal"`.
-* Implement `cmbuild()`.
+* Implement `cmbuild()`, along with all basic options.
+* Implement all basic options for `cmsearch()` and `cmalign()`.
+* Add an `"extra"` argument to all three `cm*()` functions to allow passing
+  advanced options.
+* Add a `"quiet"` argument to suppress the sometimes very large console output
+  of `cmsearch()`.
 
 # inferrnal 0.99.4
 
