@@ -3,5 +3,6 @@
 language: R
 cache: packages
 apt-packages: infernal
+bioc_check: true
 after_success:
   - Rscript -e 'covr::codecov()'
