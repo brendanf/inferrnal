@@ -25,7 +25,8 @@ check_null_args <- function(argval, argname, allow_null) {
     FALSE
 }
 
-flag_opt <- function(argval, argname = deparse(substitute(argval)), invert = FALSE) {
+flag_opt <- function(argval, argname = deparse(substitute(argval)),
+                    invert = FALSE) {
     if (isTRUE(argval)) {
         if (isFALSE(invert)) {
             return(c(arg2opt(argname)))

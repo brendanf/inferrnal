@@ -74,83 +74,85 @@ read_stockholm_msa <- function(stockholm, dna = FALSE) {
 #' retrieving the hits table and, optionally, producing an alignment.
 #'
 #' @param cm (character of length 1) Path to the covariance model (.cm) file.
-#'  The covariance model must include calibration data from running
-#'  "\code{cmcalibrate}".
+#'     The covariance model must include calibration data from running
+#'     "\code{cmcalibrate}".
 #' @param seq (filename, character vector,
-#'   \code{\link[Biostrings]{XStringSet}}, or
-#'   \code{\link[ShortRead]{ShortRead}}) Sequences to search with the CM.
-#'   If a filename, the file can be of any type supported by Infernal.
+#'     \code{\link[Biostrings]{XStringSet}}, or
+#'     \code{\link[ShortRead]{ShortRead}}) Sequences to search with the CM.
+#'     If a filename, the file can be of any type supported by Infernal.
 #' @param glocal (logical of length 1) Whether to run the search in glocal mode
-#'   (global with respect to the model, local with respect to the sequence).
-#'   When \code{TRUE}, the search is faster, but will fail to find matches with
-#'   only partially homologous structure.
+#'     (global with respect to the model, local with respect to the sequence).
+#'     When \code{TRUE}, the search is faster, but will fail to find matches
+#'     with only partially homologous structure.
 #' @param Z (\code{numeric} scalar) Effective search space size in Mb for the
-#'   purposes of calculating E-values.
+#'     purposes of calculating E-values.
 #' @param output (\code{character} filename) File to send the human-readable
-#'   output to.
+#'     output to.
 #' @param alignment (filename) A file to save the aligned hits to.  If given,
-#'   the alignment is saved in Stockholm format with annotations for secondary
-#'   structure, posterior probablility, etc.
+#'     the alignment is saved in Stockholm format with annotations for secondary
+#'     structure, posterior probablility, etc.
 #' @param acc (\code{logical} scalar) Use accessions instead of names in the
-#'   main output.
+#'     main output.
 #' @param noali (\code{logical} scalar) Omit the alignment section from the main
-#'   output.
+#'     output.
 #' @param notextw (\code{logical} scalar) Unlimit the length of each line in the
-#'  main output.
+#'    main output.
 #' @param textw (\code{numeric} scalar) Set the main output’s line length limit
-#'   in characters per line. The default is 120.
+#'     in characters per line. The default is 120.
 #' @param verbose (\code{logical} scalar)
 #' @param E (\code{numeric} scalar) Maximum E-value for reporting in per-target
-#'   output. Default: 10.0
+#'     output. Default: 10.0
 #' @param T (\code{numeric} scalar) Maximum bit score for reporting in
-#'   per-target reporting. Default: NULL
+#'     per-target reporting. Default: NULL
 #' @param incE (\code{numeric} scalar) Maximum E-value for hit inclusion.
-#'   Default: 0.01
+#'     Default: 0.01
 #' @param incT (\code{numeric} scalar) Maximum bit score for hit inclusion.
-#'   Default: NULL
+#'     Default: NULL
 #' @param cut_ga (\code{logical} scalar) Use the GA (gathering) bit scores
-#'   defined in the CM to set hit reporting and inclusion thresholds.
+#'     defined in the CM to set hit reporting and inclusion thresholds.
 #' @param cut_nc (\code{logical} scalar) Use the NC (noise cutoff) bit score
-#'   thresholds defined in the CM to set hit reporting and inclusionthresholds.
+#'     thresholds defined in the CM to set hit reporting and inclusion
+#'     thresholds.
 #' @param cut_tc (\code{logical} scalar) Use the TC (trusted cutoff) bit score
-#'   thresholds defined in the CM to set hit reporting and inclusionthresholds.
+#'   thresholds defined in the CM to set hit reporting and inclusion thresholds.
 #' @param filter_strategy (\code{character} string) Filtering strategy for the
-#'   acceleration pipeline. Options, from slowest (most sensitive) to fastest
-#'   (least sensitive) are "max", "nohmm", "mid", "default", "rfam", "hmmonly".
+#'     acceleration pipeline. Options, from slowest (most sensitive) to fastest
+#'     (least sensitive) are "max", "nohmm", "mid", "default", "rfam",
+#'     "hmmonly".
 #' @param FZ (\code{numeric} scalar) Effective database size in Mb for
-#'   determining filter thresholds.
+#'     determining filter thresholds.
 #' @param Fmid (\code{numeric} scalar) HMM filter thresholds for the "mid"
-#'   filtering strategy.  Default 0.02
+#'     filtering strategy.  Default 0.02
 #' @param notrunc (\code{logical} scalar) Turn off truncated hit detection.
 #' @param anytrunc (\code{logical} scalar) Allow truncated hits to begin and end
-#'   at any position in a target sequence.
+#'     at any position in a target sequence.
 #' @param nonull3 (\code{logical} scalar) Turn off the null3 CM score
-#'   corrections for biased composition.
+#'     corrections for biased composition.
 #' @param mxsize (\code{numeric} scalar) Maximum allowable CM DP matrix size in
 #'   megabytes. Default: 128
 #' @param smxsize (\code{numeric} scalar) Maximum allowable CM search DP matrix
-#'   size in megabytes. Default: 128
+#'     size in megabytes. Default: 128
 #' @param cyk (\code{logical} scalar) Use the CYK algorithm, not Inside, to
-#'   determine the final score of all hits.
+#'     determine the final score of all hits.
 #' @param acyk (\code{logical} scalar) Use the CYK algorithm to align hits.
 #' @param wcx (\code{numeric} scalar) Expected maximum length of a hit, as a
-#'   multiplier of consensus length of the model.
+#'     multiplier of consensus length of the model.
 #' @param toponly (\code{logical} scalar) Only search the top (Watson) strand of
-#'   target sequences.
+#'     target sequences.
 #' @param bottomonly (\code{logical} scalar) Only search the bottom (Crick)
-#'   strand of target sequences.
+#'     strand of target sequences.
 #' @param tformat (\code{logical} scalar) Format of the sequences in "seq".
-#'   Options are "fasta", "embl", "genbank", "ddbj", "stockholm", "pfam", "a2m",
-#'   "afa", "clustal", and "phylip". Default: autodetect
+#'     Options are "fasta", "embl", "genbank", "ddbj", "stockholm", "pfam",
+#'     "a2m", "afa", "clustal", and "phylip". Default: autodetect
 #' @param cpu (\code{integer} scalar) The number of threads to use in the
-#'   search.
+#'     search.
 #' @param stall (\code{logical} scalar) For debugging the MPI master/worker
-#'   version: pause after start, to enable the developer toattach debuggers to
-#'   the running master and worker(s) processes
+#'     version: pause after start, to enable the developer toattach debuggers to
+#'     the running master and worker(s) processes
 #' @param mpi (\code{logical} scalar) Run  in  MPI  master/worker  mode, using
-#'   mpirun.
+#'     mpirun.
 #' @param quiet (\code{logical} scalar) Suppress standard output of `cmsearch`,
-#'   which can be long.
+#'     which can be long.
 #'
 #' @return a \code{\link[tibble]{tibble}} with columns:
 #'     \itemize{
@@ -247,8 +249,10 @@ cmsearch <- function(
         flag_opt(cut_ga),
         flag_opt(cut_nc),
         flag_opt(cut_tc),
-        multiflag_opt(filter_strategy,
-                      c("max", "nohmm", "mid", "default", "rfam", "hmmonly")),
+        multiflag_opt(
+            filter_strategy,
+            choices = c("max", "nohmm", "mid", "default", "rfam", "hmmonly")
+        ),
         nonneg_float_opt(FZ),
         fraction_opt(Fmid),
         flag_opt(notrunc),
@@ -261,9 +265,13 @@ cmsearch <- function(
         nonneg_float_opt(wcx),
         flag_opt(toponly),
         flag_opt(bottomonly),
-        string_opt(tformat, choices = c("fasta", "embl", "genbank", "ddbj",
-                                            "stockholm", "pfam", "a2m", "afa",
-                                            "clustal", "phylip")),
+        string_opt(
+            tformat,
+            choices = c(
+                "fasta", "embl", "genbank", "ddbj", "stockholm", "pfam", "a2m",
+                "afa", "clustal", "phylip"
+            )
+        ),
         count_opt(cpu),
         flag_opt(stall),
         flag_opt(mpi),
@@ -292,8 +300,10 @@ cmsearch <- function(
             ShortRead::writeFasta(seq, seqfile)
             on.exit(unlink(seqfile))
         } else {
-            stop("'seq' should be a filename, XStringSet, ShortRead,",
-                 " or character vector.")
+            stop(
+                "'seq' should be a filename, XStringSet, ShortRead,",
+                " or character vector."
+            )
         }
     }
     args <- c(args, seqfile)
@@ -325,75 +335,76 @@ cmsearch <- function(
 #'
 #' @param cmfile (\code{character} filename) path to a covariance model file
 #' @param seq (\code{character} filename, \code{character} vector,
-#'        \code{\link[Biostrings]{XStringSet}}, or
-#'        \code{\link[ShortRead]{ShortRead}}) sequences to align to the
-#'        covariance model. This may be given as a character path to a fasta
-#'        file, or the sequences as a character vector object of class
-#'        \code{\link[Biostrings]{DNAStringSet}},
-#'        \code{\link[Biostrings]{RNAStringSet}}, or
-#'        \code{\link[ShortRead]{ShortRead}}.  For \code{cmalign}, the
-#'        sequences should be known \emph{a priori} to represent the same region
-#'        as the CM; to find the region in longer sequences and align it, use
-#'        the \code{alignment} option of \code{\link{cmsearch}}.
+#'     \code{\link[Biostrings]{XStringSet}}, or
+#'     \code{\link[ShortRead]{ShortRead}}) sequences to align to the
+#'     covariance model. This may be given as a character path to a fasta
+#'     file, or the sequences as a character vector object of class
+#'     \code{\link[Biostrings]{DNAStringSet}},
+#'     \code{\link[Biostrings]{RNAStringSet}}, or
+#'     \code{\link[ShortRead]{ShortRead}}.  For \code{cmalign}, the
+#'     sequences should be known \emph{a priori} to represent the same region
+#'     as the CM; to find the region in longer sequences and align it, use
+#'     the \code{alignment} option of \code{\link{cmsearch}}.
 #' @param global (\code{logical} scalar) If \code{TRUE}, align in global mode.
-#'        See \href{http://eddylab.org/infernal/}{Infernal} documentation for
-#'        more information.
+#'     See \href{http://eddylab.org/infernal/}{Infernal} documentation for
+#'     more information.
 #' @param algorithm (\code{character} string) Alignment algorithm. Options are
-#'        "optacc" and "cyk". Default: "optacc"
+#'     "optacc" and "cyk". Default: "optacc"
 #' @param sample (\code{logical} scalar) Sample an alignment from the posterior
-#'        distribution of alignments.
+#'     distribution of alignments.
 #' @param seed (\code{integer} scalar) Random seed for sampling an alignment.
 #' @param notrunc (\code{logical} scalar) Turn off truncated alignment
-#'        algorithms.
+#'     algorithms.
 #' @param sub (\code{logical} scalar) urn on the sub model construction and
-#'        alignment procedure
+#'     alignment procedure
 #' @param hbanded (\code{logical} scalar) Accelerate alignment by pruning away
-#'        regions of the CMDP matrix that are deemed negligible by an HMM.
-#'        Default: TRUE
+#'     regions of the CMDP matrix that are deemed negligible by an HMM.
+#'     Default: TRUE
 #' @param tau (\code{numeric} scalar) Tail loss probability used during HMM band
-#'        calculation. Default: 1E-7
+#'     calculation. Default: 1E-7
 #' @param mxsize (\code{numeric} scalar) The maximum DP matrix size, in Mb.
-#'        Maximum potential memory usage is approximately cpu*mxsize, although
-#'        this is usually not realized.
-#'        See \href{http://eddylab.org/infernal/}{Infernal} documentation for
-#'        more information.
+#'     Maximum potential memory usage is approximately cpu*mxsize, although
+#'     this is usually not realized.
+#'     See \href{http://eddylab.org/infernal/}{Infernal} documentation for
+#'     more information.
 #' @param fixedtau (\code{logical} scalar) Turn off HMM band tightening.
 #' @param maxtau (\code{numeric} scalar) Maximum allowed value for tau
-#'        during band tightening. Default: 0.05
+#'     during band tightening. Default: 0.05
 #' @param small (\code{logical} scalar) Use the divide and conquer CYK alignment
-#'        algorithm, greatly reducing memory consumption.
+#'     algorithm, greatly reducing memory consumption.
 #' @param sfile (\code{character} filename) Dump per-sequence alignment score
-#'        and timing information to file.
+#'     and timing information to file.
 #' @param tfile (\code{character} filename) Dump tabular sequence tracebacks for
-#'        each individual sequence to a file.
+#'     each individual sequence to a file.
 #' @param ifile (\code{character} filename) Dump per-sequence insert information
-#'        to file.
+#'     to file.
 #' @param elfile (\code{character} filename) Dump per-sequence EL state (local
-#'        end) insert information to file.
-#' @param mapali (\code{character} filename) Read the alignment from the file used
-#'        to build the model aligns it as a single object to the CM, along with
-#'        sequences in \code{"seq"}.
+#'     end) insert information to file.
+#' @param mapali (\code{character} filename) Read the alignment from the file
+#'     used
+#'     to build the model aligns it as a single object to the CM, along with
+#'     sequences in \code{"seq"}.
 #' @param mapstr (\code{logical} scalar) Must be used in combination with
-#'        \code{mapali}. Propogate structural information for any pseudoknots
-#'        that exist in \code{mapali} to the output alignment.
+#'     \code{mapali}. Propogate structural information for any pseudoknots
+#'     that exist in \code{mapali} to the output alignment.
 #' @param dnaout (\code{logical} scalar) Output the alignments as DNA sequence
-#'        alignments, instead of RNA ones.
+#'     alignments, instead of RNA ones.
 #' @param noprob (\code{logical} scalar) Do not annotate the output alignment
-#'        with posterior probabilities.
+#'     with posterior probabilities.
 #' @param matchonly (\code{logical} scalar) Only include match columns in the
-#'        output alignment, do not include any insertions relativeto the
-#'        consensus model.
+#'     output alignment, do not include any insertions relativeto the
+#'     consensus model.
 #' @param ileaved (\code{logical} scalar) Output the alignment in interleaved
-#'        Stockholm format of a fixed width that may be more convenient for
-#'        examination.
+#'     Stockholm format of a fixed width that may be more convenient for
+#'     examination.
 #' @param regress (\code{character} filename) Save an additional copy of the
-#'        output alignment with no author information to file.
+#'     output alignment with no author information to file.
 #' @param verbose (\code{logical} scalar) Output additional information in the
-#'        tabular scores output.
+#'     tabular scores output.
 #' @param cpu (\code{integer} scalar) The number of cpus to use.
 #' @param mpi (\code{logical} scalar) Run as an MPI parallel program.
 #' @param extra (\code{character} vector) Additional advanced options to pass
-#'        to `cmalign`.
+#'     to `cmalign`.
 #' @param glocal (\code{logical} scalar) (Deprecated) see "global".
 #'
 #' @return the aligned sequences, as returned by
@@ -445,8 +456,10 @@ cmalign <- function(
         warning("Use of 'glocal' in cmalign is deprecated. ",
                 "Please use 'global' instead.")
         if (!missing(global)) {
-            stop("'global' and 'glocal' should not both be specified in",
-                 " cmalign.")
+            stop(
+                "'global' and 'glocal' should not both be specified in",
+                " cmalign."
+            )
         }
         global <- glocal
     }
@@ -504,8 +517,10 @@ cmalign <- function(
             ShortRead::writeFasta(seq, seqfile)
             on.exit(unlink(seqfile))
         } else {
-            stop("'seq' should be a filename, XStringSet, ShortRead, ",
-                 "or character vector.")
+            stop(
+                "'seq' should be a filename, XStringSet, ShortRead, ",
+                "or character vector."
+            )
         }
     }
     args <- c(args, cmfile, seqfile)
@@ -523,7 +538,8 @@ cmalign <- function(
 #'
 #' @param msafile (\code{character} filename) filename of MSA file to read.
 #' @param cmfile_out (\code{character} filename) filename to write CM to.
-#' @param name (\code{character} string) name of the CM (option \code{-N} to cmbuild). The default uses the
+#' @param name (\code{character} string) name of the CM (option \code{-N} to
+#'     cmbuild). The default uses the
 #'     name(s) given in the alignment file, or the name of the alignment file.
 #' @param force (\code{logical} scalar) overwrite \code{cmfile_out} if it
 #'     exists
@@ -569,14 +585,14 @@ cmalign <- function(
 #' @param gibbs (\code{logical} scalar) use Gibbs sampling instead of
 #'     maximum likelihood with \code{refine}.
 #' @param seed (\code{integer} scalar) pseudorandom number seed for Gibbs
-#'    sampling.
+#'     sampling.
 #' @param cyk (\code{logical} scalar) use the CYK alignment algorithm with
-#'    \code{refine}.
+#'     \code{refine}.
 #' @param notrunc (\code{logical} scalar) turn off the truncated alignment
-#'    algorithm with \code{refine}.
+#'     algorithm with \code{refine}.
 #' @param extra (\code{character}) additional arguments to pass to cmbuild.
 #' @param quiet (\code{logical} scalar) do not print cmbuild output to the
-#'    console.
+#'     console.
 #'
 #' @return \code{NULL}, invisibly
 #' @export

@@ -1,6 +1,7 @@
 #' Covariance Model for 5.8S rRNA
 #'
-#' This is a convenience function to return the path the RFAM 5.8S rRNA covariance model,
+#' This is a convenience function to return the path the RFAM 5.8S rRNA
+#' covariance model,
 #' for use in \code{\link{cmsearch}} or \code{\link{cmalign}}.
 #' The original file is from \url{https://rfam.xfam.org/family/RF00002/cm}.
 #'

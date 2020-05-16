@@ -41,7 +41,8 @@ cmbuild(
 
 \item{cmfile_out}{(\code{character} filename) filename to write CM to.}
 
-\item{name}{(\code{character} string) name of the CM (option \code{-N} to cmbuild). The default uses the
+\item{name}{(\code{character} string) name of the CM (option \code{-N} to
+cmbuild). The default uses the
 name(s) given in the alignment file, or the name of the alignment file.}
 
 \item{force}{(\code{logical} scalar) overwrite \code{cmfile_out} if it

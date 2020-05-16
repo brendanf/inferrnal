@@ -55,8 +55,8 @@ If a filename, the file can be of any type supported by Infernal.}
 
 \item{glocal}{(logical of length 1) Whether to run the search in glocal mode
 (global with respect to the model, local with respect to the sequence).
-When \code{TRUE}, the search is faster, but will fail to find matches with
-only partially homologous structure.}
+When \code{TRUE}, the search is faster, but will fail to find matches
+with only partially homologous structure.}
 
 \item{Z}{(\code{numeric} scalar) Effective search space size in Mb for the
 purposes of calculating E-values.}
@@ -98,14 +98,16 @@ Default: NULL}
 defined in the CM to set hit reporting and inclusion thresholds.}
 
 \item{cut_nc}{(\code{logical} scalar) Use the NC (noise cutoff) bit score
-thresholds defined in the CM to set hit reporting and inclusionthresholds.}
+thresholds defined in the CM to set hit reporting and inclusion
+thresholds.}
 
 \item{cut_tc}{(\code{logical} scalar) Use the TC (trusted cutoff) bit score
-thresholds defined in the CM to set hit reporting and inclusionthresholds.}
+thresholds defined in the CM to set hit reporting and inclusion thresholds.}
 
 \item{filter_strategy}{(\code{character} string) Filtering strategy for the
 acceleration pipeline. Options, from slowest (most sensitive) to fastest
-(least sensitive) are "max", "nohmm", "mid", "default", "rfam", "hmmonly".}
+(least sensitive) are "max", "nohmm", "mid", "default", "rfam",
+"hmmonly".}
 
 \item{FZ}{(\code{numeric} scalar) Effective database size in Mb for
 determining filter thresholds.}
@@ -142,8 +144,8 @@ target sequences.}
 strand of target sequences.}
 
 \item{tformat}{(\code{logical} scalar) Format of the sequences in "seq".
-Options are "fasta", "embl", "genbank", "ddbj", "stockholm", "pfam", "a2m",
-"afa", "clustal", and "phylip". Default: autodetect}
+Options are "fasta", "embl", "genbank", "ddbj", "stockholm", "pfam",
+"a2m", "afa", "clustal", and "phylip". Default: autodetect}
 
 \item{cpu}{(\code{integer} scalar) The number of threads to use in the
 search.}

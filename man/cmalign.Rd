@@ -103,7 +103,8 @@ to file.}
 \item{elfile}{(\code{character} filename) Dump per-sequence EL state (local
 end) insert information to file.}
 
-\item{mapali}{(\code{character} filename) Read the alignment from the file used
+\item{mapali}{(\code{character} filename) Read the alignment from the file
+used
 to build the model aligns it as a single object to the CM, along with
 sequences in \code{"seq"}.}
 
