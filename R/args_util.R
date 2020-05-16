@@ -15,9 +15,11 @@ check_null_args <- function(argval, argname, allow_null) {
                 assertthat::is.flag(allow_null),
                 !is.na(allow_null)
             )
-            stop(if (is.null(argval)) "NULL" else "NA",
-                 " value for option '", arg2opt(argname),
-                 "' but allow_null is FALSE.")
+            stop(
+                if (is.null(argval)) "NULL" else "NA",
+                " value for option '", arg2opt(argname),
+                "' but allow_null is FALSE."
+            )
         }
     }
     FALSE
@@ -46,8 +48,7 @@ flag_opt <- function(argval, argname = deparse(substitute(argval)), invert = FAL
     )
 }
 
-multiflag_opt <- function(argval, choices,
-                              allow_null = TRUE) {
+multiflag_opt <- function(argval, choices, allow_null = TRUE) {
     assertthat::assert_that(
         is.character(choices),
         assertthat::is.flag(allow_null),
@@ -57,8 +58,10 @@ multiflag_opt <- function(argval, choices,
         if (isTRUE(allow_null)) {
             return(character())
         } else {
-            stop(if (is.null(argval)) "NULL" else "NA",
-                 " value for multiflag option but 'allow_null' is FALSE.")
+            stop(
+                if (is.null(argval)) "NULL" else "NA",
+                " value for multiflag option but 'allow_null' is FALSE."
+            )
         }
     }
     assertthat::assert_that(
@@ -68,9 +71,8 @@ multiflag_opt <- function(argval, choices,
     c(arg2opt(argval))
 }
 
-string_opt <- function(argval,
-                              argname = deparse(substitute(argval)),
-                              choices = NULL, allow_null = TRUE) {
+string_opt <- function(argval, argname = deparse(substitute(argval)),
+                        choices = NULL, allow_null = TRUE) {
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(
         assertthat::is.string(argval)
@@ -84,9 +86,8 @@ string_opt <- function(argval,
     c(arg2opt(argname), argval)
 }
 
-infile_opt <- function(argval,
-                           argname = deparse(substitute(argval)),
-                           allow_null = TRUE) {
+infile_opt <- function(argval, argname = deparse(substitute(argval)),
+                        allow_null = TRUE) {
     assertthat::assert_that(assertthat::is.string(argname))
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(
@@ -97,7 +98,7 @@ infile_opt <- function(argval,
 }
 
 float_opt <- function(argval, argname = deparse(substitute(argval)),
-                          allow_null = TRUE) {
+                        allow_null = TRUE) {
     assertthat::assert_that(assertthat::is.string(argname))
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(assertthat::is.number(argval))
@@ -105,7 +106,7 @@ float_opt <- function(argval, argname = deparse(substitute(argval)),
 }
 
 nonneg_float_opt <- function(argval, argname = deparse(substitute(argval)),
-                                 allow_null = TRUE) {
+                            allow_null = TRUE) {
     assertthat::assert_that(assertthat::is.string(argname))
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(
@@ -116,7 +117,7 @@ nonneg_float_opt <- function(argval, argname = deparse(substitute(argval)),
 }
 
 fraction_opt <- function(argval, argname = deparse(substitute(argval)),
-                             allow_null = TRUE) {
+                        allow_null = TRUE) {
     assertthat::assert_that(assertthat::is.string(argname))
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(
@@ -128,7 +129,7 @@ fraction_opt <- function(argval, argname = deparse(substitute(argval)),
 }
 
 percent_opt <- function(argval, argname = deparse(substitute(argval)),
-                            allow_null = TRUE) {
+                        allow_null = TRUE) {
     assertthat::assert_that(assertthat::is.string(argname))
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(
@@ -140,7 +141,7 @@ percent_opt <- function(argval, argname = deparse(substitute(argval)),
 }
 
 integer_opt <- function(argval, argname = deparse(substitute(argval)),
-                            allow_null = TRUE) {
+                        allow_null = TRUE) {
     assertthat::assert_that(assertthat::is.string(argname))
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(
@@ -151,7 +152,7 @@ integer_opt <- function(argval, argname = deparse(substitute(argval)),
 }
 
 count_opt <- function(argval, argname = deparse(substitute(argval)),
-                          allow_null = TRUE) {
+                        allow_null = TRUE) {
     assertthat::assert_that(assertthat::is.string(argname))
     if (check_null_args(argval, argname, allow_null)) return(character())
     assertthat::assert_that(assertthat::is.count(argval))

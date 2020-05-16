@@ -240,7 +240,7 @@ from RFAM. It is included as a sample file in `inferrnal`.
 
 ``` r
 new_cm <- file.path(tempdir(), "5_8S.cm")
-cmbuild(new_cm, msafile = stk_5_8S(), force = TRUE, verbose = TRUE)
+cmbuild(new_cm, msafile = stk_5_8S(), force = TRUE, quiet = FALSE)
 ```
 
 This CM is not calibrated, so it cannot be used for `cmsearch`, but it
@@ -250,8 +250,8 @@ can be used in `cmalign`.
 aln2 <- cmalign(new_cm, unaln_seq, cpu = 1)
 ```
 
-The resulting alignment is the same as using the CM which was generated
-by RFAM, because they are based on the same seed alignment, and used the
+The resulting alignment is the same as the one created using the CM from
+RFAM, because they are based on the same seed alignment, and used the
 same (default) options for `cmbuild`.
 
 ``` r

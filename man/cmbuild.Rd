@@ -11,14 +11,14 @@ cmbuild(
   force = FALSE,
   summary_file = NULL,
   reannotated_msa = NULL,
-  consensus_method = c("fast", "hand", "noss"),
+  consensus_method = NULL,
   symfrac = NULL,
   rsearch = NULL,
   null = NULL,
   prior = NULL,
-  weights = c("pb", "gsc", "given", "blosum"),
+  weights = NULL,
   wid = NULL,
-  eff_num = c("ent", "none"),
+  eff_num = NULL,
   ere = NULL,
   eminseq = NULL,
   emaxseq = NULL,
@@ -33,7 +33,7 @@ cmbuild(
   cyk = FALSE,
   notrunc = FALSE,
   extra = NULL,
-  verbose = FALSE
+  quiet = TRUE
 )
 }
 \arguments{
@@ -67,15 +67,15 @@ parameterizing emission scores.}
 
 \item{prior}{(\code{character} filename) Dirichlet prior file.}
 
-\item{weights}{(\code{character}; one of \code{"pb"}, \code{"gsc"},
-\code{"none"}, \code{"given"}, or \code{"blosum"}) sequence weighting
+\item{weights}{(\code{character}; one of \code{"wpb"}, \code{"wgsc"},
+\code{"wnone"}, \code{"wgiven"}, or \code{"wblosum"}) sequence weighting
 method (options \code{--wpb}, \code{--wgsc},
-\code{--wnone}, \code{--wgiven}, and \code{wblosum} to cmbuild).}
+\code{--wnone}, \code{--wgiven}, and \code{--wblosum} to cmbuild).}
 
 \item{wid}{(\code{numeric} scalar) percent identity for clustering when
 \code{weights = "blosum"}.}
 
-\item{eff_num}{(\code{character}; one of \code{"ent"} or \code{"none"})
+\item{eff_num}{(\code{character}; one of \code{"eent"} or \code{"enone"})
 entropy weighting strategy (options \code{--eent} or \code{--enone} to
 cmbuild).}
 
@@ -119,7 +119,8 @@ algorithm with \code{refine}.}
 
 \item{extra}{(\code{character}) additional arguments to pass to cmbuild.}
 
-\item{verbose}{(\code{logical} scalar) print cmbuild output to the console.}
+\item{quiet}{(\code{logical} scalar) do not print cmbuild output to the
+console.}
 }
 \value{
 \code{NULL}, invisibly
@@ -131,9 +132,11 @@ installed.  For more information about options, see the
 \href{http://eddylab.org/infernal/Userguide.pdf}{Infernal documentation}.
 }
 \examples{
-
-# requires that LSUx is installed
-
-
+    cmbuild(
+        msafile = stk_5_8S(),
+        cmfile_out = "/dev/null",
+        force = TRUE,
+        quiet = FALSE
+    )
 
 }

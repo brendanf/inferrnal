@@ -14,3 +14,9 @@ This is a convenience function to return the path the RFAM 5.8S rRNA covariance 
 for use in \code{\link{cmsearch}} or \code{\link{cmalign}}.
 The original file is from \url{https://rfam.xfam.org/family/RF00002/cm}.
 }
+\examples{
+    # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
+    cm <- cm_5_8S()
+    sampfasta <- sample_rRNA_fasta()
+    cmsearch(cm = cm, seq = sampfasta, cpu = 1)
+}

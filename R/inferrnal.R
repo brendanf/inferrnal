@@ -297,7 +297,12 @@ cmsearch <- function(
         }
     }
     args <- c(args, seqfile)
-    system2("cmsearch", args)
+    system2(
+        "cmsearch",
+        args,
+        stdout = if (isTRUE(quiet)) FALSE else "",
+        stderr = if (isTRUE(quiet)) FALSE else ""
+    )
     readr::read_table2(
         tablefile,
         col_names = c(
@@ -535,13 +540,13 @@ cmalign <- function(
 #'     parameterizing emission scores.
 #' @param null (\code{character} filename) null model file.
 #' @param prior (\code{character} filename) Dirichlet prior file.
-#' @param weights (\code{character}; one of \code{"pb"}, \code{"gsc"},
-#'     \code{"none"}, \code{"given"}, or \code{"blosum"}) sequence weighting
+#' @param weights (\code{character}; one of \code{"wpb"}, \code{"wgsc"},
+#'     \code{"wnone"}, \code{"wgiven"}, or \code{"wblosum"}) sequence weighting
 #'     method (options \code{--wpb}, \code{--wgsc},
-#'     \code{--wnone}, \code{--wgiven}, and \code{wblosum} to cmbuild).
+#'     \code{--wnone}, \code{--wgiven}, and \code{--wblosum} to cmbuild).
 #' @param wid (\code{numeric} scalar) percent identity for clustering when
 #'     \code{weights = "blosum"}.
-#' @param eff_num (\code{character}; one of \code{"ent"} or \code{"none"})
+#' @param eff_num (\code{character}; one of \code{"eent"} or \code{"enone"})
 #'     entropy weighting strategy (options \code{--eent} or \code{--enone} to
 #'     cmbuild).
 #' @param ere (\code{numeric} scalar) target mean match state relative entropy.
@@ -570,16 +575,19 @@ cmalign <- function(
 #' @param notrunc (\code{logical} scalar) turn off the truncated alignment
 #'    algorithm with \code{refine}.
 #' @param extra (\code{character}) additional arguments to pass to cmbuild.
-#' @param verbose (\code{logical} scalar) print cmbuild output to the console.
+#' @param quiet (\code{logical} scalar) do not print cmbuild output to the
+#'    console.
 #'
 #' @return \code{NULL}, invisibly
 #' @export
 #'
 #' @examples
-#'
-#' # requires that LSUx is installed
-#'
-#'
+#'     cmbuild(
+#'         msafile = stk_5_8S(),
+#'         cmfile_out = "/dev/null",
+#'         force = TRUE,
+#'         quiet = FALSE
+#'     )
 #'
 cmbuild <- function(
     msafile,
@@ -588,14 +596,14 @@ cmbuild <- function(
     force = FALSE,
     summary_file = NULL,
     reannotated_msa = NULL,
-    consensus_method = c("fast", "hand", "noss"),
+    consensus_method = NULL,
     symfrac = NULL,
     rsearch = NULL,
     null = NULL,
     prior = NULL,
-    weights = c("pb", "gsc", "given", "blosum"),
+    weights = NULL,
     wid = NULL,
-    eff_num = c("ent", "none"),
+    eff_num = NULL,
     ere = NULL,
     eminseq = NULL,
     emaxseq = NULL,
@@ -610,181 +618,45 @@ cmbuild <- function(
     cyk = FALSE,
     notrunc = FALSE,
     extra = NULL,
-    verbose = FALSE
+    quiet = TRUE
 ) {
-    args <- character()
+    args <- c(
+        string_opt(name, "n"),
+        flag_opt(force, "F"),
+        string_opt(summary_file, "O"),
+        multiflag_opt(consensus_method, choices = c("fast", "hand", "noss")),
+        fraction_opt(symfrac),
+        infile_opt(rsearch),
+        infile_opt(null),
+        infile_opt(prior),
+        multiflag_opt(weights, choices = c("wpb", "wgsc", "wgiven", "wblosum")),
+        percent_opt(wid),
+        multiflag_opt(eff_num, choices = c("eent", "enone")),
+        nonneg_float_opt(ere),
+        nonneg_float_opt(eminseq),
+        nonneg_float_opt(emaxseq),
+        nonneg_float_opt(ehmmre),
+        nonneg_float_opt(eset),
+        nonneg_float_opt(p7ere),
+        flag_opt(p7ml),
+        string_opt(refine),
+        flag_opt(local),
+        flag_opt(gibbs),
+        count_opt(seed),
+        flag_opt(cyk),
+        flag_opt(notrunc),
+        extra,
+        cmfile_out,
+        msafile
+    )
 
-    if (!is.null(name)) {
-        assertthat::assert_that(assertthat::is.string(name))
-        args <- c(args, "-n", name)
-    }
-
-    assertthat::assert_that(assertthat::is.flag(force))
-    if (isTRUE(force)) {
-        args <- c(args, "-F")
-    }
-
-    if (!is.null(summary_file)) {
-        assertthat::assert_that(assertthat::is.string(summary_file))
-        args <- c(args, "-O", summary_file)
-    }
-
-    if (!missing(consensus_method)) {
-        consensus_method = match.arg(consensus_method)
-        args <- c(args, paste0("--", consensus_method))
-    }
-
-    if (!is.null(symfrac)) {
-        assertthat::assert_that(
-            assertthat::is.number(symfrac),
-            symfrac >= 0,
-            symfrac <= 1
-        )
-        args <- c(args, "--symfrac", symfrac)
-    }
-
-    if (!is.null(rsearch)) {
-        assertthat::assert_that(
-            assertthat::is.string(rsearch),
-            assertthat::is.readable(rsearch)
-        )
-        args <- c(args, "--rsearch", rsearch)
-    }
-
-    if (!is.null(null)) {
-        assertthat::assert_that(
-            assertthat::is.string(null),
-            assertthat::is.readable(null)
-        )
-        args <- c(args, "--null", null)
-    }
-
-    if (!is.null(prior)) {
-        assertthat::assert_that(
-            assertthat::is.string(prior),
-            assertthat::is.readable(prior)
-        )
-        args <- c(args, "--prior", prior)
-    }
-
-    if (!missing(weights)) {
-        weights = match.arg(weights)
-        args <- c(args, paste0("--w", weights))
-    }
-
-    if (!is.null(wid)) {
-        assertthat::assert_that(
-            assertthat::is.number(wid),
-            wid >= 0,
-            wid <= 100
-        )
-        args <- c(args, "--wid", wid)
-    }
-
-    if (!missing(eff_num)) {
-        eff_num = match.arg(eff_num)
-        args <- c(args, paste0("--e", eff_num))
-    }
-
-    if (!is.null(ere)) {
-        assertthat::assert_that(
-            assertthat::is.number(ere),
-            ere >= 0
-        )
-        args <- c(args, "--ere", ere)
-    }
-
-    if (!is.null(eminseq)) {
-        assertthat::assert_that(
-            assertthat::is.number(eminseq),
-            eminseq >= 0
-        )
-        args <- c(args, "--eminseq", eminseq)
-    }
-
-    if (!is.null(emaxseq)) {
-        assertthat::assert_that(
-            assertthat::is.number(emaxseq),
-            emaxseq >= 0
-        )
-        args <- c(args, "--emaxseq", emaxseq)
-    }
-
-    if (!is.null(ehmmre)) {
-        assertthat::assert_that(
-            assertthat::is.number(ehmmre),
-            ehmmre >= 0
-        )
-        args <- c(args, "--ehmmre", ehmmre)
-    }
-
-    if (!is.null(eset)) {
-        assertthat::assert_that(
-            assertthat::is.number(eset),
-            eset >= 0
-        )
-        args <- c(args, "--eset", eset)
-    }
-
-    if (!is.null(p7ere)) {
-        assertthat::assert_that(
-            assertthat::is.number(p7ere),
-            p7ere >= 0
-        )
-        args <- c(args, "--p7ere", p7ere)
-    }
-
-    assertthat::assert_that(assertthat::is.flag(p7ml))
-    if (isTRUE(p7ml)) {
-        args <- c(args, "--p7ml")
-    }
-
-    if (!is.null(refine)) {
-        assertthat::assert_that(assertthat::is.string(refine))
-        args <- c(args, "--refine", refine)
-    }
-
-    assertthat::assert_that(assertthat::is.flag(local))
-    if (isTRUE(local)) {
-        args <- c(args, "-l")
-    }
-
-    assertthat::assert_that(assertthat::is.flag(gibbs))
-    if (isTRUE(gibbs)) {
-        args <- c(args, "--gibbs")
-    }
-
-    if (!is.null(seed)) {
-        assertthat::assert_that(
-            assertthat::is.count(seed)
-        )
-        args <- c(args, "--seed", seed)
-    }
-
-    assertthat::assert_that(assertthat::is.flag(cyk))
-    if (isTRUE(cyk)) {
-        args <- c(args, "--cyk")
-    }
-
-    assertthat::assert_that(assertthat::is.flag(notrunc))
-    if (isTRUE(notrunc)) {
-        args <- c(args, "--notrunc")
-    }
-
-    if (!is.null(extra)) {
-        assertthat::assert_that(is.character(extra))
-        args <- c(args, extra)
-    }
-
-    args <- c(args, cmfile_out, msafile)
-
-    assertthat::assert_that(assertthat::is.flag(verbose))
+    assertthat::assert_that(assertthat::is.flag(quiet))
 
     return <- system2(
         command = "cmbuild",
         args = args,
-        stdout = if (verbose) "" else FALSE,
-        stderr = if (verbose) "" else FALSE
+        stdout = if (isTRUE(quiet)) FALSE else "",
+        stderr = if (isTRUE(quiet)) FALSE else ""
     )
 
     if (return != 0) stop("cmbuild failed with exit code ", return)

@@ -6,7 +6,7 @@ test_that("cmbuild can replicate RDP CM", {
             msafile = stk_5_8S(),
             cmfile_out = test_cm,
             force = TRUE,
-            verbose = TRUE)
+            quiet = TRUE)
     )
     # these lines have timestamps and system paths that are not expected to
     # replicate, or are for the calibrated cm.

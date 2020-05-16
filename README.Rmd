@@ -131,7 +131,7 @@ It is included as a sample file in `inferrnal`.
 
 ```{r}
 new_cm <- file.path(tempdir(), "5_8S.cm")
-cmbuild(new_cm, msafile = stk_5_8S(), force = TRUE, verbose = TRUE)
+cmbuild(new_cm, msafile = stk_5_8S(), force = TRUE, quiet = FALSE)
 ```
 
 This CM is not calibrated, so it cannot be used for `cmsearch`,

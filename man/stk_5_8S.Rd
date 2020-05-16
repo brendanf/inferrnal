@@ -16,3 +16,11 @@ for use in \code{\link{cmbuild}}.
 The original file is from
 \url{https://rfam.xfam.org/family/RF00002/stockholm}.
 }
+\examples{
+    cmbuild(
+        msafile = stk_5_8S(),
+        cmfile_out = "/dev/null",
+        force = TRUE,
+        quiet = FALSE
+    )
+}

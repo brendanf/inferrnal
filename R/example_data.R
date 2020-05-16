@@ -5,6 +5,11 @@
 #' The original file is from \url{https://rfam.xfam.org/family/RF00002/cm}.
 #'
 #' @return (\code{character} string) the path to the CM file
+#' @examples
+#'     # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
+#'     cm <- cm_5_8S()
+#'     sampfasta <- sample_rRNA_fasta()
+#'     cmsearch(cm = cm, seq = sampfasta, cpu = 1)
 #' @export
 cm_5_8S <- function() {
     system.file(file.path("extdata", "RF00002.cm"), package = "inferrnal")
@@ -20,6 +25,13 @@ cm_5_8S <- function() {
 #'
 #' @return (\code{character} string) the path to the stk file
 #' @export
+#' @examples
+#'     cmbuild(
+#'         msafile = stk_5_8S(),
+#'         cmfile_out = "/dev/null",
+#'         force = TRUE,
+#'         quiet = FALSE
+#'     )
 stk_5_8S <- function() {
     system.file(file.path("extdata", "RF00002.stk"), package = "inferrnal")
 }
@@ -35,6 +47,21 @@ stk_5_8S <- function() {
 #' @rdname sample_data
 #' @return a path to the sample data file
 #' @export
+#' @examples
+#'     # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
+#'     cm <- cm_5_8S()
+#'     sampfasta <- sample_rRNA_fasta()
+#'     cmsearch(cm = cm, seq = sampfasta, cpu = 1)
+#'
+#'     # read a stockholm alignment
+#'     msafile <- sample_rRNA_stk()
+#'     msa <- read_stockholm_msa(msafile)
+#'     msa$alignment
+#'     # consensus secondary structure
+#'     msa$SS_cons
+#'     # reference sequence
+#'     msa$RF
+#'
 sample_rRNA_fasta <- function() {
     system.file(file.path("extdata", "sample.fasta"), package = "inferrnal")
 }

@@ -22,3 +22,19 @@ study. \code{sample_rRNA_fasta} is a FASTA file of amplicon sequences,
 only the 5.8S region, and \code{sample_rRNA_stk} is a Stockholm-format
 alignment of the 5.8S region.
 }
+\examples{
+    # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
+    cm <- cm_5_8S()
+    sampfasta <- sample_rRNA_fasta()
+    cmsearch(cm = cm, seq = sampfasta, cpu = 1)
+
+    # read a stockholm alignment
+    msafile <- sample_rRNA_stk()
+    msa <- read_stockholm_msa(msafile)
+    msa$alignment
+    # consensus secondary structure
+    msa$SS_cons
+    # reference sequence
+    msa$RF
+
+}
