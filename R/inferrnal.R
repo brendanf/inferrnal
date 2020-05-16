@@ -1,15 +1,15 @@
 
 parse_stockholm_msa_chunk <- function(x, pos, acc) {
 
-    gc <- stringr::str_match(x, "#=GC +([^ ]+) +(.+)")
-    gc <- gc[,2:3, drop = FALSE]
+    gc <- regmatches(x, regexec("#=GC +([^ ]+) +(.+)", x))
+    gc <- do.call(rbind, lapply(gc, `[`, i = 2:3))
     gc <- gc[stats::complete.cases(gc), , drop = FALSE]
     for (i in seq_len(nrow(gc))) {
         attr(acc, gc[i,1]) <- paste0(attr(acc, gc[i,1]), gc[i,2])
     }
 
-    x <- stringr::str_match(x, "^(\\d+\\|)?([^#][^ ]*) +([^ ]+)$")
-    x <- x[,3:4, drop = FALSE]
+    x <- regmatches(x, regexec("^(\\d+\\|)?([^#][^ ]*) +([^ ]+)$", x))
+    x <- do.call(rbind, lapply(x, `[`, i = 3:4))
     x <- x[stats::complete.cases(x), , drop = FALSE]
     for (i in seq_len(nrow(x))) {
         if (x[i,1] %in% names(acc)) {

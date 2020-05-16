@@ -9,10 +9,11 @@ test_that("glocal is deprecated in cmalign", {
 })
 
 test_that("glocal and global don't work together", {
-    expect_warning(
-        expect_error(
+    expect_error(
+        suppressWarnings(
             cmalign(cm_5_8S(), sample_rRNA_5_8S(), cpu = 1,
-                    glocal = TRUE, global = TRUE))
+                    glocal = TRUE, global = TRUE)
+        )
     )
 })
 

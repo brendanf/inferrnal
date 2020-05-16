@@ -21,7 +21,6 @@ Imports:
     assertthat,
     Biostrings,
     readr,
-    stringr,
     methods,
     stats
 RoxygenNote: 7.0.2
@@ -39,7 +38,6 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
-    covr
-Enhances:
+    covr,
     ShortRead
 VignetteBuilder: knitr
