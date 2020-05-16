@@ -23,6 +23,7 @@ test_that("can read file", {
                 package = "inferrnal"
             )
         ),
-        file = "read_stockholm_msa_out"
+        file = "read_stockholm_msa_out",
+        update = FALSE
     )
 })

@@ -1,6 +1,7 @@
 test_that("cmalign works without regression", {
   expect_known_value(cmalign(cm_5_8S(), sample_rRNA_5_8S(), cpu = 1),
-                     file = "cmalign")
+                     file = "cmalign",
+                     update = FALSE)
 })
 
 test_that("glocal is deprecated in cmalign", {
@@ -24,17 +25,20 @@ dnachar <- as.character(dnass)
 dnasr <- ShortRead::ShortRead(dnass, Biostrings::BStringSet(names(dnass)))
 test_that("cmalign works for different input formats", {
     expect_known_value(cmalign(cm_5_8S(), rnass, cpu = 1),
-                       file = "cmalign")
+                       file = "cmalign",
+                       update = FALSE)
     expect_known_value(cmalign(cm_5_8S(), dnass, cpu = 1),
-                       file = "cmalign")
+                       file = "cmalign",
+                       update = FALSE)
     expect_known_value(cmalign(cm_5_8S(), rnachar, cpu = 1),
-                       file = "cmalign")
+                       file = "cmalign",
+                       update = FALSE)
     expect_known_value(cmalign(cm_5_8S(), dnachar, cpu = 1),
-                       file = "cmalign")
+                       file = "cmalign",
+                       update = FALSE)
     expect_known_value(cmalign(cm_5_8S(), dnasr, cpu = 1),
-                       file = "cmalign")
-    expect_error(cmalign(cm_5_8S(), "This is a bogus sequence file", cpu = 1),
-                       file = "cmalign")
-    expect_error(cmalign(cm_5_8S(), 17, cpu = 1),
-                 file = "cmalign")
+                       file = "cmalign",
+                       update = FALSE)
+    expect_error(cmalign(cm_5_8S(), "This is a bogus sequence file", cpu = 1))
+    expect_error(cmalign(cm_5_8S(), 17, cpu = 1))
 })

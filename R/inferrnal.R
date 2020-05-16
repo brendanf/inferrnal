@@ -49,14 +49,27 @@ read_stockholm_msa <- function(stockholm, dna = FALSE) {
                                 methods::is(stockholm, "connection"),
                             assertthat::is.flag(dna))
 
-    seqs <-
-        readr::read_lines_chunked(
-            stockholm,
-            readr::AccumulateCallback$new(
-                parse_stockholm_msa_chunk,
-                acc = list()
-            )
+    if (is.character(stockholm)) {
+        stockholm <- file(stockholm, open = "rt")
+    }
+
+    if (!isOpen(stockholm)) {
+        open(stockholm, open = "rt")
+    }
+
+    on.exit(close(stockholm))
+
+    seqs <- list()
+    more = TRUE
+    while (TRUE) {
+        lines <- readLines(stockholm, 1000, ok = TRUE)
+        if (length(lines) == 0) break
+        seqs <- parse_stockholm_msa_chunk(
+            lines,
+            0,
+            seqs
         )
+    }
     out <- attributes(seqs)
     if (isTRUE(dna)) {
         out[["alignment"]] <- Biostrings::DNAMultipleAlignment(unlist(seqs))
@@ -154,7 +167,7 @@ read_stockholm_msa <- function(stockholm, dna = FALSE) {
 #' @param quiet (\code{logical} scalar) Suppress standard output of `cmsearch`,
 #'     which can be long.
 #'
-#' @return a \code{\link[tibble]{tibble}} with columns:
+#' @return a \code{\link{data.frame}} with columns:
 #'     \itemize{
 #'         \item{target_name}{ (character) the name of the target sequence}
 #'         \item{taget_accession}{(character) the target's accession number}
@@ -313,14 +326,49 @@ cmsearch <- function(
         stdout = if (isTRUE(quiet)) FALSE else "",
         stderr = if (isTRUE(quiet)) FALSE else ""
     )
-    readr::read_table2(
+    utils::read.table(
         tablefile,
-        col_names = c(
-            "target_name", "target_accession", "query_name", "query_accession",
-            "mdl", "mdl_from", "mdl_to", "seq_from", "seq_to", "strand",
-            "trunc", "pass", "gc", "bias", "score", "E_value", "inc",
-            "description"),
-        col_types = "ccccciiiicciddddcc", comment = "#")
+        col.names = c(
+
+            #character
+            "target_name",
+            "target_accession",
+            "query_name",
+            "query_accession",
+            "mdl",
+
+            #integer
+            "mdl_from",
+            "mdl_to",
+            "seq_from",
+            "seq_to",
+
+            # character
+            "strand",
+            "trunc",
+
+            # integer
+            "pass",
+
+            # numeric
+            "gc",
+            "bias",
+            "score",
+            "E_value",
+
+            #character
+            "inc",
+            "description"
+        ),
+        colClasses = c(
+            rep("character", 5),
+            rep("integer", 4),
+            rep("character", 2),
+            "integer",
+            rep("numeric", 4),
+            rep("character", 2)
+        ),
+        comment.char = "#")
 }
 
 

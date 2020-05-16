@@ -161,7 +161,7 @@ mpirun.}
 which can be long.}
 }
 \value{
-a \code{\link[tibble]{tibble}} with columns:
+a \code{\link{data.frame}} with columns:
     \itemize{
         \item{target_name}{ (character) the name of the target sequence}
         \item{taget_accession}{(character) the target's accession number}
