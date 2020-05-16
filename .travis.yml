@@ -7,7 +7,9 @@ r:
   - bioc-devel
 cache: packages
 apt-packages: infernal
-bioc_packages: BiocCheck
+bioc_packages:
+  - BiocCheck
+  - ShortRead
 bioc_check: true
 after_success:
   - Rscript -e 'covr::codecov()'
