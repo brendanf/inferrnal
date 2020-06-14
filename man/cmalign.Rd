@@ -41,13 +41,13 @@ cmalign(
 \item{cmfile}{(\code{character} filename) path to a covariance model file}
 
 \item{seq}{(\code{character} filename, \code{character} vector,
-\code{\link[Biostrings]{XStringSet}}, or
-\code{\link[ShortRead]{ShortRead}}) sequences to align to the
+\code{\link[Biostrings]{XStringSet-class}}, or
+\code{\link[ShortRead]{ShortRead-class}}) sequences to align to the
 covariance model. This may be given as a character path to a fasta
 file, or the sequences as a character vector object of class
-\code{\link[Biostrings]{DNAStringSet}},
-\code{\link[Biostrings]{RNAStringSet}}, or
-\code{\link[ShortRead]{ShortRead}}.  For \code{cmalign}, the
+\code{\link[Biostrings]{DNAStringSet-class}},
+\code{\link[Biostrings]{RNAStringSet-class}}, or
+\code{\link[ShortRead]{ShortRead-class}}.  For \code{cmalign}, the
 sequences should be known \emph{a priori} to represent the same region
 as the CM; to find the region in longer sequences and align it, use
 the \code{alignment} option of \code{\link{cmsearch}}.}

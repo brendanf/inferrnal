@@ -49,8 +49,8 @@ The covariance model must include calibration data from running
 "\code{cmcalibrate}".}
 
 \item{seq}{(filename, character vector,
-\code{\link[Biostrings]{XStringSet}}, or
-\code{\link[ShortRead]{ShortRead}}) Sequences to search with the CM.
+\code{\link[Biostrings]{XStringSet-class}}, or
+\code{\link[ShortRead]{ShortRead-class}}) Sequences to search with the CM.
 If a filename, the file can be of any type supported by Infernal.}
 
 \item{glocal}{(logical of length 1) Whether to run the search in glocal mode
