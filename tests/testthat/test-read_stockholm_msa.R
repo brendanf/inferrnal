@@ -14,16 +14,28 @@ test_that("fails on nonfile", {
     expect_error(read_stockholm_msa(tempfile("fake")))
 })
 
+ref <- list(
+    alignment = Biostrings::RNAMultipleAlignment(readRDS("msa_alignment.RDS")),
+    GF = readRDS("msa_GF.RDS"),
+    GS = S4Vectors::DataFrame(),
+    GR = S4Vectors::DataFrame(
+        PP = Biostrings::BStringSet(readRDS("msa_GR_PP.RDS"))
+    ),
+    GC = list(
+        SS_cons = Biostrings::BString(readRDS("msa_GC_SS_cons.RDS")),
+        RF = Biostrings::BString(readRDS("msa_GC_RF.RDS"))
+    )
+)
+
 
 test_that("can read file", {
-    expect_known_value(
+    expect_equal(
         read_stockholm_msa(
             system.file(
                 file.path("extdata", "sample.stk"),
                 package = "inferrnal"
             )
         ),
-        file = "read_stockholm_msa_out",
-        update = FALSE
+        ref
     )
 })
