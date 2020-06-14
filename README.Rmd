@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/brendanf/inferrnal.svg?branch=master)](https://travis-ci.com/brendanf/inferrnal)
 [![Codecov test coverage](https://codecov.io/gh/brendanf/inferrnal/branch/master/graph/badge.svg)](https://codecov.io/gh/brendanf/inferrnal?branch=master)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 R Interface to Call Programs from Infernal RNA Covariance Model Package
