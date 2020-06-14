@@ -7,6 +7,8 @@
   advanced options.
 * Add a `"quiet"` argument to suppress the sometimes very large console output
   of `cmsearch()`.
+* `read_stockholm_msa()` parses and returns residue (GR), sequence (GS), and
+  file (GF) annotations.
 
 # Changes in version 0.99.4
 

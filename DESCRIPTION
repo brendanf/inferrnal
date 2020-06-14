@@ -20,6 +20,7 @@ BugReports: https://github.com/brendanf/inferrnal/issues
 Imports: 
     assertthat,
     Biostrings,
+    S4Vectors,
     methods,
     stats
 RoxygenNote: 7.0.2

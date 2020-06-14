@@ -139,7 +139,7 @@ msa <- read_stockholm_msa(alnfile)
 ```
 
 `read_stockholm_msa` returns a named list. The alignment itself is given
-as an `RNAMultipleSequenceAlignment` object in element `alignment`.
+as an `RNAMultipleAlignment` object in element `alignment`.
 
 ``` r
 msa$alignment
