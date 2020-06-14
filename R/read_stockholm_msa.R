@@ -105,9 +105,9 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 #'     msa <- read_stockholm_msa(msafile)
 #'     msa$alignment
 #'     # consensus secondary structure
-#'     msa$SS_cons
+#'     msa$GC$SS_cons
 #'     # reference sequence
-#'     msa$RF
+#'     msa$GC$RF
 read_stockholm_msa <- function(stockholm, dna = FALSE) {
     assertthat::assert_that((assertthat::is.string(stockholm) &&
                                  file.exists(stockholm)) ||

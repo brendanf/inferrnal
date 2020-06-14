@@ -41,7 +41,7 @@ lines.  Other annotations are ignored.
     msa <- read_stockholm_msa(msafile)
     msa$alignment
     # consensus secondary structure
-    msa$SS_cons
+    msa$GC$SS_cons
     # reference sequence
-    msa$RF
+    msa$GC$RF
 }
