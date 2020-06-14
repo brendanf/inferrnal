@@ -7,6 +7,7 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
     for (i in seq_len(nrow(gf))) {
         tag <- gf[i,1]
         value <- gf[i,2]
+        if (is.null(acc$GF)) acc$GF <- character()
         if (tag %in% names(acc$GF)) stop("duplicate #=GF ", tag, "annotation.")
         acc$GF[tag] <- value
     }
@@ -18,7 +19,12 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
     for (i in seq_len(nrow(gc))) {
         tag <- gc[i,1]
         value <- gc[i,2]
-        acc$GC[[tag]] <- paste0(acc$GC[[tag]], value)
+        if (is.null(acc$GC)) acc$GC <- character()
+        if (tag %in% names(acc$GC)) {
+            acc$GC[[tag]] <- paste0(acc$GC[[tag]], value)
+        } else {
+            acc$GC[[tag]] <- value
+        }
     }
 
     # find GS (sequence annotation) lines
@@ -26,16 +32,17 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
     gs <- do.call(rbind, lapply(gs, `[`, i = 2:4))
     gs <- gs[stats::complete.cases(gs), , drop = FALSE]
     for (i in seq_len(nrow(gs))) {
-        tag <- gs[i,1]
-        seq <- gs[i,2]
+        tag <- gs[i,2]
+        seq <- gs[i,1]
         value <- gs[i,3]
-        if (tag %in% acc$GS) {
-            if (seq %in% acc$GS[[tag]]) {
+        if (is.null(acc$GS)) acc$GS <- list()
+        if (tag %in% names(acc$GS)) {
+            if (seq %in% names(acc$GS[[tag]])) {
                 stop("duplicate ", tag, " annotation for sequence ",
                     seq)
-            } else {
-                acc$GS[[tag]] <- character()
             }
+        } else {
+            acc$GS[[tag]] <- character()
         }
         acc$GS[[tag]][seq] <- value
     }
@@ -48,6 +55,7 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
         seq <- gr[i,1]
         tag <- gr[i,2]
         value <- gr[i,3]
+        if (is.null(acc$GR)) acc$GR <- list()
         if (is.null(acc$GR[[tag]])) {
                 acc$GR[[tag]] <- character()
                 acc$GR[[tag]][seq] <- value
@@ -65,6 +73,7 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
         if (x[i,1] %in% names(acc$alignment)) {
             acc$alignment[[x[i,1]]] <- paste0(acc$alignment[[x[i,1]]], x[i,2])
         } else {
+            if (is.null(acc$alignment)) acc$alignment <- character()
             acc$alignment[[x[i,1]]] <- x[i,2]
         }
     }
