@@ -44,9 +44,9 @@ cmalign(
 \code{\link[Biostrings]{XStringSet-class}}, or
 \code{\link[ShortRead]{ShortRead-class}}) sequences to align to the
 covariance model. This may be given as a character path to a fasta
-file, or the sequences as a character vector object of class
-\code{\link[Biostrings]{DNAStringSet-class}},
-\code{\link[Biostrings]{RNAStringSet-class}}, or
+file, the sequences as a character vector, or an object of class
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet-class}},
+\code{\link[Biostrings:XStringSet-class]{RNAStringSet-class}}, or
 \code{\link[ShortRead]{ShortRead-class}}.  For \code{cmalign}, the
 sequences should be known \emph{a priori} to represent the same region
 as the CM; to find the region in longer sequences and align it, use

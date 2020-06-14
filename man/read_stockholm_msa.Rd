@@ -20,14 +20,14 @@ a \code{list}, with elements:
         \item{\code{GF} (\code{character})}{Annotations which apply to the
             entire file.}
         \item{\code{GS} (\code{\link[S4Vectors]{DataFrame-class}} containing one
-            \code{\link[Biostrings]{BStringSet-class}} for each annotation)}{
+            \code{\link[Biostrings:XStringSet-class]{BStringSet-class}} for each annotation)}{
             Annotations which apply to each sequence.}
-        \item{\code{GC} (\code{list} of \code{\link[Biostrings]{BString-class}})}{
+        \item{\code{GC} (\code{list} of \code{\link[Biostrings:XString-class]{BString-class}})}{
             Annotations which apply to each column of the alignment;
             in particular, "\code{SS_cons}" is the consensus secondary
             structure, and "\code{RF}" is the reference line.}
         \item{\code{GR} (\code{\link[S4Vectors]{DataFrame-class}} containing one
-            \code{\link[Biostrings]{BStringSet-class}} for each annotation)}{%
+            \code{\link[Biostrings:XStringSet-class]{BStringSet-class}} for each annotation)}{%
             Annotations which apply to each residue (i.e., each column and
             sequence) in the alignment.}
     }
