@@ -99,11 +99,12 @@ The alignment itself is given as an `RNAMultipleAlignment` object in element `al
 msa$alignment
 ```
 
-Other useful information which Infernal outputs are the consensus secondary structure and the reference annotation, both of which are defined by the CM:
+Other useful information which Infernal outputs are the consensus secondary structure and the reference annotation, both of which are defined by the CM.
+These are given as column ("GC") annotations in the Stockholm alignment file:
 
 ```{r SS_cons}
-msa$SS_cons
-msa$RF
+msa$GC$SS_cons
+msa$GC$RF
 ```
 
 ### cmalign
@@ -118,8 +119,8 @@ unaln_seq <- Biostrings::readRNAStringSet(unaln)
 unaln_seq
 aln <- cmalign(cm, unaln_seq, cpu = 1)
 aln$alignment
-aln$SS_cons
-aln$RF
+aln$GC$SS_cons
+aln$GC$RF
 ```
 
 ## cmbuild
