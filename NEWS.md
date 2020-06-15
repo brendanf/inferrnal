@@ -9,6 +9,11 @@
   of `cmsearch()`.
 * `read_stockholm_msa()` parses and returns residue (GR), sequence (GS), and
   file (GF) annotations.
+* `cmalign()` returns an error rather than an empty alignment when Infernal
+  exits with an error.
+* If `read_stockholm_msa()` is given an open connection, it does not close it
+  when done. (But if given a filename or an unopened connection, it opens and
+  then closes.)
 
 # Changes in version 0.99.4
 

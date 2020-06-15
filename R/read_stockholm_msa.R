@@ -124,14 +124,13 @@ read_stockholm_msa <- function(stockholm, dna = FALSE) {
                             assertthat::is.flag(dna))
 
     if (is.character(stockholm)) {
-        stockholm <- file(stockholm, open = "rt")
+        stockholm <- file(stockholm)
     }
 
     if (!isOpen(stockholm)) {
         open(stockholm, open = "rt")
+        on.exit(close(stockholm))
     }
-
-    on.exit(close(stockholm))
 
     out <- list(alignment = list(), GF = character(), GS = list(), GR = list(),
                 GC = list())

@@ -441,7 +441,7 @@ cmalign <- function(
         flag_opt(sub),
         flag_opt(hbanded, "nonbanded", invert = TRUE),
         fraction_opt(tau),
-        count_opt(mxsize),
+        nonneg_float_opt(mxsize),
         flag_opt(fixedtau),
         fraction_opt(maxtau),
         flag_opt(small),
@@ -492,8 +492,10 @@ cmalign <- function(
     }
     args <- c(args, cmfile, seqfile)
     args <- paste(shQuote(args), collapse = " ")
-    alnpipe <- pipe(args)
-    read_stockholm_msa(alnpipe, dna = dnaout)
+    alnpipe <- pipe(args, open = "rt")
+    out <- read_stockholm_msa(alnpipe, dna = dnaout)
+    if (close(alnpipe) != 0) stop("cmalign had nonzero exit status.")
+    out
 }
 
 #' Construct covariance model(s) from structually annotated alignment(s)

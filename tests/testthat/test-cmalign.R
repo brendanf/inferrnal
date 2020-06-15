@@ -50,3 +50,7 @@ test_that("cmalign works for different input formats", {
     expect_error(cmalign(cm_5_8S(), "This is a bogus sequence file", cpu = 1))
     expect_error(cmalign(cm_5_8S(), 17, cpu = 1))
 })
+
+test_that("error when cmalign fails", {
+    expect_error(cmalign(cm_5_8S(), sample_rRNA_fasta(), cpu = 1, mxsize = 0.01))
+})
