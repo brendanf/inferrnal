@@ -15,4 +15,4 @@ matrix:
     after_success: Rscript -e 'covr::codecov()'
   - r: bioc-devel
     bioc_packages: ShortRead
-    bioc_check: false
+    bioc_check: true
