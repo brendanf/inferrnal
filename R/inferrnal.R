@@ -245,8 +245,12 @@ cmsearch <- function(
         stdout = if (isTRUE(quiet)) FALSE else "",
         stderr = if (isTRUE(quiet)) FALSE else ""
     )
-    utils::read.table(
+    header <- readLines(tablefile, 2)
+    gaps <- gregexpr(" ", header[2])[[1]]
+    w <- c(gaps, 500) - c(0, gaps)
+    utils::read.fwf(
         tablefile,
+        widths = w,
         col.names = c(
 
             #character
@@ -287,7 +291,9 @@ cmsearch <- function(
             rep("numeric", 4),
             rep("character", 2)
         ),
-        comment.char = "#")
+        comment.char = "#",
+        strip.white = TRUE
+    )
 }
 
 
