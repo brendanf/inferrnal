@@ -14,8 +14,7 @@
 * If `read_stockholm_msa()` is given an open connection, it does not close it
   when done. (But if given a filename or an unopened connection, it opens and
   then closes.)
-* `cmsearch()` correctly handles fields with spaces (e.g., description)
-* Add `download_rfam_cm()` to easily download RFAM covariance models.
+* `cmsearch()` correctly handles fields with spaces (e.g., description) 
 
 # Changes in version 0.99.4
 
