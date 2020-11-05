@@ -1,18 +1,32 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: r
+r:
+    - oldrel
+    - bioc-release
+    - bioc-devel
+os:
+    - linux
+    - osx
 cache: packages
 apt-packages: infernal
-matrix:
-  - r: oldrel
-    bioc_packages: ShortRead
-    bioc_check: false
-  - r: bioc-release
-    bioc_packages:
-      - BiocCheck
-      - ShortRead
-    bioc_check: true
-    after_success: Rscript -e 'covr::codecov()'
-  - r: bioc-devel
-    bioc_packages: ShortRead
-    bioc_check: true
+addons:
+  homebrew:
+    taps: brewsci/bio
+    packages:
+        - infernal
+bioc_packages: ShortRead
+jobs:
+    allow_failure:
+        - r: bioc-devel
+    exclude:
+        - r: bioc-release
+          os: linux
+    include:
+        - r: bioc-release
+          os: linux
+          bioc_packages:
+            - BiocCheck
+            - ShortRead
+          bioc_check: true
+          after_success: Rscript -e 'covr::codecov()'
