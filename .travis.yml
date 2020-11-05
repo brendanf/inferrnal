@@ -9,7 +9,7 @@ os:
     - linux
     - osx
 cache: packages
-apt-packages: infernal
+apt_packages: infernal
 addons:
   homebrew:
     taps: brewsci/bio
@@ -17,7 +17,7 @@ addons:
         - infernal
 bioc_packages: ShortRead
 jobs:
-    allow_failure:
+    allow_failures:
         - r: bioc-devel
     exclude:
         - r: bioc-release
