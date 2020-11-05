@@ -8,6 +8,7 @@ r:
 os:
     - linux
     - osx
+env: BIOC_TEST=0
 cache: packages
 apt_packages: infernal
 addons:
@@ -22,6 +23,7 @@ jobs:
     exclude:
         - r: bioc-release
           os: linux
+          env: BIOC_TEST=0
     include:
         - r: bioc-release
           os: linux
@@ -30,3 +32,4 @@ jobs:
             - ShortRead
           bioc_check: true
           after_success: Rscript -e 'covr::codecov()'
+          env: BIOC_TEST=1
