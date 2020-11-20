@@ -1,0 +1,7 @@
+#To install Infernal in Debian/Ubuntu linux:
+sudo apt-get install infernal
+
+#To install using Homebrew for macos:
+brew tap brewsci/bio
+brew install infernal
+
