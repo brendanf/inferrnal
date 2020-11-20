@@ -6,3 +6,4 @@
 ^Meta$
 ^\.travis\.yml$
 ^codecov\.yml$
+^\.BBSoptions$
