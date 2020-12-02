@@ -12,7 +12,7 @@ cm_5_8S()
 \description{
 This is a convenience function to return the path the RFAM 5.8S rRNA
 covariance model,
-for use in \code{\link{cmsearch}} or \code{\link{cmalign}}.
+for use in \code{\link[=cmsearch]{cmsearch()}} or \code{\link[=cmalign]{cmalign()}}.
 The original file is from \url{https://rfam.xfam.org/family/RF00002/cm}.
 }
 \examples{

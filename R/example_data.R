@@ -2,10 +2,10 @@
 #'
 #' This is a convenience function to return the path the RFAM 5.8S rRNA
 #' covariance model,
-#' for use in \code{\link{cmsearch}} or \code{\link{cmalign}}.
-#' The original file is from \url{https://rfam.xfam.org/family/RF00002/cm}.
+#' for use in [cmsearch()] or [cmalign()].
+#' The original file is from <https://rfam.xfam.org/family/RF00002/cm>.
 #'
-#' @return (\code{character} string) the path to the CM file
+#' @return (`character` string) the path to the CM file
 #' @examples
 #'     # search sequences from a fasta file for Rfam RF00002 (5.8S rRNA)
 #'     cm <- cm_5_8S()
@@ -20,11 +20,11 @@ cm_5_8S <- function() {
 #'
 #' This is a convenience function to return the path the seed alignment for the
 #' RFAM 5.8S rRNA covariance model,
-#' for use in \code{\link{cmbuild}}.
+#' for use in [cmbuild()].
 #' The original file is from
-#' \url{https://rfam.xfam.org/family/RF00002/stockholm}.
+#' <https://rfam.xfam.org/family/RF00002/stockholm>.
 #'
-#' @return (\code{character} string) the path to the stk file
+#' @return (`character` string) the path to the stk file
 #' @export
 #' @examples
 #'     cmbuild(
@@ -40,9 +40,9 @@ stk_5_8S <- function() {
 #' Sample rRNA sequences
 #'
 #' These are example files based on amplicon sequences from a soil metabarcoding
-#' study. \code{sample_rRNA_fasta} is a FASTA file of amplicon sequences,
-#' \code{sample_rRNA_5_8S} a FASTA file of the same amplicons, but including
-#' only the 5.8S region, and \code{sample_rRNA_stk} is a Stockholm-format
+#' study. `sample_rRNA_fasta` is a FASTA file of amplicon sequences,
+#' `sample_rRNA_5_8S` a FASTA file of the same amplicons, but including
+#' only the 5.8S region, and `sample_rRNA_stk` is a Stockholm-format
 #' alignment of the 5.8S region.
 #'
 #' @rdname sample_data

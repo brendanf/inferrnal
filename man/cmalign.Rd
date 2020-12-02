@@ -41,23 +41,23 @@ cmalign(
 \item{cmfile}{(\code{character} filename) path to a covariance model file}
 
 \item{seq}{(\code{character} filename, \code{character} vector,
-\code{\link[Biostrings]{XStringSet-class}}, or
-\code{\link[ShortRead]{ShortRead-class}}) sequences to align to the
+\code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}, or
+\code{\link[ShortRead:ShortRead-class]{ShortRead::ShortRead}} sequences to align to the
 covariance model. This may be given as a character path to a fasta
 file, the sequences as a character vector, or an object of class
-\code{\link[Biostrings:XStringSet-class]{DNAStringSet-class}},
-\code{\link[Biostrings:XStringSet-class]{RNAStringSet-class}}, or
-\code{\link[ShortRead]{ShortRead-class}}.  For \code{cmalign}, the
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet}},
+\code{\link[Biostrings:XStringSet-class]{RNAStringSet}}, or
+\code{\link[ShortRead:ShortRead-class]{ShortRead}}.  For \code{cmalign}, the
 sequences should be known \emph{a priori} to represent the same region
 as the CM; to find the region in longer sequences and align it, use
-the \code{alignment} option of \code{\link{cmsearch}}.}
+the \code{alignment} option of \code{\link[=cmsearch]{cmsearch()}}.}
 
 \item{global}{(\code{logical} scalar) If \code{TRUE}, align in global mode.
 See \href{http://eddylab.org/infernal/}{Infernal} documentation for
 more information.}
 
 \item{algorithm}{(\code{character} string) Alignment algorithm. Options are
-"optacc" and "cyk". Default: "optacc"}
+\code{"optacc"} and \code{"cyk"}. Default: \code{"optacc"}}
 
 \item{sample}{(\code{logical} scalar) Sample an alignment from the posterior
 distribution of alignments.}
@@ -67,15 +67,15 @@ distribution of alignments.}
 \item{notrunc}{(\code{logical} scalar) Turn off truncated alignment
 algorithms.}
 
-\item{sub}{(\code{logical} scalar) urn on the sub model construction and
+\item{sub}{(\code{logical} scalar) turn on the sub model construction and
 alignment procedure}
 
 \item{hbanded}{(\code{logical} scalar) Accelerate alignment by pruning away
 regions of the CMDP matrix that are deemed negligible by an HMM.
-Default: TRUE}
+Default: \code{TRUE}}
 
 \item{tau}{(\code{numeric} scalar) Tail loss probability used during HMM band
-calculation. Default: 1E-7}
+calculation. Default: \code{1E-7}}
 
 \item{mxsize}{(\code{numeric} scalar) The maximum DP matrix size, in Mb.
 Maximum potential memory usage is approximately cpu*mxsize, although
@@ -86,7 +86,7 @@ more information.}
 \item{fixedtau}{(\code{logical} scalar) Turn off HMM band tightening.}
 
 \item{maxtau}{(\code{numeric} scalar) Maximum allowed value for tau
-during band tightening. Default: 0.05}
+during band tightening. Default: \code{0.05}}
 
 \item{small}{(\code{logical} scalar) Use the divide and conquer CYK alignment
 algorithm, greatly reducing memory consumption.}
@@ -137,13 +137,12 @@ tabular scores output.}
 \item{mpi}{(\code{logical} scalar) Run as an MPI parallel program.}
 
 \item{extra}{(\code{character} vector) Additional advanced options to pass
-to `cmalign`.}
+to \code{cmalign}.}
 
 \item{glocal}{(\code{logical} scalar) (Deprecated) see "global".}
 }
 \value{
-the aligned sequences, as returned by
-    \code{\link{read_stockholm_msa}}.
+the aligned sequences, as returned by \code{\link[=read_stockholm_msa]{read_stockholm_msa()}}.
 }
 \description{
 This function calls \code{cmalign} from

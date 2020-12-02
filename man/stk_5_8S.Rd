@@ -12,7 +12,7 @@ stk_5_8S()
 \description{
 This is a convenience function to return the path the seed alignment for the
 RFAM 5.8S rRNA covariance model,
-for use in \code{\link{cmbuild}}.
+for use in \code{\link[=cmbuild]{cmbuild()}}.
 The original file is from
 \url{https://rfam.xfam.org/family/RF00002/stockholm}.
 }

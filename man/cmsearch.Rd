@@ -49,11 +49,12 @@ The covariance model must include calibration data from running
 "\code{cmcalibrate}".}
 
 \item{seq}{(filename, character vector,
-\code{\link[Biostrings]{XStringSet-class}}, or
-\code{\link[ShortRead]{ShortRead-class}}) Sequences to search with the CM.
+\code{\link[Biostrings:XStringSet-class]{Biostrings::XStringSet}}, or
+\code{\link[ShortRead:ShortRead-class]{ShortRead::ShortRead}} Sequences to search with the CM.
 If a filename, the file can be of any type supported by Infernal.}
 
-\item{glocal}{(logical of length 1) Whether to run the search in glocal mode
+\item{glocal}{(\code{logical} of length 1) Whether to run the search in glocal
+mode
 (global with respect to the model, local with respect to the sequence).
 When \code{TRUE}, the search is faster, but will fail to find matches
 with only partially homologous structure.}
@@ -64,7 +65,8 @@ purposes of calculating E-values.}
 \item{output}{(\code{character} filename) File to send the human-readable
 output to.}
 
-\item{alignment}{(filename) A file to save the aligned hits to.  If given,
+\item{alignment}{(\code{character} filename) A file to save the aligned hits to.
+If given,
 the alignment is saved in Stockholm format with annotations for secondary
 structure, posterior probablility, etc.}
 
@@ -78,21 +80,21 @@ output.}
 main output.}
 
 \item{textw}{(\code{numeric} scalar) Set the main output’s line length limit
-in characters per line. The default is 120.}
+in characters per line. Default: \code{120}.}
 
 \item{verbose}{(\code{logical} scalar)}
 
 \item{E}{(\code{numeric} scalar) Maximum E-value for reporting in per-target
-output. Default: 10.0}
+output. Default: \code{10.0}}
 
 \item{T}{(\code{numeric} scalar) Maximum bit score for reporting in
-per-target reporting. Default: NULL}
+per-target reporting. Default: \code{NULL}}
 
 \item{incE}{(\code{numeric} scalar) Maximum E-value for hit inclusion.
-Default: 0.01}
+Default: \code{0.01}}
 
 \item{incT}{(\code{numeric} scalar) Maximum bit score for hit inclusion.
-Default: NULL}
+Default: \code{NULL}}
 
 \item{cut_ga}{(\code{logical} scalar) Use the GA (gathering) bit scores
 defined in the CM to set hit reporting and inclusion thresholds.}
@@ -106,14 +108,14 @@ thresholds defined in the CM to set hit reporting and inclusion thresholds.}
 
 \item{filter_strategy}{(\code{character} string) Filtering strategy for the
 acceleration pipeline. Options, from slowest (most sensitive) to fastest
-(least sensitive) are "max", "nohmm", "mid", "default", "rfam",
-"hmmonly".}
+(least sensitive) are \code{"max"}, \code{"nohmm"}, \code{"mid"}, \code{"default"}, \code{"rfam"},
+\code{"hmmonly"}.}
 
 \item{FZ}{(\code{numeric} scalar) Effective database size in Mb for
 determining filter thresholds.}
 
 \item{Fmid}{(\code{numeric} scalar) HMM filter thresholds for the "mid"
-filtering strategy.  Default 0.02}
+filtering strategy.  Default: \code{0.02}}
 
 \item{notrunc}{(\code{logical} scalar) Turn off truncated hit detection.}
 
@@ -124,10 +126,10 @@ at any position in a target sequence.}
 corrections for biased composition.}
 
 \item{mxsize}{(\code{numeric} scalar) Maximum allowable CM DP matrix size in
-megabytes. Default: 128}
+megabytes. Default: \code{128}}
 
 \item{smxsize}{(\code{numeric} scalar) Maximum allowable CM search DP matrix
-size in megabytes. Default: 128}
+size in megabytes. Default: \code{128}}
 
 \item{cyk}{(\code{logical} scalar) Use the CYK algorithm, not Inside, to
 determine the final score of all hits.}
@@ -143,9 +145,10 @@ target sequences.}
 \item{bottomonly}{(\code{logical} scalar) Only search the bottom (Crick)
 strand of target sequences.}
 
-\item{tformat}{(\code{logical} scalar) Format of the sequences in "seq".
-Options are "fasta", "embl", "genbank", "ddbj", "stockholm", "pfam",
-"a2m", "afa", "clustal", and "phylip". Default: autodetect}
+\item{tformat}{(\code{character} string) Format of the sequences in "\code{seq}".
+Options are \code{"fasta"}, \code{"embl"}, \code{"genbank"}, \code{"ddbj"}, \code{"stockholm"},
+\code{"pfam"}, \code{"a2m"}, \code{"afa"}, \code{"clustal"}, and \code{"phylip"}.
+Default: autodetect}
 
 \item{cpu}{(\code{integer} scalar) The number of threads to use in the
 search.}
@@ -154,43 +157,43 @@ search.}
 version: pause after start, to enable the developer toattach debuggers to
 the running master and worker(s) processes}
 
-\item{mpi}{(\code{logical} scalar) Run  in  MPI  master/worker  mode, using
+\item{mpi}{(\code{logical} scalar) Run  in  MPI  master/worker mode, using
 mpirun.}
 
-\item{quiet}{(\code{logical} scalar) Suppress standard output of `cmsearch`,
+\item{quiet}{(\code{logical} scalar) Suppress standard output of \code{cmsearch},
 which can be long.}
 }
 \value{
-a \code{\link{data.frame}} with columns:
-    \itemize{
-        \item{target_name}{ (character) the name of the target sequence}
-        \item{taget_accession}{(character) the target's accession number}
-        \item{query_name}{(character) the name of the query CM}
-        \item{query_accession}{(character) the query CM's accession number}
-        \item{mdl}{(character) the model type ("cm" or "hmm")}
-        \item{mdl_from}{(integer) the start location of the hit in the model}
-        \item{mdl_to}{(integer) the end location of the hit in the model}
-        \item{seq_from}{(integer) the start location of the hit in the
-            sequence}
-        \item{seq_to}{(integer) the end location of the hit in the sequence}
-        \item{strand}{(character) the strand the hit was found on ("+" or
-            "-")}
-        \item{trunc)}{(character) whether the hit is truncated, and where
-            ("no", "5'", "3'", "5'&3'", or "-" for hmm hits).}
-        \item{pass}{(integer) which algorithm pass the hit was found on.}
-        \item{gc}{(numeric) GC content of the hit}
-        \item{bias}{(numeric) biased composition correction.  See the
-            Infernal documentation.}
-        \item{score}{(numeric) bit-score of the hit, including the biased
-            composition correction.}
-        \item{E_value}{(numeric) Expectation value for the hit.}}
-        \item{inc}{(character) "!" if the sequence meets the inclusion
-            threshold, "?" if it only meets the reporting threshold.}
+a \code{\link[base:data.frame]{base::data.frame}} with columns:
+\itemize{
+\item{target_name}{ (character) the name of the target sequence}
+\item{taget_accession}{(character) the target's accession number}
+\item{query_name}{(character) the name of the query CM}
+\item{query_accession}{(character) the query CM's accession number}
+\item{mdl}{(character) the model type ("cm" or "hmm")}
+\item{mdl_from}{(integer) the start location of the hit in the model}
+\item{mdl_to}{(integer) the end location of the hit in the model}
+\item{seq_from}{(integer) the start location of the hit in the
+sequence}
+\item{seq_to}{(integer) the end location of the hit in the sequence}
+\item{strand}{(character) the strand the hit was found on ("+" or
+"-")}
+\item{trunc)}{(character) whether the hit is truncated, and where
+("no", "5'", "3'", "5'&3'", or "-" for hmm hits).}
+\item{pass}{(integer) which algorithm pass the hit was found on.}
+\item{gc}{(numeric) GC content of the hit}
+\item{bias}{(numeric) biased composition correction.  See the
+Infernal documentation.}
+\item{score}{(numeric) bit-score of the hit, including the biased
+composition correction.}
+\item{E_value}{(numeric) Expectation value for the hit.}}
+\item{inc}{(character) "!" if the sequence meets the inclusion
+threshold, "?" if it only meets the reporting threshold.}
 }
 \description{
 This function calls "\code{cmsearch}" from
 \href{http://eddylab.org/infernal/}{Infernal}.  Infernal must be installed.
-Many parameters are not included (yet!), and the function is focused on
+The function is focused on
 retrieving the hits table and, optionally, producing an alignment.
 }
 \examples{

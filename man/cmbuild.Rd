@@ -45,8 +45,7 @@ cmbuild(
 cmbuild). The default uses the
 name(s) given in the alignment file, or the name of the alignment file.}
 
-\item{force}{(\code{logical} scalar) overwrite \code{cmfile_out} if it
-exists}
+\item{force}{(\code{logical} scalar) overwrite \code{cmfile_out} if it exists.}
 
 \item{summary_file}{(\code{character} filename) filename to write summary
 output to.}
@@ -68,25 +67,21 @@ parameterizing emission scores.}
 
 \item{prior}{(\code{character} filename) Dirichlet prior file.}
 
-\item{weights}{(\code{character}; one of \code{"wpb"}, \code{"wgsc"},
-\code{"wnone"}, \code{"wgiven"}, or \code{"wblosum"}) sequence weighting
-method (options \code{--wpb}, \code{--wgsc},
+\item{weights}{(\code{character}; one of \code{"wpb"}, \code{"wgsc"}, \code{"wnone"}, \code{"wgiven"},
+or \code{"wblosum"}) sequence weighting method (options \code{--wpb}, \code{--wgsc},
 \code{--wnone}, \code{--wgiven}, and \code{--wblosum} to cmbuild).}
 
 \item{wid}{(\code{numeric} scalar) percent identity for clustering when
 \code{weights = "blosum"}.}
 
-\item{eff_num}{(\code{character}; one of \code{"eent"} or \code{"enone"})
-entropy weighting strategy (options \code{--eent} or \code{--enone} to
-cmbuild).}
+\item{eff_num}{(\code{character}; one of \code{"eent"} or \code{"enone"}) entropy weighting
+strategy (options \code{--eent} or \code{--enone} to cmbuild).}
 
 \item{ere}{(\code{numeric} scalar) target mean match state relative entropy.}
 
-\item{eminseq}{(\code{numeric} scalar) minimum allowed effective sequence
-number.}
+\item{eminseq}{(\code{numeric} scalar) minimum allowed effective sequence number.}
 
-\item{emaxseq}{(\code{numeric} scalar) maximum allowed effective sequence
-number.}
+\item{emaxseq}{(\code{numeric} scalar) maximum allowed effective sequence number.}
 
 \item{ehmmre}{(\code{numeric} scalar) target HMM mean match state relative
 entropy.}
@@ -100,28 +95,25 @@ for the filter p7 HMM.}
 \item{p7ml}{(\code{logical} scalar) use a maximum liklihood p7 HMM built from
 the CM.}
 
-\item{refine}{(\code{character} filename) if given, the alignment is
-iteratively refined, and the final alignment is written to this file.}
+\item{refine}{(\code{character} filename) if given, the alignment is iteratively
+refined, and the final alignment is written to this file.}
 
-\item{local}{(\code{logical} scalar) use local alignment with \code{refine}
-(option \code{-l} to cmbuild).}
+\item{local}{(\code{logical} scalar) use local alignment with \code{refine} (option
+\code{-l} to cmbuild).}
 
-\item{gibbs}{(\code{logical} scalar) use Gibbs sampling instead of
-maximum likelihood with \code{refine}.}
+\item{gibbs}{(\code{logical} scalar) use Gibbs sampling instead of maximum
+likelihood with \code{refine}.}
 
-\item{seed}{(\code{integer} scalar) pseudorandom number seed for Gibbs
-sampling.}
+\item{seed}{(\code{integer} scalar) pseudorandom number seed for Gibbs sampling.}
 
-\item{cyk}{(\code{logical} scalar) use the CYK alignment algorithm with
-\code{refine}.}
+\item{cyk}{(\code{logical} scalar) use the CYK alignment algorithm with \code{refine}.}
 
 \item{notrunc}{(\code{logical} scalar) turn off the truncated alignment
 algorithm with \code{refine}.}
 
 \item{extra}{(\code{character}) additional arguments to pass to cmbuild.}
 
-\item{quiet}{(\code{logical} scalar) do not print cmbuild output to the
-console.}
+\item{quiet}{(\code{logical} scalar) do not print cmbuild output to the console.}
 }
 \value{
 \code{NULL}, invisibly
