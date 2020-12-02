@@ -116,28 +116,31 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 
 #' Parse a Multiple Alignment in Stockholm Format
 #'
-#' Parses Stockholm-format multiple alignment files, including "\code{#=GC}"
+#' Parses Stockholm-format multiple alignment files, including "`#=GC`"
 #' lines.  Other annotations are ignored.
 #'
-#' @param stockholm (\code{character} scalar) Path to a file to parse
-#' @param dna (\code{logical} scalar) Parse the input as DNA instead of RNA.
+#' @param stockholm (`character` scalar) Path to a file to parse
+#' @param dna (`logical` scalar) Parse the input as DNA instead of RNA.
 #'
-#' @return a \code{list}, with elements:
+#' @return a `list`, with elements:
 #'     \describe{
-#'         \item{\code{alignment}
-#'             (\code{\link[Biostrings]{MultipleAlignment-class}})}{
+#'         \item{`alignment`
+#'             ([`MultipleAlignment`][Biostrings::MultipleAlignment-class])}{
 #'             The alignment itself}
-#'         \item{\code{GF} (\code{character})}{Annotations which apply to the
+#'         \item{`GF` (`character`)}{Annotations which apply to the
 #'             entire file.}
-#'         \item{\code{GS} (\code{\link[S4Vectors]{DataFrame-class}} containing one
-#'             \code{\link[Biostrings:XStringSet-class]{BStringSet-class}} for each annotation)}{
+#'         \item{`GS` ([`DataFrame`][S4Vectors::DataFrame-class] containing
+#'             one [`BStringSet`][Biostrings::XStringSet-class]
+#'             for each annotation)}{
 #'             Annotations which apply to each sequence.}
-#'         \item{\code{GC} (\code{list} of \code{\link[Biostrings:XString-class]{BString-class}})}{
+#'         \item{`GC` (`list` of
+#'             [`BString`][Biostrings::XString-class]}{
 #'             Annotations which apply to each column of the alignment;
-#'             in particular, "\code{SS_cons}" is the consensus secondary
-#'             structure, and "\code{RF}" is the reference line.}
-#'         \item{\code{GR} (\code{\link[S4Vectors]{DataFrame-class}} containing one
-#'             \code{\link[Biostrings:XStringSet-class]{BStringSet-class}} for each annotation)}{%
+#'             in particular, "`SS_cons`" is the consensus secondary
+#'             structure, and "`RF`" is the reference line.}
+#'         \item{`GR` ([`DataFrame`][S4Vectors::DataFrame-class] containing
+#'             one [`BStringSet`][Biostrings::XStringSet-class]
+#'             for each annotation)}{
 #'             Annotations which apply to each residue (i.e., each column and
 #'             sequence) in the alignment.}
 #'     }
