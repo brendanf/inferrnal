@@ -156,7 +156,7 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 #'     msa$GC$RF
 read_stockholm_msa <- function(stockholm, dna = FALSE) {
     assertthat::assert_that((assertthat::is.string(stockholm) &&
-                                 file.exists(stockholm)) ||
+                                file.exists(stockholm)) ||
                                 methods::is(stockholm, "connection"),
                             assertthat::is.flag(dna))
 
@@ -171,7 +171,6 @@ read_stockholm_msa <- function(stockholm, dna = FALSE) {
 
     out <- list(alignment = list(), GF = character(), GS = list(), GR = list(),
                 GC = list())
-    more = TRUE
     while (TRUE) {
         lines <- readLines(stockholm, 1000, ok = TRUE)
         if (length(lines) == 0) break
