@@ -1,9 +1,9 @@
-parse_stockholm_msa_chunk <- function(x, pos, acc) {
-
-    # find GF (file annotation) lines
+# find GF (file) annotation lines and add them to the accumulator
+add_gf <- function(x, acc) {
     gf <- regmatches(x, regexec("#=GF +([^ ]+) +(.+)", x))
     gf <- do.call(rbind, lapply(gf, `[`, i = 2:3))
     gf <- gf[stats::complete.cases(gf), , drop = FALSE]
+
     for (i in seq_len(nrow(gf))) {
         tag <- gf[i,1]
         value <- gf[i,2]
@@ -11,8 +11,11 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
         if (tag %in% names(acc$GF)) stop("duplicate #=GF ", tag, "annotation.")
         acc$GF[tag] <- value
     }
+    acc
+}
 
-    # find GC (column annotation) lines
+# find GC (column) annotation lines and add them to the accumulator
+add_gc <- function(x, acc) {
     gc <- regmatches(x, regexec("#=GC +([^ ]+) +(.+)", x))
     gc <- do.call(rbind, lapply(gc, `[`, i = 2:3))
     gc <- gc[stats::complete.cases(gc), , drop = FALSE]
@@ -26,8 +29,11 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
             acc$GC[[tag]] <- value
         }
     }
+    acc
+}
 
-    # find GS (sequence annotation) lines
+# find GS (sequence annotation) lines and add them to the accumulator
+add_gs <- function(x, acc) {
     gs <- regmatches(x, regexec("#=GS +([^ ]+) +([^ ]+) +(.+)", x))
     gs <- do.call(rbind, lapply(gs, `[`, i = 2:4))
     gs <- gs[stats::complete.cases(gs), , drop = FALSE]
@@ -39,15 +45,19 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
         if (tag %in% names(acc$GS)) {
             if (seq %in% names(acc$GS[[tag]])) {
                 stop("duplicate ", tag, " annotation for sequence ",
-                    seq)
+                     seq)
             }
         } else {
             acc$GS[[tag]] <- character()
         }
         acc$GS[[tag]][seq] <- value
     }
+    acc
+}
 
-    # find GR (residue annotation) lines
+# find GR (residue annotation) lines and add them to the accumulator
+add_gr <- function(x, acc) {
+
     gr <- regmatches(x, regexec("#=GR +([^ ]+) +([^ ]+) +(.+)", x))
     gr <- do.call(rbind, lapply(gr, `[`, i = 2:4))
     gr <- gr[stats::complete.cases(gr), , drop = FALSE]
@@ -57,15 +67,19 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
         value <- gr[i,3]
         if (is.null(acc$GR)) acc$GR <- list()
         if (is.null(acc$GR[[tag]])) {
-                acc$GR[[tag]] <- character()
-                acc$GR[[tag]][seq] <- value
+            acc$GR[[tag]] <- character()
+            acc$GR[[tag]][seq] <- value
         } else if (seq %in% names(acc$GR[[tag]])) {
             acc$GR[[tag]][seq] <- paste0(acc$GR[[tag]][seq], value)
         } else {
             acc$GR[[tag]][seq] <- value
         }
     }
+    acc
+}
 
+# find sequence lines and add them to the accumulator
+add_sequences <- function(x, acc) {
     x <- regmatches(x, regexec("^(\\d+\\|)?([^#][^ ]*) +([^ ]+)$", x))
     x <- do.call(rbind, lapply(x, `[`, i = 3:4))
     x <- x[stats::complete.cases(x), , drop = FALSE]
@@ -77,6 +91,26 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
             acc$alignment[[x[i,1]]] <- x[i,2]
         }
     }
+    acc
+}
+
+parse_stockholm_msa_chunk <- function(x, pos, acc) {
+
+    # GF (file annotation) lines
+    acc <- add_gf(x, acc)
+
+    # GC (column annotation) lines
+    acc <- add_gc(x, acc)
+
+    # GS (sequence annotation) lines
+    acc <- add_gs(x, acc)
+
+    # GR (residue annotation) lines
+    acc <- add_gr(x, acc)
+
+    # sequence lines
+    acc <- add_sequences(x, acc)
+
     acc
 }
 
