@@ -44,8 +44,7 @@ add_gs <- function(x, acc) {
         if (is.null(acc$GS)) acc$GS <- list()
         if (tag %in% names(acc$GS)) {
             if (seq %in% names(acc$GS[[tag]])) {
-                stop("duplicate ", tag, " annotation for sequence ",
-                     seq)
+                stop("duplicate ", tag, " annotation for sequence ", seq)
             }
         } else {
             acc$GS[[tag]] <- character()
