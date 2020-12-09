@@ -232,6 +232,10 @@ cmsearch <- function(
             Biostrings::writeXStringSet(seq, seqfile)
             on.exit(unlink(seqfile))
         } else if (methods::is(seq, "ShortRead")) {
+            if (!requireNamespace("ShortRead", quietly = TRUE)) {
+                stop("'seq' is a ShortRead object but the ShortRead package",
+                    "is unavailable")
+            }
             ShortRead::writeFasta(seq, seqfile)
             on.exit(unlink(seqfile))
         } else {
@@ -489,6 +493,10 @@ cmalign <- function(
             Biostrings::writeXStringSet(seq, seqfile)
             on.exit(unlink(seqfile))
         } else if (methods::is(seq, "ShortRead")) {
+            if (!requireNamespace("ShortRead", quietly = TRUE)) {
+                stop("'seq' is a ShortRead object but the ShortRead package",
+                     "is unavailable")
+            }
             ShortRead::writeFasta(seq, seqfile)
             on.exit(unlink(seqfile))
         } else {
