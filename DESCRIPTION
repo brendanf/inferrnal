@@ -13,7 +13,7 @@ Description: A thin wrapper around the Infernal package to search for matches to
     installed independently.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: FALSE
 SystemRequirements: Infernal
 URL: https://github.com/brendanf/inferrnal
 BugReports: https://github.com/brendanf/inferrnal/issues
