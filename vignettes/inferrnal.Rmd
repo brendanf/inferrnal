@@ -29,6 +29,51 @@ It is developed independently from Infernal, and Infernal must be installed in
 order for it to function.
 Note that Infernal does not work on Windows.
 
+# Installation
+
+## Installing Infernal
+
+The required Infernal package can be installed from Bioconda:
+
+```
+conda install -c bioconda infernal
+```
+
+or in Debian/Ubuntu Linux using apt:
+
+```
+sudo apt-get install infernal
+```
+
+or using Homebrew in MacOS:
+
+```
+brew tap brewsci/bio
+brew install infernal
+```
+
+For other installation options, including source installation, see the
+[Infernal homepage](http://eddylab.org/infernal/).
+
+## Installing `inferrnal`
+
+After Infernal is installed, the released version of `inferrnal` can be
+installed from Bioconductor:
+
+```{r, eval=FALSE}
+if(!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("inferrnal")
+```
+
+Alternatively, the development version of `inferrnal` can be installed from [GitHub](https://github.com/) with:
+
+```{r, eval = FALSE}
+if(!requireNamespace("remotes", quietly = TRUE))
+    install.packages("remotes")
+remotes::install_github("brendanf/inferrnal")
+```
+
 # Examples
 
 So far only two of the tools are implemented.

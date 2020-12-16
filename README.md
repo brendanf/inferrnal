@@ -10,7 +10,7 @@ status](https://travis-ci.com/brendanf/inferrnal.svg?branch=master)](https://tra
 [![Codecov test
 coverage](https://codecov.io/gh/brendanf/inferrnal/branch/master/graph/badge.svg)](https://codecov.io/gh/brendanf/inferrnal?branch=master)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
 R Interface to Call Programs from Infernal RNA Covariance Model Package
@@ -26,15 +26,43 @@ on Windows.
 
 ## Installation
 
-After installing Infernal, you can install the development version of
-`inferrnal` from [GitHub](https://github.com/) with:
+### Installing Infernal
+
+The required Infernal package can be installed from Bioconda:
+
+    conda install -c bioconda infernal
+
+or in Debian/Ubuntu Linux using apt:
+
+    sudo apt-get install infernal
+
+or using Homebrew in MacOS:
+
+    brew tap brewsci/bio
+    brew install infernal
+
+For other installation options, including source installation, see the
+[Infernal homepage](http://eddylab.org/infernal/).
+
+### Installing `inferrnal`
+
+After Infernal is installed, the released version of `inferrnal` can be
+installed from Bioconductor:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("brendanf/inferrnal")
+if(!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("inferrnal")
 ```
 
-Submission to Bioconductor is pending.
+Alternatively, the development version of `inferrnal` can be installed
+from [GitHub](https://github.com/) with:
+
+``` r
+if(!requireNamespace("remotes", quietly = TRUE))
+    install.packages("remotes")
+remotes::install_github("brendanf/inferrnal")
+```
 
 ## Examples
 
@@ -427,10 +455,10 @@ Stockholm alignment file:
 
 ``` r
 msa$GC$SS_cons
-#>   164-letter "BString" instance
+#> 164-letter BString object
 #> seq: ::::::::::::::::::::::::::::::::::::...<<..____.>>>>>>>>>::::::::::::::::::
 msa$GC$RF
-#>   164-letter "BString" instance
+#> 164-letter BString object
 #> seq: AACuuUuAgCGAUGGAUguCUuGGCUCccGuaUCGA...gg..Uuuu.cccgggggCAUgccUGuuugAGUGUCa
 ```
 
@@ -446,7 +474,7 @@ previous section, after removing gaps.
 unaln <- sample_rRNA_5_8S()
 unaln_seq <- Biostrings::readRNAStringSet(unaln)
 unaln_seq
-#>   A RNAStringSet instance of length 48
+#> RNAStringSet object of length 48:
 #>      width seq                                              names               
 #>  [1]   154 AACUUUCAGCAACGGAUCUCUUG...GAGCAUGCCUGCUUGAGUGUCA seq45/295-448
 #>  [2]   154 AACUUUCAACAACGGAUCUCUUG...GAGCAUGCCUGUUUGAGUGUCA seq3/236-389
@@ -483,10 +511,10 @@ aln$alignment
 #> [47] UAGCAUCAGCGAUUAACGUCUUGGU...AUUGAGUGCACUUGCUUCAGUGUGG seq37/93-246
 #> [48] AACACGCAACGGUGGACCACUCGGC...GCCAGCUCUUGCUUGUUGAGCCUGG seq43/218-373
 aln$GC$SS_cons
-#>   164-letter "BString" instance
+#> 164-letter BString object
 #> seq: ::::::::::::::::::::::::::::::::::::...<<..____.>>>>>>>>>::::::::::::::::::
 aln$GC$RF
-#>   164-letter "BString" instance
+#> 164-letter BString object
 #> seq: AACuuUuAgCGAUGGAUguCUuGGCUCccGuaUCGA...gg..Uuuu.cccgggggCAUgccUGuuugAGUGUCa
 ```
 
