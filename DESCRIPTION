@@ -22,7 +22,8 @@ Imports:
     Biostrings,
     S4Vectors,
     methods,
-    stats
+    stats,
+    utils
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 biocViews:
