@@ -66,7 +66,8 @@ remotes::install_github("brendanf/inferrnal")
 
 ## Examples
 
-So far only two of the tools are implemented.
+So far three of the tools are implemented: `cmsearch`, `cmalign`, and
+`cmbuild`.
 
 ### cmsearch
 
@@ -520,10 +521,9 @@ aln$GC$RF
 
 ## cmbuild
 
-`cmbuild`, included in `inferrnal` since version 0.99.5, is used to
-create new CMs from annotated multiple sequence alignments. To
-illustrate the process, we use the seed alignment for the 5.8S rRNA CM
-from RFAM. It is included as a sample file in `inferrnal`.
+`cmbuild` is used to create new CMs from annotated multiple sequence
+alignments. To illustrate the process, we use the seed alignment for the
+5.8S rRNA CM from RFAM. It is included as a sample file in `inferrnal`.
 
 ``` r
 new_cm <- file.path(tempdir(), "5_8S.cm")

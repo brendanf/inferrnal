@@ -1,7 +1,9 @@
 ---
 title: inferrnal
 author: Brendan Furneaux
-output: rmarkdown::html_vignette
+output:
+    rmarkdown::html_vignette:
+        toc: TRUE
 vignette: >
     %\VignetteIndexEntry{inferrnal}
     \usepackage[utf8]{inputenc}
@@ -76,7 +78,7 @@ remotes::install_github("brendanf/inferrnal")
 
 # Examples
 
-So far only two of the tools are implemented.
+So far three of the tools are implemented: `cmsearch`, `cmalign`, and `cmbuild`.
 
 ## cmsearch
 
@@ -169,8 +171,7 @@ aln$GC$RF
 
 ## cmbuild
 
-`cmbuild`, included in `inferrnal` since version 0.99.5, is used to create new
-CMs from annotated multiple sequence alignments.
+`cmbuild` is used to create new CMs from annotated multiple sequence alignments.
 To illustrate the process, we use the seed alignment for the 5.8S rRNA CM from
 RFAM.
 It is included as a sample file in `inferrnal`.
@@ -194,3 +195,10 @@ options for `cmbuild`.
 ```{r}
 all.equal(aln, aln2)
 ```
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
