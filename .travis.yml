@@ -5,9 +5,7 @@ r:
     - oldrel
     - bioc-release
     - bioc-devel
-os:
-    - linux
-    - osx
+os: linux
 env: BIOC_TEST=0
 cache: packages
 apt_packages: infernal
@@ -25,6 +23,8 @@ jobs:
           os: linux
           env: BIOC_TEST=0
     include:
+        - r: bioc-release
+          os: osx
         - r: bioc-release
           os: linux
           bioc_packages:
