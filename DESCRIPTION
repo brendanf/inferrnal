@@ -7,10 +7,12 @@ Authors@R:
            role = c("aut", "cre"),
            email = "brendan.furneaux@gmail.com",
            comment = c(ORCID = "0000-0003-3522-7363"))
-Description: A thin wrapper around the Infernal package to search for matches to
-    a covariance model in RNA sequences, or to align RNA sequences to a 
-    covariance model. Infernal is not included in the package and needs to be
-    installed independently.
+Description: Search for matches to a covariance model in RNA sequences, or
+    align RNA sequences to a covariance model. Covariance models use a
+    combination of primary structure (nucleotide sequence) and secondary
+    structure (base pairing) to model non-protein-coding RNA families.
+    This package is a thin wrapper around the Infernal package, which is not
+    included and needs to be installed independently.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: FALSE
