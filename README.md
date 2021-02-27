@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.com/brendanf/inferrnal.svg?branch=master)](https://travis-ci.com/brendanf/inferrnal)
+[![R build
+status](https://github.com/brendanf/inferrnal/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/brendanf/inferrnal/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/brendanf/inferrnal/branch/master/graph/badge.svg)](https://codecov.io/gh/brendanf/inferrnal?branch=master)
 [![Lifecycle:
