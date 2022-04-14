@@ -5,3 +5,6 @@
 doc
 Meta
 inferrnal.Rproj
+.Rprofile
+renv
+renv.lock
