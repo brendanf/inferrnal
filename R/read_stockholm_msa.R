@@ -8,8 +8,11 @@ add_gf <- function(x, acc) {
         tag <- gf[i,1]
         value <- gf[i,2]
         if (is.null(acc$GF)) acc$GF <- character()
-        if (tag %in% names(acc$GF)) stop("duplicate #=GF ", tag, "annotation.")
-        acc$GF[tag] <- value
+        if (tag %in% names(acc$GF)) {
+            acc$GF[tag] <- paste(acc$GF[tag], value)
+        } else {
+            acc$GF[tag] <- value
+        }
     }
     acc
 }
@@ -44,12 +47,14 @@ add_gs <- function(x, acc) {
         if (is.null(acc$GS)) acc$GS <- list()
         if (tag %in% names(acc$GS)) {
             if (seq %in% names(acc$GS[[tag]])) {
-                stop("duplicate ", tag, " annotation for sequence ", seq)
+              acc$GS[[tag]][seq] <- paste(acc$GS[[tag]][seq], value)
+            } else {
+              acc$GS[[tag]][seq] <- value
             }
         } else {
             acc$GS[[tag]] <- character()
+            acc$GS[[tag]][seq] <- value
         }
-        acc$GS[[tag]][seq] <- value
     }
     acc
 }
@@ -128,7 +133,7 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 #'             The alignment itself}
 #'         \item{`GF` (`character`)}{Annotations which apply to the
 #'             entire file.}
-#'         \item{`GS` ([`DataFrame`][S4Vectors::DataFrame-class] containing
+#'         \item{`GS` (`list` containing
 #'             one [`BStringSet`][Biostrings::XStringSet-class]
 #'             for each annotation)}{
 #'             Annotations which apply to each sequence.}
@@ -137,7 +142,7 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 #'             Annotations which apply to each column of the alignment;
 #'             in particular, "`SS_cons`" is the consensus secondary
 #'             structure, and "`RF`" is the reference line.}
-#'         \item{`GR` ([`DataFrame`][S4Vectors::DataFrame-class] containing
+#'         \item{`GR` (`list` containing
 #'             one [`BStringSet`][Biostrings::XStringSet-class]
 #'             for each annotation)}{
 #'             Annotations which apply to each residue (i.e., each column and
@@ -153,11 +158,11 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 #'     msa$GC$SS_cons
 #'     # reference sequence
 #'     msa$GC$RF
-read_stockholm_msa <- function(stockholm, dna = FALSE) {
+read_stockholm_msa <- function(stockholm, type = c("rna", "dna", "aa")) {
     assertthat::assert_that((assertthat::is.string(stockholm) &&
                                 file.exists(stockholm)) ||
-                                methods::is(stockholm, "connection"),
-                            assertthat::is.flag(dna))
+                                methods::is(stockholm, "connection"))
+    type = match.arg(type)
 
     if (is.character(stockholm)) {
         stockholm <- file(stockholm)
@@ -181,15 +186,17 @@ read_stockholm_msa <- function(stockholm, dna = FALSE) {
     }
 
     out$GS <- lapply(out$GS, Biostrings::BStringSet)
-    out$GS <- do.call(S4Vectors::DataFrame, out$GS)
     out$GR <- lapply(out$GR, Biostrings::BStringSet)
-    out$GR <- do.call(S4Vectors::DataFrame, out$GR)
     out$GC <- lapply(out$GC, Biostrings::BString)
 
-    if (isTRUE(dna)) {
+    if (type == "dna") {
         out$alignment <- Biostrings::DNAMultipleAlignment(unlist(out$alignment))
-    } else {
+    } else if (type == "rna") {
         out$alignment <- Biostrings::RNAMultipleAlignment(unlist(out$alignment))
+    } else if (type == "aa") {
+        out$alignment <- Biostrings::AAMultipleAlignment(unlist(out$alignment))
+    } else {
+      stop("unknown sequence type: ", type)
     }
     out
 }

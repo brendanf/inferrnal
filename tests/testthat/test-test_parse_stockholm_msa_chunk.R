@@ -3,7 +3,9 @@ stockholm_test <- c(
     "testtaxon AGCG--AGC",
     "#=GR testtaxon PP *********",
     "#=GS testtaxon AC 000000",
-    "#=GC test -(((..)))"
+    "#=GC test -(((..)))",
+    "#=GF AU et al.",
+    "#=GS testtaxon AC 000001"
 )
 
 
@@ -28,9 +30,10 @@ test_that("parse_stockholm_msa_chunk works for a GS line", {
     )
 })
 
-test_that("parse_stockholm_msa_chunk causes error with duplicate GS line", {
-    expect_error(
-        inferrnal:::parse_stockholm_msa_chunk(stockholm_test[c(4, 4)], pos = 1, acc = list())
+test_that("parse_stockholm_msa_chunk works for split GS line", {
+    expect_equal(
+        inferrnal:::parse_stockholm_msa_chunk(stockholm_test[c(4, 7)], pos = 1, acc = list()),
+        list(GS = list(AC = c(testtaxon = "000000 000001")))
     )
 })
 
@@ -41,9 +44,10 @@ test_that("parse_stockholm_msa_chunk works for a GF line", {
     )
 })
 
-test_that("parse_stockholm_msa_chunk causes error with duplicate GF line", {
-    expect_error(
-        inferrnal:::parse_stockholm_msa_chunk(stockholm_test[c(1, 1)], pos = 1, acc = list())
+test_that("parse_stockholm_msa_chunk works with split GF line", {
+    expect_equal(
+        inferrnal:::parse_stockholm_msa_chunk(stockholm_test[c(1, 6)], pos = 1, acc = list()),
+        list(GF = c(AU = "Fake Author et al."))
     )
 })
 
@@ -58,10 +62,10 @@ test_that("parse_stockholm_msa_chunk works for a sequence with annotations", {
     expect_equal(
         inferrnal:::parse_stockholm_msa_chunk(stockholm_test, pos = 1, acc = list()),
         list(
-            GF = c(AU = "Fake Author"),
+            GF = c(AU = "Fake Author et al."),
             GC = c(test = "-(((..)))"),
             GS = list(
-                AC = c(testtaxon = "000000")
+                AC = c(testtaxon = "000000 000001")
                 ),
             GR = list(
                 PP = c(testtaxon = "*********")

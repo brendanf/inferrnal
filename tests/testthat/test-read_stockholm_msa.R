@@ -17,8 +17,8 @@ test_that("fails on nonfile", {
 ref <- list(
     alignment = Biostrings::RNAMultipleAlignment(readRDS("msa_alignment.RDS")),
     GF = readRDS("msa_GF.RDS"),
-    GS = S4Vectors::DataFrame(),
-    GR = S4Vectors::DataFrame(
+    GS = list(),
+    GR = list(
         PP = Biostrings::BStringSet(readRDS("msa_GR_PP.RDS"))
     ),
     GC = list(
@@ -38,4 +38,8 @@ test_that("can read file", {
         ),
         ref
     )
+})
+
+test_that("reads example from format definition", {
+  expect_snapshot_output(read_stockholm_msa("test.stk", type = "aa"))
 })

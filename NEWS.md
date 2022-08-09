@@ -1,3 +1,13 @@
+# Changes in version 0.99.6
+
+* **Breaking change** `read_stockholm_msa()` now returns GS and GR annotations
+  as `list` rather than `DataFrame`, allowing for annotations which do not exist
+  for all sequences.
+* `read_stockholm_msa()` parses GF and GS annotations split over several lines.
+* **Breaking change** `read_stockholm_msa()` can parse amino acid MSA's; the
+  "dna" argument is renamed to "type", and takes the values "rna", "dna", and
+  "aa". The default is rna, as in previous versions.
+
 # Changes in version 0.99.5
 
 * Correct argument `"glocal"` of `cmalign` to `"global"`.  Deprecate `"glocal"`.

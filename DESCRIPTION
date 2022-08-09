@@ -1,6 +1,6 @@
 Package: inferrnal
 Title: Interface to Call Programs from Infernal RNA Covariance Model Package
-Version: 0.99.6
+Version: 0.99.6.9000
 Authors@R: 
     person(given = "Brendan",
            family = "Furneaux",
@@ -36,9 +36,10 @@ biocViews:
     Alignment,
     MultipleSequenceAlignment
 Suggests: 
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     knitr,
     rmarkdown,
     covr,
     ShortRead
 VignetteBuilder: knitr
+Config/testthat/edition: 3

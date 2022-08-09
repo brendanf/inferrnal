@@ -7,8 +7,8 @@ ref <- list(
             system("cmalign -h", intern = TRUE)[2]
         )
     ),
-    GS = S4Vectors::DataFrame(),
-    GR = S4Vectors::DataFrame(
+    GS = list(),
+    GR = list(
         PP = Biostrings::BStringSet(readRDS("cmalign_GR_PP.RDS"))
     ),
     GC = list(
