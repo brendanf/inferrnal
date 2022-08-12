@@ -17,8 +17,8 @@ R Interface to Call Programs from Infernal RNA Covariance Model Package
 
 Covariance Models (CM) are stochastic models of RNA sequence and
 secondary structure. [Infernal](http://eddylab.org/infernal/) (INFERence
-of RNA ALignment) is a software package with various command-line tools
-related to CMs. `inferrnal` (with two “`r`”s) is a lightweight R
+of RNA ALignment)[^1] is a software package with various command-line
+tools related to CMs. `inferrnal` (with two “`r`”s) is a lightweight R
 interface which calls the Infernal tools and imports the results to R.
 It is developed independently from Infernal, and Infernal must be
 installed in order for it to function. Note that Infernal does not work
@@ -83,8 +83,8 @@ cm <- cm_5_8S()
 ```
 
 We also need some sequences to search. The sample data is from a soil
-metabarcoding study focused on fungi. The targeted region includes 5.8S
-as well as some of the surrounding rDNA regions.
+metabarcoding study focused on fungi[^2]. The targeted region includes
+5.8S as well as some of the surrounding rDNA regions.
 
 ``` r
 sampfasta <- sample_rRNA_fasta()
@@ -306,8 +306,8 @@ cmsearch(cm = cm, seq = sampseqs, cpu = 1)
 ```
 
 `cmsearch`, by default, returns a table with information about each hit.
-However, it can optionally also output an alignment of the hits in
-Stockholm format.
+However, it can optionally also output an alignment of the hits to a
+file in Stockholm format.
 
 ``` r
 alnfile <- tempfile("alignment-", fileext = ".stk")
@@ -414,19 +414,20 @@ cmsearch(cm = cm, seq = sampseqs, alignment = alnfile)
 #> 49        1     10      +    5'    2 0.50    0  -5.4 5.9e+00   ?           -
 ```
 
-`inferrnal` includes a simple parser for Stockholm alignments, which
-also imports column annotations.
+`inferrnal` includes a parser for Stockholm alignments, which also
+imports column annotations.
 
 ``` r
 msa <- read_stockholm_msa(alnfile)
 ```
 
-`read_stockholm_msa` returns a named list. The alignment itself is given
-as an `RNAMultipleAlignment` object in element `alignment`.
+`read_stockholm_msa` returns an object of class
+`StockholmRNAMultipleAlignment`. It is also possible to load DNA or AA
+alignments using an optional `type=` argument to `read_stockholm_msa`.
 
 ``` r
-msa$alignment
-#> RNAMultipleAlignment with 48 rows and 164 columns
+msa
+#> StockholmRNAMultipleAlignment with 48 rows and 164 columns
 #>       aln                                                   names               
 #>  [1] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGCAUGCCUGCUUGAGUGUCA seq45/295-448
 #>  [2] AACUUUCAACAACGGAUCUCUUGGC...GAGGAGCAUGCCUGUUUGAGUGUCA seq3/236-389
@@ -447,21 +448,42 @@ msa$alignment
 #> [46] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq24/95-246
 #> [47] UAGCAUCAGCGAUUAACGUCUUGGU...AUUGAGUGCACUUGCUUCAGUGUGG seq37/93-246
 #> [48] AACACGCAACGGUGGACCACUCGGC...GCCAGCUCUUGCUUGUUGAGCCUGG seq43/218-373
+#> 
+#> GF (file) annotations:
+#> BStringSet object of length 1:
+#>     width seq                                               names               
+#> [1]    14 Infernal 1.1.4                                    AU
+#> 
+#> GR (residue) PP annotations:
+#> BStringSet object of length 48:
+#>      width seq                                              names               
+#>  [1]   164 ***********************...********************** seq45/295-448
+#>  [2]   164 ***********************...********************** seq3/236-389
+#>  [3]   164 ***********************...********************** seq2/193-346
+#>  [4]   164 ***********************...********************** seq28/192-345
+#>  [5]   164 ***********************...********************** seq23/194-347
+#>  ...   ... ...
+#> [44]   164 ***********************...********************** seq4/95-248
+#> [45]   164 ***********************...********************** seq32/94-246
+#> [46]   164 ***********************...********************** seq24/95-246
+#> [47]   164 ***********************...********************** seq37/93-246
+#> [48]   164 ***********************...********************** seq43/218-373
+#> 
+#> GC (column) annotations:
+#> BStringSet object of length 2:
+#>     width seq                                               names               
+#> [1]   164 :::::::::::::::::::::::...>>>>>:::::::::::::::::: SS_cons
+#> [2]   164 AACuuUuAgCGAUGGAUguCUuG...ggggCAUgccUGuuugAGUGUCa RF
 ```
 
-Other useful information which Infernal outputs are the consensus
-secondary structure and the reference annotation, both of which are
-defined by the CM. These are given as column (“GC”) annotations in the
-Stockholm alignment file:
-
-``` r
-msa$GC$SS_cons
-#> 164-letter BString object
-#> seq: ::::::::::::::::::::::::::::::::::::...<<..____.>>>>>>>>>::::::::::::::::::
-msa$GC$RF
-#> 164-letter BString object
-#> seq: AACuuUuAgCGAUGGAUguCUuGGCUCccGuaUCGA...gg..Uuuu.cccgggggCAUgccUGuuugAGUGUCa
-```
+In addition to the alignment itself, the Stockholm output includes the
+consensus secondary structure and the reference annotation, as defined
+in the CM, as column (“GC”) annotations named “SS_cons” and “RF”, as
+well as the posterior probability that each base is aligned in the
+correct position as residue (“GR”) annotations named “PP”. For more
+information about these annotations, including the encoding of secondary
+structure and posterior probabilities, see the [Infernal
+documentation](http://eddylab.org/infernal/Userguide.pdf).
 
 ### cmalign
 
@@ -489,8 +511,8 @@ unaln_seq
 #> [47]   154 UAGCAUCAGCGAUUAACGUCUUG...GAGUGCACUUGCUUCAGUGUGG seq37/93-246
 #> [48]   156 AACACGCAACGGUGGACCACUCG...AGCUCUUGCUUGUUGAGCCUGG seq43/218-373
 aln <- cmalign(cm, unaln_seq, cpu = 1)
-aln$alignment
-#> RNAMultipleAlignment with 48 rows and 164 columns
+aln
+#> StockholmRNAMultipleAlignment with 48 rows and 164 columns
 #>       aln                                                   names               
 #>  [1] AACUUUCAGCAACGGAUCUCUUGGC...GAGGAGCAUGCCUGCUUGAGUGUCA seq45/295-448
 #>  [2] AACUUUCAACAACGGAUCUCUUGGC...GAGGAGCAUGCCUGUUUGAGUGUCA seq3/236-389
@@ -511,15 +533,35 @@ aln$alignment
 #> [46] AACUCUCAGCGAUGGAUGACUCGAC...CUGAAGUAUGUUUGGCUCGGUAUCA seq24/95-246
 #> [47] UAGCAUCAGCGAUUAACGUCUUGGU...AUUGAGUGCACUUGCUUCAGUGUGG seq37/93-246
 #> [48] AACACGCAACGGUGGACCACUCGGC...GCCAGCUCUUGCUUGUUGAGCCUGG seq43/218-373
-aln$GC$SS_cons
-#> 164-letter BString object
-#> seq: ::::::::::::::::::::::::::::::::::::...<<..____.>>>>>>>>>::::::::::::::::::
-aln$GC$RF
-#> 164-letter BString object
-#> seq: AACuuUuAgCGAUGGAUguCUuGGCUCccGuaUCGA...gg..Uuuu.cccgggggCAUgccUGuuugAGUGUCa
+#> 
+#> GF (file) annotations:
+#> BStringSet object of length 1:
+#>     width seq                                               names               
+#> [1]    14 Infernal 1.1.4                                    AU
+#> 
+#> GR (residue) PP annotations:
+#> BStringSet object of length 48:
+#>      width seq                                              names               
+#>  [1]   164 ***********************...********************** seq45/295-448
+#>  [2]   164 ***********************...********************** seq3/236-389
+#>  [3]   164 ***********************...********************** seq2/193-346
+#>  [4]   164 ***********************...********************** seq28/192-345
+#>  [5]   164 ***********************...********************** seq23/194-347
+#>  ...   ... ...
+#> [44]   164 ***********************...********************** seq4/95-248
+#> [45]   164 ***********************...********************** seq32/94-246
+#> [46]   164 ***********************...********************** seq24/95-246
+#> [47]   164 ***********************...********************** seq37/93-246
+#> [48]   164 ***********************...********************** seq43/218-373
+#> 
+#> GC (column) annotations:
+#> BStringSet object of length 2:
+#>     width seq                                               names               
+#> [1]   164 :::::::::::::::::::::::...>>>>>:::::::::::::::::: SS_cons
+#> [2]   164 AACuuUuAgCGAUGGAUguCUuG...ggggCAUgccUGuuugAGUGUCa RF
 ```
 
-## cmbuild
+### cmbuild
 
 `cmbuild` is used to create new CMs from annotated multiple sequence
 alignments. To illustrate the process, we use the seed alignment for the
@@ -545,3 +587,14 @@ same (default) options for `cmbuild`.
 all.equal(aln, aln2)
 #> [1] TRUE
 ```
+
+[^1]: Nawrocki, E.P., Eddy, S.R., 2013. [Infernal 1.1: 100-fold faster
+    RNA homology
+    searches](https://doi.org/10.1093/bioinformatics/btt509).
+    Bioinformatics 29, 2933–2935.
+
+[^2]: Furneaux, B., Bahram, M., Rosling, A., Yorou, N.S., Ryberg, M.,
+    2021. [Long- and short-read metabarcoding technologies reveal
+    similar spatiotemporal structures in fungal
+    communities](https://doi.org/10.1111/1755-0998.13387). Molecular
+    Ecology Resources 21, 1833–1849.
