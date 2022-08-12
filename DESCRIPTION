@@ -1,6 +1,6 @@
 Package: inferrnal
 Title: Interface to Call Programs from Infernal RNA Covariance Model Package
-Version: 0.99.6
+Version: 0.99.6.9000
 Authors@R: 
     person(given = "Brendan",
            family = "Furneaux",
@@ -12,7 +12,9 @@ Description: Search for matches to a covariance model in RNA sequences, or
     combination of primary structure (nucleotide sequence) and secondary
     structure (base pairing) to model non-protein-coding RNA families.
     This package is a thin wrapper around the Infernal package, which is not
-    included and needs to be installed independently.
+    included and needs to be installed independently. Functions to read,
+    write, and manipulate multiple sequence alignments in Stockholm
+    format are also included.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: FALSE
@@ -26,7 +28,7 @@ Imports:
     methods,
     stats,
     utils
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 biocViews:
     SequenceMatching,
@@ -39,9 +41,10 @@ biocViews:
     Alignment,
     MultipleSequenceAlignment
 Suggests: 
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     knitr,
     rmarkdown,
     covr,
     ShortRead
 VignetteBuilder: knitr
+Config/testthat/edition: 3

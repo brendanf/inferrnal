@@ -1,5 +1,5 @@
-ref <- list(
-    alignment = Biostrings::RNAMultipleAlignment(readRDS("cmalign_alignment.RDS")),
+ref <- StockholmRNAMultipleAlignment(
+    Biostrings::RNAMultipleAlignment(readRDS("cmalign_alignment.RDS")),
     GF = c(
         AU = gsub(
             "# INFERNAL (.+) \\(.+\\)",
@@ -7,13 +7,13 @@ ref <- list(
             system("cmalign -h", intern = TRUE)[2]
         )
     ),
-    GS = S4Vectors::DataFrame(),
-    GR = S4Vectors::DataFrame(
-        PP = Biostrings::BStringSet(readRDS("cmalign_GR_PP.RDS"))
+    GS = list(),
+    GR = list(
+        PP = readRDS("cmalign_GR_PP.RDS")
     ),
-    GC = list(
-        SS_cons = Biostrings::BString(readRDS("cmalign_GC_SS_cons.RDS")),
-        RF = Biostrings::BString(readRDS("cmalign_GC_RF.RDS"))
+    GC = c(
+        SS_cons = readRDS("cmalign_GC_SS_cons.RDS"),
+        RF = readRDS("cmalign_GC_RF.RDS")
     )
 )
 

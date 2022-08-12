@@ -509,7 +509,7 @@ cmalign <- function(
     args <- c(args, cmfile, seqfile)
     args <- paste(shQuote(args), collapse = " ")
     alnpipe <- pipe(args, open = "rt")
-    out <- read_stockholm_msa(alnpipe, dna = dnaout)
+    out <- read_stockholm_msa(alnpipe, type = if (dnaout) "dna" else "rna")
     if (close(alnpipe) != 0) stop("cmalign had nonzero exit status.")
     out
 }
