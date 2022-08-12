@@ -10,7 +10,8 @@ Authors@R:
 Description: A thin wrapper around the Infernal package to search for matches to
     a covariance model in RNA sequences, or to align RNA sequences to a 
     covariance model. Infernal is not included in the package and needs to be
-    installed independently.
+    installed independently. Functions to read, write, and manipulate multiple
+    sequence alignments in Stockholm format are also included.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -23,7 +24,7 @@ Imports:
     S4Vectors,
     methods,
     stats
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 biocViews:
     SequenceMatching,

@@ -87,21 +87,17 @@ imports column annotations.
 msa <- read_stockholm_msa(alnfile)
 ```
 
-`read_stockholm_msa` returns a named list.
-The alignment itself is given as an `RNAMultipleSequenceAlignment` object in
-element `alignment`.
+`read_stockholm_msa` returns an object of class
+`StockholmRNAMultipleSequenceAlignment`.
 
 ```{r msa_align}
-msa$alignment
+msa
 ```
 
-Other useful information which Infernal outputs are the consensus secondary structure and the reference annotation, both of which are defined by the CM.
-These are given as column ("GC") annotations in the Stockholm alignment file:
-
-```{r SS_cons}
-msa$GC$SS_cons
-msa$GC$RF
-```
+Other useful information which Infernal outputs include the consensus secondary
+structure and the reference annotation, both of which are defined by the CM.
+These are given as column ("GC") annotations named "SS_cons" and "RF",
+respectively, in the Stockholm alignment file.
 
 ## cmalign
 
@@ -117,9 +113,7 @@ unaln <- sample_rRNA_5_8S()
 unaln_seq <- Biostrings::readRNAStringSet(unaln)
 unaln_seq
 aln <- cmalign(cm, unaln_seq, cpu = 1)
-aln$alignment
-aln$GC$SS_cons
-aln$GC$RF
+aln
 ```
 
 ## cmbuild

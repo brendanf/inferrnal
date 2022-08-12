@@ -124,41 +124,16 @@ parse_stockholm_msa_chunk <- function(x, pos, acc) {
 #' lines.  Other annotations are ignored.
 #'
 #' @param stockholm (`character` scalar) Path to a file to parse
-#' @param dna (`logical` scalar) Parse the input as DNA instead of RNA.
+#' @param type (`character` scalar) Type of alignment; "RNA", "DNA", or "AA".
 #'
-#' @return a `list`, with elements:
-#'     \describe{
-#'         \item{`alignment`
-#'             ([`MultipleAlignment`][Biostrings::MultipleAlignment-class])}{
-#'             The alignment itself}
-#'         \item{`GF` (`character`)}{Annotations which apply to the
-#'             entire file.}
-#'         \item{`GS` (`list` containing
-#'             one [`BStringSet`][Biostrings::XStringSet-class]
-#'             for each annotation)}{
-#'             Annotations which apply to each sequence.}
-#'         \item{`GC` (`list` of
-#'             [`BString`][Biostrings::XString-class]}{
-#'             Annotations which apply to each column of the alignment;
-#'             in particular, "`SS_cons`" is the consensus secondary
-#'             structure, and "`RF`" is the reference line.}
-#'         \item{`GR` (`list` containing
-#'             one [`BStringSet`][Biostrings::XStringSet-class]
-#'             for each annotation)}{
-#'             Annotations which apply to each residue (i.e., each column and
-#'             sequence) in the alignment.}
-#'     }
+#' @return a [`StockholmMultipleAlignment`][StockholmMultipleAlignment-class]
 #' @export
 #'
 #' @examples
 #'     msafile <- sample_rRNA_stk()
 #'     msa <- read_stockholm_msa(msafile)
-#'     msa$alignment
-#'     # consensus secondary structure
-#'     msa$GC$SS_cons
-#'     # reference sequence
-#'     msa$GC$RF
-read_stockholm_msa <- function(stockholm, type = c("rna", "dna", "aa")) {
+#'     msa
+read_stockholm_msa <- function(stockholm, type = c("RNA", "DNA", "AA")) {
     assertthat::assert_that((assertthat::is.string(stockholm) &&
                                 file.exists(stockholm)) ||
                                 methods::is(stockholm, "connection"))
@@ -174,7 +149,7 @@ read_stockholm_msa <- function(stockholm, type = c("rna", "dna", "aa")) {
     }
 
     out <- list(alignment = list(), GF = character(), GS = list(), GR = list(),
-                GC = list())
+                GC = character())
     while (TRUE) {
         lines <- readLines(stockholm, 1000, ok = TRUE)
         if (length(lines) == 0) break
@@ -185,18 +160,31 @@ read_stockholm_msa <- function(stockholm, type = c("rna", "dna", "aa")) {
         )
     }
 
-    out$GS <- lapply(out$GS, Biostrings::BStringSet)
-    out$GR <- lapply(out$GR, Biostrings::BStringSet)
-    out$GC <- lapply(out$GC, Biostrings::BString)
-
     if (type == "dna") {
-        out$alignment <- Biostrings::DNAMultipleAlignment(unlist(out$alignment))
+        StockholmDNAMultipleAlignment(
+            x = unlist(out$alignment),
+            GF = out$GF,
+            GS = out$GS,
+            GR = out$GR,
+            GC = out$GC
+        )
     } else if (type == "rna") {
-        out$alignment <- Biostrings::RNAMultipleAlignment(unlist(out$alignment))
+        StockholmRNAMultipleAlignment(
+            x = unlist(out$alignment),
+            GF = out$GF,
+            GS = out$GS,
+            GR = out$GR,
+            GC = out$GC
+        )
     } else if (type == "aa") {
-        out$alignment <- Biostrings::AAMultipleAlignment(unlist(out$alignment))
+        StockholmAAMultipleAlignment(
+            x = unlist(out$alignment),
+            GF = out$GF,
+            GS = out$GS,
+            GR = out$GR,
+            GC = out$GC
+        )
     } else {
-      stop("unknown sequence type: ", type)
+        stop("unknown sequence type: ", type)
     }
-    out
 }

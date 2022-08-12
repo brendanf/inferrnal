@@ -2,7 +2,7 @@ rnaf_search <-
   cmsearch(cm = cm_5_8S(), seq = sample_rRNA_fasta(), cpu = 1, quiet = TRUE)
 
 test_that("cmsearch works", {
-    expect_snapshot(rnaf_search)
+    expect_snapshot_value(rnaf_search, style = "deparse")
 })
 
 test_that("cmsearch is quiet in quiet mode", {

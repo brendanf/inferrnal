@@ -1,12 +1,14 @@
 # Changes in version 0.99.6
 
-* **Breaking change** `read_stockholm_msa()` now returns GS and GR annotations
-  as `list` rather than `DataFrame`, allowing for annotations which do not exist
-  for all sequences.
+* **Breaking change** `read_stockholm_msa()` now returns an S4 object inheriting
+  from class `StockholmMultipleAlignment`. Annotations are stored in slots of
+  class `BStringSet` (GF and GC) or `BStringSetList` (GS and GR), allowing for
+  annotations which do not exist for all sequences.
 * `read_stockholm_msa()` parses GF and GS annotations split over several lines.
 * **Breaking change** `read_stockholm_msa()` can parse amino acid MSA's; the
-  "dna" argument is renamed to "type", and takes the values "rna", "dna", and
-  "aa". The default is rna, as in previous versions.
+  "dna" argument is renamed to "type", and takes the values "RNA", "DNA", and
+  "AA". The default is RNA, as in previous versions.
+* Added `write_stockholm_msa()`.
 
 # Changes in version 0.99.5
 

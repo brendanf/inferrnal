@@ -57,12 +57,7 @@ stk_5_8S <- function() {
 #'     # read a stockholm alignment
 #'     msafile <- sample_rRNA_stk()
 #'     msa <- read_stockholm_msa(msafile)
-#'     msa$alignment
-#'     # consensus secondary structure
-#'     msa$SS_cons
-#'     # reference sequence
-#'     msa$RF
-#'
+#'     msa
 sample_rRNA_fasta <- function() {
     system.file(file.path("extdata", "sample.fasta"), package = "inferrnal")
 }

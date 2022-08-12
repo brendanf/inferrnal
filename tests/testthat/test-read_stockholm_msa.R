@@ -14,16 +14,16 @@ test_that("fails on nonfile", {
     expect_error(read_stockholm_msa(tempfile("fake")))
 })
 
-ref <- list(
-    alignment = Biostrings::RNAMultipleAlignment(readRDS("msa_alignment.RDS")),
+ref <- StockholmRNAMultipleAlignment(
+    Biostrings::RNAMultipleAlignment(readRDS("msa_alignment.RDS")),
     GF = readRDS("msa_GF.RDS"),
     GS = list(),
     GR = list(
-        PP = Biostrings::BStringSet(readRDS("msa_GR_PP.RDS"))
+        PP = readRDS("msa_GR_PP.RDS")
     ),
-    GC = list(
-        SS_cons = Biostrings::BString(readRDS("msa_GC_SS_cons.RDS")),
-        RF = Biostrings::BString(readRDS("msa_GC_RF.RDS"))
+    GC = c(
+        SS_cons = readRDS("msa_GC_SS_cons.RDS"),
+        RF = readRDS("msa_GC_RF.RDS")
     )
 )
 
@@ -40,6 +40,57 @@ test_that("can read file", {
     )
 })
 
+def <- StockholmAAMultipleAlignment(
+    Biostrings::AAMultipleAlignment(
+        c(
+            "O83071/192-246" = "MTCRAQLIAVPRASSLAE..AIACAQKM....RVSRVPVYERS",
+            "O83071/259-312" = "MQHVSAPVFVFECTRLAY..VQHKLRAH....SRAVAIVLDEY",
+            "O31698/18-71"   = "MIEADKVAHVQVGNNLEH..ALLVLTKT....GYTAIPVLDPS",
+            "O31698/88-139"  = "EVMLTDIPRLHINDPIMK..GFGMVINN......GFVCVENDE",
+            "O31699/88-139"  = "EVMLTDIPRLHINDPIMK..GFGMVINN......GFVCVENDE"
+        )
+    ),
+    GF = c(
+        "ID" = "CBS",
+        "AC" = "PF00571",
+        "DE" = "CBS domain",
+        "AU" = "Bateman A",
+        "CC" = paste("CBS domains are small intracellular modules mostly found",
+                     "in 2 or four copies within a protein. "),
+        "SQ" = "67"
+    ),
+    GS = list(
+        AC = c(
+            "O31698/18-71" = "O31698",
+            "O83071/192-246" = "O83071",
+            "O83071/259-312" = "O83071",
+            "O31698/88-139" = "O31698"
+        ),
+        OS = c(
+            "O31698/88-139" = "Bacillus subtilis"
+        )
+    ),
+    GR = list(
+        SA = c(
+            "O83071/192-246" = "999887756453524252..55152525....36463774777"
+        ),
+        SS = c(
+            "O83071/259-312" = "CCCCCHHHHHHHHHHHHH..EEEEEEEE....EEEEEEEEEEE",
+            "O31698/18-71"   = "CCCHHHHHHHHHHHHHHH..EEEEEEEE....EEEEEEEEHHH",
+            "O31698/88-139"  = "CCCCCCCHHHHHHHHHHH..HEEEEEEE....EEEEEEEEEEH"
+        ),
+        AS = c(
+            "O31699/88-139"  = "________________*__________________________"
+        ),
+        IN = c(
+            "O31699/88-139"  = "____________1______________2__________0____"
+        )
+    ),
+    GC = c(
+        "SS_cons"            = "CCCCCHHHHHHHHHHHHH..EEEEEEEE....EEEEEEEEEEH"
+    )
+)
+
 test_that("reads example from format definition", {
-  expect_snapshot_output(read_stockholm_msa("test.stk", type = "aa"))
+  expect_equal(read_stockholm_msa("test.stk", type = "AA"), def)
 })

@@ -31,10 +31,5 @@ alignment of the 5.8S region.
     # read a stockholm alignment
     msafile <- sample_rRNA_stk()
     msa <- read_stockholm_msa(msafile)
-    msa$alignment
-    # consensus secondary structure
-    msa$SS_cons
-    # reference sequence
-    msa$RF
-
+    msa
 }
