@@ -151,7 +151,7 @@ setMethod(
 )
 
 nonmissing_warning <- function(arg, type = c("RNA", "DNA", "AA")) {
-    type = match.arg()
+    type = match.arg(type)
     warning("'", arg, "' is ignored when `x` is not `character` or `",
             type, "StringSet`")
 }

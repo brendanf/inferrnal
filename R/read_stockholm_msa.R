@@ -160,7 +160,7 @@ read_stockholm_msa <- function(stockholm, type = c("RNA", "DNA", "AA")) {
         )
     }
 
-    if (type == "dna") {
+    if (type == "DNA") {
         StockholmDNAMultipleAlignment(
             x = unlist(out$alignment),
             GF = out$GF,
@@ -168,7 +168,7 @@ read_stockholm_msa <- function(stockholm, type = c("RNA", "DNA", "AA")) {
             GR = out$GR,
             GC = out$GC
         )
-    } else if (type == "rna") {
+    } else if (type == "RNA") {
         StockholmRNAMultipleAlignment(
             x = unlist(out$alignment),
             GF = out$GF,
@@ -176,7 +176,7 @@ read_stockholm_msa <- function(stockholm, type = c("RNA", "DNA", "AA")) {
             GR = out$GR,
             GC = out$GC
         )
-    } else if (type == "aa") {
+    } else if (type == "AA") {
         StockholmAAMultipleAlignment(
             x = unlist(out$alignment),
             GF = out$GF,

@@ -4,12 +4,12 @@
 \alias{read_stockholm_msa}
 \title{Parse a Multiple Alignment in Stockholm Format}
 \usage{
-read_stockholm_msa(stockholm, type = c("rna", "dna", "aa"))
+read_stockholm_msa(stockholm, type = c("RNA", "DNA", "AA"))
 }
 \arguments{
 \item{stockholm}{(\code{character} scalar) Path to a file to parse}
 
-\item{type}{(\code{character} scalar) Type of alignment; "rna", "dna", or "aa".}
+\item{type}{(\code{character} scalar) Type of alignment; "RNA", "DNA", or "AA".}
 }
 \value{
 a \code{\link[=StockholmMultipleAlignment-class]{StockholmMultipleAlignment}}
