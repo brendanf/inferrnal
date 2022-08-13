@@ -1,5 +1,3 @@
-
-
 write_stockholm_msa <- function(alignment, GF, GS, GR, GC, connection) {
   assertthat::assert_that(
     methods::is(alignment, "DNAMultipleAlignment") ||
@@ -24,7 +22,10 @@ write_stockholm_msa <- function(alignment, GF, GS, GR, GC, connection) {
   )
   for (gs in names(GS)) {
     cat(
-      paste0("#=GS ", names(GS[[gs]]), " ", gs, " ", as.character(GS[[gs]]), "\n"),
+      paste0(
+          paste("#=GS", names(GS[[gs]]), gs, as.character(GS[[gs]])),
+          "\n"
+      ),
       file = connection
     )
   }

@@ -39,12 +39,13 @@ check_stockholm_msa <- function(object) {
 
 #' StockholmMultipleAlignment objects
 #' 
-#' The `StockholmMultipleAlignment` class contains a multiple sequence alignment along with its
-#' annotations, as defined for the Stockholm file format.
+#' The `StockholmMultipleAlignment` class contains a multiple sequence
+#' alignment along with its annotations, as defined for the Stockholm file
+#' format.
 #' 
-#' Although the `StockholmMultipleAlignment` class is agnostic about the specific tags used,
-#' the following tags are the most likely to be recognized by Infernal or other
-#' software which reads or writes Stockholm files:
+#' Although the `StockholmMultipleAlignment` class is agnostic about the
+#' specific tags used, the following tags are the most likely to be recognized
+#' by Infernal or other software which reads or writes Stockholm files:
 #' 
 #' \tabular{lll}{
 #' Type \tab Tag \tab Description \cr
@@ -194,6 +195,7 @@ nonmissing_warning <- function(arg, type = c("RNA", "DNA", "AA")) {
 #' tags, the width of all elements must be the same, and must match the width
 #' of the alignment.
 #' @export
+#' @value a new `StockholmMultipleAlignment` object
 StockholmDNAMultipleAlignment <- function(
     x = character(),
     start = NA,
@@ -208,7 +210,15 @@ StockholmDNAMultipleAlignment <- function(
     GC = character()
 ){
     if (methods::is(x, "character") || methods::is(x, "DNAStringSet")) {
-        x <- Biostrings::DNAMultipleAlignment(x, start, end, width, use.names, rowmask, colmask)
+        x <- Biostrings::DNAMultipleAlignment(
+            x = x,
+            start = start,
+            end = end,
+            width = width,
+            use.names = use.names,
+            rowmask = rowmask,
+            colmask = colmask
+        )
     } else if (methods::is(x, "DNAMultipleAlignment")) {
         if (!all(is.na(start))) nonmissing_warning("start", "DNA")
         if (!all(is.na(end))) nonmissing_warning("end", "DNA")
@@ -217,7 +227,10 @@ StockholmDNAMultipleAlignment <- function(
         if (!is.null(rowmask)) nonmissing_warning("rowmask", "DNA")
         if (!is.null(colmask)) nonmissing_warning("colmask", "DNA")
     } else {
-        stop("'x' should be `character`, `DNAStringSet`, or `DNAMultipleAlignment`")
+        stop(
+            "'x' should be `character`, `DNAStringSet`, ",
+            "or `DNAMultipleAlignment`"
+        )
     }
     if (methods::is(GF, "character")) GF <- Biostrings::BStringSet(GF)
     if (methods::is(GS, "list")) GS <-
@@ -251,7 +264,15 @@ StockholmRNAMultipleAlignment <- function(
     GC = character()
 ){
     if (methods::is(x, "character") || methods::is(x, "RNAStringSet")) {
-        x <- Biostrings::RNAMultipleAlignment(x, start, end, width, use.names, rowmask, colmask)
+        x <- Biostrings::RNAMultipleAlignment(
+            x = x,
+            start = start,
+            end = end,
+            width = width,
+            use.names = use.names,
+            rowmask = rowmask,
+            colmask = colmask
+        )
     } else if (methods::is(x, "RNAMultipleAlignment")) {
         if (!all(is.na(start))) nonmissing_warning("start", "RNA")
         if (!all(is.na(end))) nonmissing_warning("end", "RNA")
@@ -260,7 +281,10 @@ StockholmRNAMultipleAlignment <- function(
         if (!is.null(rowmask)) nonmissing_warning("rowmask", "RNA")
         if (!is.null(colmask)) nonmissing_warning("colmask", "RNA")
     } else {
-        stop("'x' should be `character`, `RNAStringSet`, or `RNAMultipleAlignment`")
+        stop(
+            "'x' should be `character`, `RNAStringSet`, ",
+            "or `RNAMultipleAlignment`"
+        )
     }
     if (methods::is(GF, "character")) GF <- Biostrings::BStringSet(GF)
     if (methods::is(GS, "list")) GS <-
@@ -294,7 +318,15 @@ StockholmAAMultipleAlignment <- function(
     GC = character()
 ){
     if (methods::is(x, "character") || methods::is(x, "AAStringSet")) {
-        x <- Biostrings::AAMultipleAlignment(x, start, end, width, use.names, rowmask, colmask)
+        x <- Biostrings::AAMultipleAlignment(
+            x = x,
+            start = start,
+            end = end,
+            width = width,
+            use.names = use.names,
+            rowmask = rowmask,
+            colmask = colmask
+        )
     } else if (methods::is(x, "AAMultipleAlignment")) {
         if (!all(is.na(start))) nonmissing_warning("start", "AA")
         if (!all(is.na(end))) nonmissing_warning("end", "AA")
@@ -303,7 +335,10 @@ StockholmAAMultipleAlignment <- function(
         if (!is.null(rowmask)) nonmissing_warning("rowmask", "AA")
         if (!is.null(colmask)) nonmissing_warning("colmask", "AA")
     } else {
-        stop("'x' should be `character`, `AAStringSet`, or `AAMultipleAlignment`")
+        stop(
+            "'x' should be `character`, `AAStringSet`, ",
+            "or `AAMultipleAlignment`"
+        )
     }
     if (methods::is(GF, "character")) GF <- Biostrings::BStringSet(GF)
     if (methods::is(GS, "list")) GS <-
