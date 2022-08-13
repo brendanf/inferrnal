@@ -1,3 +1,17 @@
+expect_stockholm_equal <- function(msa1, msa2) {
+    expect_mapequal(as.character(msa1), as.character(msa2))
+    expect_mapequal(as.character(msa1@GF), as.character(msa2@GF))
+    expect_mapequal(as.character(msa1@GC), as.character(msa2@GC))
+    expect_setequal(as.character(names(msa1@GR)), as.character(names(msa2@GR)))
+    for (gr in names(msa1@GR)) {
+        expect_mapequal(as.character(msa1@GR[[gr]]), as.character(msa2@GR[[gr]]))
+    }
+    expect_setequal(as.character(names(msa1@GS)), as.character(names(msa2@GS)))
+    for (gs in names(msa1@GS)) {
+        expect_mapequal(as.character(msa1@GS[[gs]]), as.character(msa2@GS[[gs]]))
+    }
+}
+
 ref <- StockholmRNAMultipleAlignment(
     Biostrings::RNAMultipleAlignment(readRDS("cmalign_alignment.RDS")),
     GF = c(
@@ -18,7 +32,8 @@ ref <- StockholmRNAMultipleAlignment(
 )
 
 test_that("cmalign works without regression", {
-  expect_equal(cmalign(cm_5_8S(), sample_rRNA_5_8S(), cpu = 1), ref)
+    expect_stockholm_equal(ref, cmalign(cm_5_8S(), sample_rRNA_5_8S(), cpu = 1))
+    
 })
 
 test_that("glocal is deprecated in cmalign", {
@@ -42,11 +57,11 @@ dnachar <- as.character(dnass)
 dnasr <- ShortRead::ShortRead(dnass, Biostrings::BStringSet(names(dnass)))
 
 test_that("cmalign works for different input formats", {
-    expect_equal(cmalign(cm_5_8S(), rnass, cpu = 1), ref)
-    expect_equal(cmalign(cm_5_8S(), dnass, cpu = 1), ref)
-    expect_equal(cmalign(cm_5_8S(), rnachar, cpu = 1), ref)
-    expect_equal(cmalign(cm_5_8S(), dnachar, cpu = 1), ref)
-    expect_equal(cmalign(cm_5_8S(), dnasr, cpu = 1), ref)
+    expect_stockholm_equal(cmalign(cm_5_8S(), rnass, cpu = 1), ref)
+    expect_stockholm_equal(cmalign(cm_5_8S(), dnass, cpu = 1), ref)
+    expect_stockholm_equal(cmalign(cm_5_8S(), rnachar, cpu = 1), ref)
+    expect_stockholm_equal(cmalign(cm_5_8S(), dnachar, cpu = 1), ref)
+    expect_stockholm_equal(cmalign(cm_5_8S(), dnasr, cpu = 1), ref)
     expect_error(cmalign(cm_5_8S(), "This is a bogus sequence file", cpu = 1))
     expect_error(cmalign(cm_5_8S(), 17, cpu = 1))
 })
