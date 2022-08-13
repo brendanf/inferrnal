@@ -195,7 +195,7 @@ nonmissing_warning <- function(arg, type = c("RNA", "DNA", "AA")) {
 #' tags, the width of all elements must be the same, and must match the width
 #' of the alignment.
 #' @export
-#' @value a new `StockholmMultipleAlignment` object
+#' @return a new `StockholmMultipleAlignment` object
 StockholmDNAMultipleAlignment <- function(
     x = character(),
     start = NA,
@@ -240,7 +240,7 @@ StockholmDNAMultipleAlignment <- function(
     if (methods::is(GC, "character")) GC <- Biostrings::BStringSet(GC)
     methods::new(
         "StockholmDNAMultipleAlignment",
-        .Object = x,
+        x,
         GF = GF,
         GS = GS,
         GR = GR,
@@ -294,7 +294,7 @@ StockholmRNAMultipleAlignment <- function(
     if (methods::is(GC, "character")) GC <- Biostrings::BStringSet(GC)
     methods::new(
         "StockholmRNAMultipleAlignment",
-        .Object = x,
+        x,
         GF = GF,
         GS = GS,
         GR = GR,
@@ -348,7 +348,7 @@ StockholmAAMultipleAlignment <- function(
     if (methods::is(GC, "character")) GC <- Biostrings::BStringSet(GC)
     methods::new(
         "StockholmAAMultipleAlignment",
-        .Object = x,
+        x,
         GF = GF,
         GS = GS,
         GR = GR,
