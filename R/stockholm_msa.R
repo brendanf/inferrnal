@@ -227,7 +227,7 @@ StockholmDNAMultipleAlignment <- function(
     if (methods::is(GC, "character")) GC <- Biostrings::BStringSet(GC)
     methods::new(
         "StockholmDNAMultipleAlignment",
-        x = x,
+        .Object = x,
         GF = GF,
         GS = GS,
         GR = GR,
@@ -270,7 +270,7 @@ StockholmRNAMultipleAlignment <- function(
     if (methods::is(GC, "character")) GC <- Biostrings::BStringSet(GC)
     methods::new(
         "StockholmRNAMultipleAlignment",
-        Biostrings::RNAMultipleAlignment(x, start, end, width, use.names, rowmask, colmask),
+        .Object = x,
         GF = GF,
         GS = GS,
         GR = GR,
@@ -313,7 +313,7 @@ StockholmAAMultipleAlignment <- function(
     if (methods::is(GC, "character")) GC <- Biostrings::BStringSet(GC)
     methods::new(
         "StockholmAAMultipleAlignment",
-        Biostrings::AAMultipleAlignment(x, start, end, width, use.names, rowmask, colmask),
+        .Object = x,
         GF = GF,
         GS = GS,
         GR = GR,
