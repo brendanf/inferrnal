@@ -13,19 +13,27 @@ expect_stockholm_equal <- function(msa1, msa2) {
 }
 
 test_that("fails on integer", {
-  expect_error(read_stockholm_msa(1L))
+    expect_error(read_stockholm_msa(1L))
+    expect_error(read_stockholm_msa(1L, type = "DNA"))
+    expect_error(read_stockholm_msa(1L, type = "AA"))
 })
 
 test_that("fails on double", {
     expect_error(read_stockholm_msa(1))
+    expect_error(read_stockholm_msa(1, type = "DNA"))
+    expect_error(read_stockholm_msa(1, type = "AA"))
 })
 
 test_that("fails on logical", {
     expect_error(read_stockholm_msa(FALSE))
+    expect_error(read_stockholm_msa(FALSE, type = "DNA"))
+    expect_error(read_stockholm_msa(FALSE, type = "AA"))
 })
 
 test_that("fails on nonfile", {
     expect_error(read_stockholm_msa(tempfile("fake")))
+    expect_error(read_stockholm_msa(tempfile("fake"), type = "DNA"))
+    expect_error(read_stockholm_msa(tempfile("fake"), type = "AA"))
 })
 
 ref <- StockholmRNAMultipleAlignment(
