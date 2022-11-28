@@ -9,6 +9,14 @@
 #' @export
 #'
 #' @examples
+#' # read an example rRNA alignment
+#' msafile <- sample_rRNA_stk()
+#' msa <- read_stockholm_msa(msafile)
+#' msa
+#' 
+#' # write to another file
+#' temp <- tempfile(fileext=".stk")
+#' writeStockholmMultipleAlignment(msa, temp)
 writeStockholmMultipleAlignment <- function(x, connection) {
   assertthat::assert_that(
     methods::is(x, "StockholmDNAMultipleAlignment") ||

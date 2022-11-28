@@ -19,3 +19,13 @@ the connection, invisibly
 \description{
 Write an annotated alignment in Stockholm format
 }
+\examples{
+# read an example rRNA alignment
+msafile <- sample_rRNA_stk()
+msa <- read_stockholm_msa(msafile)
+msa
+
+# write to another file
+temp <- tempfile(fileext=".stk")
+writeStockholmMultipleAlignment(msa, temp)
+}

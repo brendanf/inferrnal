@@ -174,3 +174,62 @@ tags, the width of all elements must be the same, and must match the width
 of the alignment.}
 }}
 
+\examples{
+# Typically a StockholmMultipleAlignment object is read from a file created
+# by other software, but it can also be created manually.
+# This example reproduces the example file given in the Stockholm format
+# definition.
+samp <- StockholmAAMultipleAlignment(
+    x = c(
+        "O83071/192-246" = "MTCRAQLIAVPRASSLAE..AIACAQKM....RVSRVPVYERS",
+        "O83071/259-312" = "MQHVSAPVFVFECTRLAY..VQHKLRAH....SRAVAIVLDEY",
+        "O31698/18-71"   = "MIEADKVAHVQVGNNLEH..ALLVLTKT....GYTAIPVLDPS",
+        "O31698/88-139"  = "EVMLTDIPRLHINDPIMK..GFGMVINN......GFVCVENDE",
+        "O31699/88-139"  = "EVMLTDIPRLHINDPIMK..GFGMVINN......GFVCVENDE"
+    ),
+    GF = c(
+        ID = "CBS",
+        AC = "PF00571",
+        AU = "Bateman A",
+        CC = paste("CBS domains are small intracellular modules mostly",
+                   "found in 2 or four copies within a protein."),
+        SQ = "67"
+    ),
+    GS = list(
+        # ACcession number
+        AC = c(
+            "O31698/18-71" = "O31698",
+            "O83071/192-246" = "O83071",
+            "O83071/259-312" = "O83071",
+            "O31698/88-139" = "O31698"
+        ),
+        # OrganiSm
+        OS = c("O31698/88-139" = "Bacillus subtilis")
+    ),
+    GR = list(
+        # Surface Accessibility
+        SA = c(
+            "O83071/192-246" = "999887756453524252..55152525....36463774777"
+        ),
+        # Secondary Structure
+        SS = c(
+            "O83071/259-312" = "CCCCCHHHHHHHHHHHHH..EEEEEEEE....EEEEEEEEEEE",
+            "O31698/18-71"   = "CCCHHHHHHHHHHHHHHH..EEEEEEEE....EEEEEEEEHHH",
+            "O31698/88-139"  = "CCCCCCCHHHHHHHHHHH..HEEEEEEE....EEEEEEEEEEH"
+        ),
+        # Active Site
+        AS = c(
+            "O31699/88-139"  = "________________*__________________________"
+        ),
+        # INtron
+        IN = c(
+            "O31699/88-139"  = "____________1______________2__________0____"
+        )
+    ),
+    GC = c(
+        # Secondary Structure consensus
+        SS_cons = "CCCCCHHHHHHHHHHHHH..EEEEEEEE....EEEEEEEEEEH"
+    )
+ )
+ samp
+}
