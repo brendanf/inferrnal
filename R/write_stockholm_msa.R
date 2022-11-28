@@ -23,21 +23,23 @@ writeStockholmMultipleAlignment <- function(x, connection) {
   if (length(x@GF) > 0) {
       cat(
           paste0(
-              "#=GF ", names(x@GF), " ", as.character(x@GF), "\n",
-              sep = " ", collapse=""),
-          file = connection
+              "#=GF ", names(x@GF), " ", as.character(x@GF), "\n", collapse=""
+          ),
+          file = connection,
+          append = TRUE
       )
   }
   if (length(x@GS) > 0) {
       for (gs in names(x@GS)) {
           cat(
-              paste0(
-                  paste(
-                      "#=GS", names(x@GS[[gs]]), gs, as.character(x@GS[[gs]])
-                  ),
-                  "\n"
+              paste(
+                  "#=GS", names(x@GS[[gs]]), gs, as.character(x@GS[[gs]]),
+                  collapse = "\n"
               ),
-              file = connection
+              "\n",
+              sep = "",
+              file = connection,
+              append = TRUE
           )
       }
   }
@@ -57,25 +59,33 @@ writeStockholmMultipleAlignment <- function(x, connection) {
       cat(
           s, strrep(" ", max_w - nchar(s) + 1L),
           as.character(x@unmasked[s]), "\n",
-          file = connection
+          sep = "",
+          file = connection,
+          append = TRUE
       )
       for (gr in names(x@GR)) {
-          cat(
-              "#=GR ", s, " ", gr,
-              strrep(" ", max_w - nchar(s) - nchar(gr) - 5L),
-              as.character(x@GR[[gr]][s]), "\n",
-              file = connection
-          )
+          if (s %in% names(x@GR[[gr]])) {
+              cat(
+                  "#=GR ", s, " ", gr,
+                  strrep(" ", max_w - nchar(s) - nchar(gr) - 5L),
+                  as.character(x@GR[[gr]][s]), "\n",
+                  sep = "",
+                  file = connection,
+                  append = TRUE
+              )
+          }
       }
   }
   if (length(x@GC) > 0) {
       for (gc in names(x@GC)) {
           cat("#=GC ", gc, strrep(" ", max_w - nchar(gc) - 4L),
-              as.character(x@GC[[gc]]), "\n",
-              file = connection
+                  as.character(x@GC[[gc]]), "\n",
+              sep = "",
+              file = connection,
+              append = TRUE
           )
       }
-      cat("//\n", file = connection)
+      cat("//\n", file = connection, append = TRUE)
   }
   invisible(connection)
 }
