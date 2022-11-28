@@ -8,7 +8,7 @@
 * **Breaking change** `read_stockholm_msa()` can parse amino acid MSA's; the
   "dna" argument is renamed to "type", and takes the values "RNA", "DNA", and
   "AA". The default is RNA, as in previous versions.
-* Added `write_stockholm_msa()`.
+* Added `writeStockholmMultipleAlignment()`.
 
 # Changes in version 0.99.5
 
