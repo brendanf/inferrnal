@@ -36,7 +36,7 @@
 #' @param verbose (`logical` scalar)
 #' @param E (`numeric` scalar) Maximum E-value for reporting in per-target
 #'     output. Default: `10.0`
-#' @param T (`numeric` scalar) Maximum bit score for reporting in
+#' @param t (`numeric` scalar) Maximum bit score for reporting in
 #'     per-target reporting. Default: `NULL`
 #' @param incE (`numeric` scalar) Maximum E-value for hit inclusion.
 #'     Default: `0.01`
@@ -137,7 +137,7 @@ cmsearch <- function(
     textw = NULL,
     verbose = FALSE,
     E = NULL,
-    T = NULL,
+    t = NULL,
     incE = NULL,
     incT = NULL,
     cut_ga = FALSE,
@@ -178,7 +178,7 @@ cmsearch <- function(
         count_opt(textw),
         flag_opt(verbose),
         nonneg_float_opt(E),
-        nonneg_float_opt(T),
+        nonneg_float_opt(t, "T"),
         nonneg_float_opt(incE),
         nonneg_float_opt(incT),
         flag_opt(cut_ga),

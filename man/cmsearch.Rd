@@ -17,7 +17,7 @@ cmsearch(
   textw = NULL,
   verbose = FALSE,
   E = NULL,
-  T = NULL,
+  t = NULL,
   incE = NULL,
   incT = NULL,
   cut_ga = FALSE,
@@ -87,7 +87,7 @@ in characters per line. Default: \code{120}.}
 \item{E}{(\code{numeric} scalar) Maximum E-value for reporting in per-target
 output. Default: \code{10.0}}
 
-\item{T}{(\code{numeric} scalar) Maximum bit score for reporting in
+\item{t}{(\code{numeric} scalar) Maximum bit score for reporting in
 per-target reporting. Default: \code{NULL}}
 
 \item{incE}{(\code{numeric} scalar) Maximum E-value for hit inclusion.
