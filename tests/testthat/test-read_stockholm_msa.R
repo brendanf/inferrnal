@@ -1,17 +1,39 @@
+expect_stockholm_equal <- function(msa1, msa2) {
+    expect_mapequal(as.character(msa1), as.character(msa2))
+    expect_mapequal(as.character(msa1@GF), as.character(msa2@GF))
+    expect_mapequal(as.character(msa1@GC), as.character(msa2@GC))
+    expect_setequal(as.character(names(msa1@GR)), as.character(names(msa2@GR)))
+    for (gr in names(msa1@GR)) {
+        expect_mapequal(as.character(msa1@GR[[gr]]), as.character(msa2@GR[[gr]]))
+    }
+    expect_setequal(as.character(names(msa1@GS)), as.character(names(msa2@GS)))
+    for (gs in names(msa1@GS)) {
+        expect_mapequal(as.character(msa1@GS[[gs]]), as.character(msa2@GS[[gs]]))
+    }
+}
+
 test_that("fails on integer", {
-  expect_error(read_stockholm_msa(1L))
+    expect_error(read_stockholm_msa(1L))
+    expect_error(read_stockholm_msa(1L, type = "DNA"))
+    expect_error(read_stockholm_msa(1L, type = "AA"))
 })
 
 test_that("fails on double", {
     expect_error(read_stockholm_msa(1))
+    expect_error(read_stockholm_msa(1, type = "DNA"))
+    expect_error(read_stockholm_msa(1, type = "AA"))
 })
 
 test_that("fails on logical", {
     expect_error(read_stockholm_msa(FALSE))
+    expect_error(read_stockholm_msa(FALSE, type = "DNA"))
+    expect_error(read_stockholm_msa(FALSE, type = "AA"))
 })
 
 test_that("fails on nonfile", {
     expect_error(read_stockholm_msa(tempfile("fake")))
+    expect_error(read_stockholm_msa(tempfile("fake"), type = "DNA"))
+    expect_error(read_stockholm_msa(tempfile("fake"), type = "AA"))
 })
 
 ref <- StockholmRNAMultipleAlignment(
@@ -29,7 +51,7 @@ ref <- StockholmRNAMultipleAlignment(
 
 
 test_that("can read file", {
-    expect_equal(
+    expect_stockholm_equal(
         read_stockholm_msa(
             system.file(
                 file.path("extdata", "sample.stk"),
@@ -92,5 +114,5 @@ def <- StockholmAAMultipleAlignment(
 )
 
 test_that("reads example from format definition", {
-  expect_equal(read_stockholm_msa("test.stk", type = "AA"), def)
+  expect_stockholm_equal(read_stockholm_msa("test.stk", type = "AA"), def)
 })

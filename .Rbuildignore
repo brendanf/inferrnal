@@ -6,7 +6,7 @@
 ^README\.Rmd$
 ^doc$
 ^Meta$
-^\.travis\.yml$
 ^codecov\.yml$
 ^\.BBSoptions$
 ^INSTALL$
+^\.github$

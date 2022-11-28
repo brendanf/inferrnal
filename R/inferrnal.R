@@ -232,6 +232,10 @@ cmsearch <- function(
             Biostrings::writeXStringSet(seq, seqfile)
             on.exit(unlink(seqfile))
         } else if (methods::is(seq, "ShortRead")) {
+            if (!requireNamespace("ShortRead", quietly = TRUE)) {
+                stop("'seq' is a ShortRead object but the ShortRead package",
+                    "is unavailable")
+            }
             ShortRead::writeFasta(seq, seqfile)
             on.exit(unlink(seqfile))
         } else {
@@ -489,6 +493,10 @@ cmalign <- function(
             Biostrings::writeXStringSet(seq, seqfile)
             on.exit(unlink(seqfile))
         } else if (methods::is(seq, "ShortRead")) {
+            if (!requireNamespace("ShortRead", quietly = TRUE)) {
+                stop("'seq' is a ShortRead object but the ShortRead package",
+                     "is unavailable")
+            }
             ShortRead::writeFasta(seq, seqfile)
             on.exit(unlink(seqfile))
         } else {
@@ -501,7 +509,7 @@ cmalign <- function(
     args <- c(args, cmfile, seqfile)
     args <- paste(shQuote(args), collapse = " ")
     alnpipe <- pipe(args, open = "rt")
-    out <- read_stockholm_msa(alnpipe, type = if (dnaout) "dna" else "rna")
+    out <- read_stockholm_msa(alnpipe, type = if (dnaout) "DNA" else "RNA")
     if (close(alnpipe) != 0) stop("cmalign had nonzero exit status.")
     out
 }

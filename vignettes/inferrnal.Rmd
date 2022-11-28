@@ -1,7 +1,9 @@
 ---
 title: inferrnal
 author: Brendan Furneaux
-output: rmarkdown::html_vignette
+output:
+    rmarkdown::html_vignette:
+        toc: TRUE
 vignette: >
     %\VignetteIndexEntry{inferrnal}
     \usepackage[utf8]{inputenc}
@@ -21,7 +23,7 @@ R Interface to Call Programs from Infernal RNA Covariance Model Package
 
 Covariance Models (CM) are stochastic models of RNA sequence and secondary
 structure.
-[Infernal](http://eddylab.org/infernal/) (INFERence of RNA ALignment) is a
+[Infernal](http://eddylab.org/infernal/) (INFERence of RNA ALignment)[^2] is a
 software package with various command-line tools related to CMs.
 `inferrnal` (with two "`r`"s) is a lightweight R interface which calls the
 Infernal tools and imports the results to R.
@@ -29,11 +31,52 @@ It is developed independently from Infernal, and Infernal must be installed in
 order for it to function.
 Note that Infernal does not work on Windows.
 
-# Examples
+[^2]: Nawrocki, E.P., Eddy, S.R., 2013. [Infernal 1.1: 100-fold faster RNA homology
+searches](https://doi.org/10.1093/bioinformatics/btt509).
+ Bioinformatics 29, 2933–2935.
 
-So far only two of the tools are implemented.
+## Installation
 
-## cmsearch
+### Installing Infernal
+
+The required Infernal package can be installed from Bioconda:
+
+```
+conda install -c bioconda infernal
+```
+
+or in Debian/Ubuntu Linux using apt:
+
+```
+sudo apt-get install infernal
+```
+
+or using Homebrew in MacOS:
+
+```
+brew tap brewsci/bio
+brew install infernal
+```
+
+For other installation options, including source installation, see the
+[Infernal homepage](http://eddylab.org/infernal/).
+
+### Installing `inferrnal`
+
+After Infernal is installed, the development version of `inferrnal` can be installed from
+[GitHub](https://github.com/) with:
+
+```{r, eval = FALSE}
+if(!requireNamespace("remotes", quietly = TRUE))
+    install.packages("remotes")
+remotes::install_github("brendanf/inferrnal")
+```
+
+## Examples
+
+So far three of the tools are implemented: `cmsearch`, `cmalign`, and `cmbuild`.
+
+### cmsearch
 
 In order to search, we need a CM.
 [Rfam](https://rfam.xfam.org/) has a wide variety.
@@ -49,9 +92,15 @@ cm <- cm_5_8S()
 ```
 
 We also need some sequences to search.
-The sample data is from a soil metabarcoding study focused on fungi.
+The sample data is from a soil metabarcoding study focused on fungi[^1].
 The targeted region includes 5.8S as well as some of the surrounding rDNA
 regions.
+
+[^1]: Furneaux, B., Bahram, M., Rosling, A., Yorou, N.S., Ryberg, M., 2021.
+[Long- and short-read metabarcoding technologies reveal similar spatiotemporal
+structures in fungal communities](https://doi.org/10.1111/1755-0998.13387).
+Molecular Ecology Resources 21, 1833–1849.
+
 
 ```{r reads}
 sampfasta <- sample_rRNA_fasta()
@@ -73,33 +122,40 @@ cmsearch(cm = cm, seq = sampseqs, cpu = 1)
 ```
 
 `cmsearch`, by default, returns a table with information about each hit.
-However, it can optionally also output an alignment of the hits in Stockholm
-format.
+However, it can optionally also output an alignment of the hits to a file
+in Stockholm format.
 
 ```{r cmsearch-aln}
 alnfile <- tempfile("alignment-", fileext = ".stk")
 cmsearch(cm = cm, seq = sampseqs, alignment = alnfile)
 ```
 
-`inferrnal` includes a simple parser for Stockholm alignments, which also
+`inferrnal` includes a parser for Stockholm alignments, which also
 imports column annotations.
+
 ```{r read_msa}
 msa <- read_stockholm_msa(alnfile)
 ```
 
 `read_stockholm_msa` returns an object of class
-`StockholmRNAMultipleSequenceAlignment`.
+`StockholmRNAMultipleAlignment`.
+It is also possible to load DNA or AA alignments using an optional
+`type=` argument to `read_stockholm_msa`.
 
 ```{r msa_align}
 msa
 ```
 
-Other useful information which Infernal outputs include the consensus secondary
-structure and the reference annotation, both of which are defined by the CM.
-These are given as column ("GC") annotations named "SS_cons" and "RF",
-respectively, in the Stockholm alignment file.
+In addition to the alignment itself, the Stockholm output includes the
+consensus secondary structure and the reference annotation, as defined in the
+CM, as column ("GC") annotations named "SS_cons" and "RF", as well as the
+posterior probability that each base is aligned in the correct position as
+residue ("GR") annotations named "PP".
+For more information about these annotations, including the encoding of secondary
+structure and posterior probabilities, see the
+[Infernal documentation](http://eddylab.org/infernal/Userguide.pdf).
 
-## cmalign
+### cmalign
 
 If you have sequences which have already been trimmed to contain only the RNA
 defined by the CM (possibly truncated, but not extended), then you can align
@@ -116,10 +172,9 @@ aln <- cmalign(cm, unaln_seq, cpu = 1)
 aln
 ```
 
-## cmbuild
+### cmbuild
 
-`cmbuild`, included in `inferrnal` since version 0.99.5, is used to create new
-CMs from annotated multiple sequence alignments.
+`cmbuild` is used to create new CMs from annotated multiple sequence alignments.
 To illustrate the process, we use the seed alignment for the 5.8S rRNA CM from
 RFAM.
 It is included as a sample file in `inferrnal`.
@@ -136,10 +191,17 @@ but it can be used in `cmalign`.
 aln2 <- cmalign(new_cm, unaln_seq, cpu = 1)
 ```
 
-The resulting alignment is the same as using the CM which was generated by RFAM,
+The resulting alignment is the same as the one created using the CM from RFAM,
 because they are based on the same seed alignment, and used the same (default)
 options for `cmbuild`.
 
 ```{r}
 all.equal(aln, aln2)
 ```
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+

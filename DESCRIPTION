@@ -1,20 +1,23 @@
 Package: inferrnal
 Title: Interface to Call Programs from Infernal RNA Covariance Model Package
-Version: 0.99.6.9000
+Version: 0.99.6
 Authors@R: 
     person(given = "Brendan",
            family = "Furneaux",
            role = c("aut", "cre"),
            email = "brendan.furneaux@gmail.com",
            comment = c(ORCID = "0000-0003-3522-7363"))
-Description: A thin wrapper around the Infernal package to search for matches to
-    a covariance model in RNA sequences, or to align RNA sequences to a 
-    covariance model. Infernal is not included in the package and needs to be
-    installed independently. Functions to read, write, and manipulate multiple
-    sequence alignments in Stockholm format are also included.
+Description: Search for matches to a covariance model in RNA sequences, or
+    align RNA sequences to a covariance model. Covariance models use a
+    combination of primary structure (nucleotide sequence) and secondary
+    structure (base pairing) to model non-protein-coding RNA families.
+    This package is a thin wrapper around the Infernal package, which is not
+    included and needs to be installed independently. Functions to read,
+    write, and manipulate multiple sequence alignments in Stockholm
+    format are also included.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: FALSE
 SystemRequirements: Infernal
 URL: https://github.com/brendanf/inferrnal
 BugReports: https://github.com/brendanf/inferrnal/issues
@@ -23,7 +26,8 @@ Imports:
     Biostrings,
     S4Vectors,
     methods,
-    stats
+    stats,
+    utils
 RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 biocViews:

@@ -93,14 +93,18 @@ element is a tag identifying the type of data. (See Details).  Unlike GF
 tags, the width of all elements must be the same, and must match the width
 of the alignment.}
 }
+\value{
+a new \code{StockholmMultipleAlignment} object
+}
 \description{
-The \code{StockholmMultipleAlignment} class contains a multiple sequence alignment along with its
-annotations, as defined for the Stockholm file format.
+The \code{StockholmMultipleAlignment} class contains a multiple sequence
+alignment along with its annotations, as defined for the Stockholm file
+format.
 }
 \details{
-Although the \code{StockholmMultipleAlignment} class is agnostic about the specific tags used,
-the following tags are the most likely to be recognized by Infernal or other
-software which reads or writes Stockholm files:
+Although the \code{StockholmMultipleAlignment} class is agnostic about the
+specific tags used, the following tags are the most likely to be recognized
+by Infernal or other software which reads or writes Stockholm files:
 
 \tabular{lll}{
 Type \tab Tag \tab Description \cr
