@@ -1,4 +1,4 @@
-# Changes in version 0.99.6
+# Changes in version 0.99.7
 
 * **Breaking change** `read_stockholm_msa()` now returns an S4 object inheriting
   from class `StockholmMultipleAlignment`. Annotations are stored in slots of
@@ -9,6 +9,11 @@
   "dna" argument is renamed to "type", and takes the values "RNA", "DNA", and
   "AA". The default is RNA, as in previous versions.
 * Added `writeStockholmMultipleAlignment()`.
+
+# Changes in version 0.99.6
+
+* Switch to markdown for Roxygen documentation.
+* Internal code reorganization.
 
 # Changes in version 0.99.5
 

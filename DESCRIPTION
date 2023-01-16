@@ -1,6 +1,6 @@
 Package: inferrnal
 Title: Interface to Call Programs from Infernal RNA Covariance Model Package
-Version: 0.99.6
+Version: 0.99.7
 Authors@R: 
     person(given = "Brendan",
            family = "Furneaux",
