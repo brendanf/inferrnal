@@ -53,6 +53,7 @@ writeStockholmMultipleAlignment <- function(x, connection) {
   }
   seqnames <- names(x@unmasked)
   gr_names_max <- max(
+      0,
       vapply(
           names(x@GR),
           function(tag) {
@@ -61,7 +62,7 @@ writeStockholmMultipleAlignment <- function(x, connection) {
           3L
       )
   )
-  gc_names_max <- max(nchar(names(x@GC))) + 5L
+  gc_names_max <- max(nchar(names(x@GC)), 0) + 5L
   max_w <- max(nchar(seqnames), gr_names_max, gc_names_max)
   for (s in seqnames) {
       cat(
