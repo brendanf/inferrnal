@@ -655,3 +655,120 @@ cmbuild <- function(
     if (return != 0) stop("cmbuild failed with exit code ", return)
     invisible(NULL)
 }
+
+#' Calibrate a covariance model for searching
+#'
+#' @param cmfile (`character` file name) Filename of the CM to calibrate.
+#' calibration data will be added to this file.
+#' @param length (`numeric` scalar) Total length of random sequences to search,
+#' in megabases. (parameter "`-L`" to `cmcalibrate`)
+#' @param forecast (`logical` flag) Predict the running time of
+#' the calibration of cmfile (with provided options) on the current machine and
+#' exit. The calibration is not performed.
+#' @param nforecast (`integer` count) With `forecast`, specify the number of
+#' processors that will be used for the calibration.
+#' @param memreq (`logical` flag) Predict the amount of required memory for
+#' calibrating cmfile (with provided options) on the current machine and exit.
+#' The calibration is not performed.
+#' @param gtailn (`numeric` scalar) Fit the exponential tail for glocal Inside 
+#' and glocal CYK to the `n` highest scores in the histogram tail, where `n` is
+#' `gtailn` times `length` (the number of Mb searched).
+#' @param ltailn (`numeric` scalar) Fit the exponential tail for local Inside 
+#' and local CYK to the `n` highest scores in the histogram tail, where `n` is
+#' `ltailn` times `length` (the number of Mb searched).
+#' @param tailp (`numeric` scalar) Ignore `gtailn` and `ltailn` options and fit
+#' the `tailp` fraction tail of the histogram to an exponential tail, for all
+#' search modes.
+#' @param hfile (`character` file name) File to save the histograms fit.
+#' @param sfile (`character` file name) File to save the survival plot
+#' information.
+#' @param qqfile (`character` file name) File to save the quantile-quantile plot
+#' information. 
+#' @param ffile (`character` file name) File to save the statistics of
+#' different exponential fits.
+#' @param xfile (`character` file name) File to save a list of the scores in
+#' each fit histogram.
+#' @param seed (non-negative `integer` scalar) Random number seed. `0` seeds
+#' the random number generator arbitrarily and non-reproducibly.
+#' @param beta (non-negative `numeric` scalar) Beta tail loss probability used
+#' for query-dependent banding (QDB).
+#' @param nonbanded (`logical` flag) If `TRUE`, turn off QDB during E-value
+#' calibration. This will slow down calibration.
+#' @param nonull3 (`logical` flag) If `TRUE`, turn off the null3 post hoc
+#' additional null model. This is not recommended unless you plan on using the
+#' same option to `cmsearch` and/or `cmscan`.
+#' @param random (`logical` flag) If `TRUE`, use the background null model of
+#' the CM to generate the random sequences, instead of the more realistic HMM.
+#' @param gc (`character` file name) A file to use to determine the nucleotide
+#' frequencies for the random sequences.
+#' @param cpu (`integer` count) The number of parallel workers to use.
+#' @param mpi (`logical` flag) If `TRUE`, run as an MPI parallel program.
+#' @param quiet (`logical` flag) If `TRUE`, suppress standard output of
+#' `cmcalibrate`.
+#'
+#' @return NULL, invisibly
+#' @export
+#'
+#' @examples
+cmcalibrate <- function(
+    cmfile,
+    length = 1.6,
+    forecast = FALSE,
+    nforecast = NULL,
+    memreq = FALSE,
+    gtailn = 250,
+    ltailn = 750,
+    tailp = NULL,
+    hfile = NULL,
+    sfile = NULL,
+    qqfile = NULL,
+    ffile = NULL,
+    xfile = NULL,
+    seed = 181L,
+    beta = 1e-15,
+    nonbanded = FALSE,
+    nonull3 = FALSE,
+    random = FALSE,
+    gc = NULL,
+    cpu = NULL,
+    mpi = FALSE,
+    quiet = FALSE
+) {
+    assertthat::assert_that(
+        assertthat::is.readable(cmfile)
+    )
+    args <- c(
+        nonneg_float_opt(length, "L"),
+        flag_opt(forecast),
+        count_opt(nforecast),
+        flag_opt(memreq),
+        nonneg_float_opt(gtailn),
+        nonneg_float_opt(ltailn),
+        nonneg_float_opt(tailp),
+        string_opt(hfile),
+        string_opt(sfile),
+        string_opt(qqfile),
+        string_opt(ffile),
+        string_opt(xfile),
+        count_opt(seed),
+        nonneg_float_opt(beta),
+        flag_opt(nonbanded),
+        flag_opt(nonull3),
+        flag_opt(random),
+        infile_opt(gc),
+        count_opt(cpu),
+        flag_opt(mpi),
+        cmfile
+    )
+    assertthat::assert_that(assertthat::is.flag(quiet))
+    
+    return <- system2(
+        command = "cmcalibrate",
+        args = args,
+        stdout = if (isTRUE(quiet)) FALSE else "",
+        stderr = if (isTRUE(quiet)) FALSE else ""
+    )
+    
+    if (return != 0) stop("cmcalibrate failed with exit code ", return)
+    invisible(NULL)
+}

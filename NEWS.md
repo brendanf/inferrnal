@@ -9,6 +9,7 @@
   "dna" argument is renamed to "type", and takes the values "RNA", "DNA", and
   "AA". The default is RNA, as in previous versions.
 * Added `writeStockholmMultipleAlignment()`.
+* Added `cmcalibrate()`
 
 # Changes in version 0.99.6
 
