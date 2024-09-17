@@ -1,3 +1,7 @@
+# Changes in version 0.99.8
+
+* Added `narrow()` method for `StockholmMultipleAlignment'
+
 # Changes in version 0.99.7
 
 * **Breaking change** `read_stockholm_msa()` now returns an S4 object inheriting

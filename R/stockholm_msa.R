@@ -444,3 +444,20 @@ show_stockholm_msa <- function(object) {
 setMethod(show, "StockholmDNAMultipleAlignment", show_stockholm_msa)
 setMethod(show, "StockholmRNAMultipleAlignment", show_stockholm_msa)
 setMethod(show, "StockholmAAMultipleAlignment", show_stockholm_msa)
+
+narrow_stockholm_msa <- function(x, start = NA, end = NA, width = NA, use.names = TRUE) {
+    new <- x
+    sew <- IRanges::solveUserSEW(ncol(new), start = start, end = end, width = width)
+    new@colmask <- IRanges::restrict(new@colmask, start = sew@start, end = sew@start + sew@width - 1L, use.names = use.names)
+    new@colmask <- IRanges::shift(new@colmask, shift = 1L - sew@start, use.names = use.names)
+    new@unmasked <- IRanges::narrow(new@unmasked, start = sew@start, width = sew@width, use.names = use.names)
+    new@GC <- IRanges::narrow(new@GC, start = sew@start, width = sew@width, use.names = use.names)
+    for (gr in names(new@GR)) {
+        new@GR[[gr]] <- IRanges::narrow(new@GR[[gr]], start = sew@start, width = sew@width, use.names = TRUE)
+    }
+    methods::validObject(new)
+    new
+}
+
+#' @importMethodsFrom IRanges narrow
+setMethod(narrow, signature(x = "StockholmMultipleAlignment"), narrow_stockholm_msa)

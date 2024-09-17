@@ -1,6 +1,6 @@
 Package: inferrnal
 Title: Interface to Call Programs from Infernal RNA Covariance Model Package
-Version: 0.99.7
+Version: 0.99.8
 Authors@R: 
     person(given = "Brendan",
            family = "Furneaux",
@@ -24,10 +24,11 @@ BugReports: https://github.com/brendanf/inferrnal/issues
 Imports: 
     assertthat,
     Biostrings,
+    IRanges,
     methods,
     stats,
     utils
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 biocViews:
     SequenceMatching,

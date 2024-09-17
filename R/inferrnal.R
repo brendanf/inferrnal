@@ -708,8 +708,6 @@ cmbuild <- function(
 #'
 #' @return NULL, invisibly
 #' @export
-#'
-#' @examples
 cmcalibrate <- function(
     cmfile,
     length = 1.6,
