@@ -40,7 +40,8 @@ cmsearch(
   cpu = NULL,
   stall = FALSE,
   mpi = FALSE,
-  quiet = TRUE
+  quiet = TRUE,
+  table_function = c("fwf", "table", "lines")
 )
 }
 \arguments{
@@ -162,6 +163,13 @@ mpirun.}
 
 \item{quiet}{(\code{logical} scalar) Suppress standard output of \code{cmsearch},
 which can be long.}
+
+\item{table_function}{(\code{character} string) Either \code{"fwf"} (default),
+\code{"table"}, or \code{"lines"}; whether to read the hits table using
+\code{utils::read.fwf()}, \code{utils::read.table()}, or \code{readLines()}. Neither
+of the two parsers works in all cases; \code{utils::read.fwf()} fails when
+more than one CM is present in the CM file, while \code{utils::read.table()}
+fails when any of the fields contain spaces.}
 }
 \value{
 a \code{\link[base:data.frame]{base::data.frame}} with columns:
