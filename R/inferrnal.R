@@ -88,6 +88,12 @@
 #'     mpirun.
 #' @param quiet (`logical` scalar) Suppress standard output of `cmsearch`,
 #'     which can be long.
+#' @param table_function (`character` string) Either `"fwf"` (default),
+#'     `"table"`, or `"lines"`; whether to read the hits table using
+#'     `utils::read.fwf()`, `utils::read.table()`, or `readLines()`. Neither
+#'     of the two parsers works in all cases; `utils::read.fwf()` fails when
+#'     more than one CM is present in the CM file, while `utils::read.table()`
+#'     fails when any of the fields contain spaces.
 #'
 #' @return a [`base::data.frame`] with columns:
 #'     \itemize{
@@ -160,10 +166,14 @@ cmsearch <- function(
     cpu = NULL,
     stall = FALSE,
     mpi = FALSE,
-    quiet = TRUE) {
+    quiet = TRUE,
+    table_function = c("fwf", "table", "lines")
+) {
     assertthat::assert_that(assertthat::is.string(cm),
                             file.exists(cm),
-                            assertthat::is.flag(glocal))
+                            assertthat::is.flag(glocal),
+                            is.character(table_function))
+    table_function <- match.arg(table_function)
     tablefile <- tempfile("cmsearch", fileext = ".dat")
     on.exit(unlink(tablefile))
     args <- c(
@@ -252,54 +262,104 @@ cmsearch <- function(
         stdout = if (isTRUE(quiet)) FALSE else "",
         stderr = if (isTRUE(quiet)) FALSE else ""
     )
-    header <- readLines(tablefile, 2)
-    gaps <- gregexpr(" ", header[2])[[1]]
-    w <- c(gaps, 500) - c(0, gaps)
-    utils::read.fwf(
-        tablefile,
-        widths = w,
-        col.names = c(
-
-            #character
-            "target_name",
-            "target_accession",
-            "query_name",
-            "query_accession",
-            "mdl",
-
-            #integer
-            "mdl_from",
-            "mdl_to",
-            "seq_from",
-            "seq_to",
-
-            # character
-            "strand",
-            "trunc",
-
-            # integer
-            "pass",
-
-            # numeric
-            "gc",
-            "bias",
-            "score",
-            "E_value",
-
-            #character
-            "inc",
-            "description"
+    switch(
+        table_function,
+        fwf = {
+            header <- readLines(tablefile, 2)
+            gaps <- gregexpr(" ", header[2])[[1]]
+            w <- c(gaps, 500) - c(0, gaps)
+            utils::read.fwf(
+                tablefile,
+                widths = w,
+                col.names = c(
+                    
+                    #character
+                    "target_name",
+                    "target_accession",
+                    "query_name",
+                    "query_accession",
+                    "mdl",
+                    
+                    #integer
+                    "mdl_from",
+                    "mdl_to",
+                    "seq_from",
+                    "seq_to",
+                    
+                    # character
+                    "strand",
+                    "trunc",
+                    
+                    # integer
+                    "pass",
+                    
+                    # numeric
+                    "gc",
+                    "bias",
+                    "score",
+                    "E_value",
+                    
+                    #character
+                    "inc",
+                    "description"
+                ),
+                colClasses = c(
+                    rep("character", 5),
+                    rep("integer", 4),
+                    rep("character", 2),
+                    "integer",
+                    rep("numeric", 4),
+                    rep("character", 2)
+                ),
+                comment.char = "#",
+                strip.white = TRUE
+            )
+        },
+        table = utils::read.table(
+            tablefile,
+            col.names = c(
+                
+                #character
+                "target_name",
+                "target_accession",
+                "query_name",
+                "query_accession",
+                "mdl",
+                
+                #integer
+                "mdl_from",
+                "mdl_to",
+                "seq_from",
+                "seq_to",
+                
+                # character
+                "strand",
+                "trunc",
+                
+                # integer
+                "pass",
+                
+                # numeric
+                "gc",
+                "bias",
+                "score",
+                "E_value",
+                
+                #character
+                "inc",
+                "description"
+            ),
+            colClasses = c(
+                rep("character", 5),
+                rep("integer", 4),
+                rep("character", 2),
+                "integer",
+                rep("numeric", 4),
+                rep("character", 2)
+            ),
+            comment.char = "#"
         ),
-        colClasses = c(
-            rep("character", 5),
-            rep("integer", 4),
-            rep("character", 2),
-            "integer",
-            rep("numeric", 4),
-            rep("character", 2)
-        ),
-        comment.char = "#",
-        strip.white = TRUE
+        lines = readLines(tablefile)
     )
 }
 

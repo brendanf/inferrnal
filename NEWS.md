@@ -1,3 +1,8 @@
+# inferrnal 0.99.9
+
+* Added option `table_function` to `cmsearch()`, to allow alternate table
+  parsers to work around the inconsistent output from `cmsearch`.
+
 # Changes in version 0.99.8
 
 * Added `narrow()` method for `StockholmMultipleAlignment'
